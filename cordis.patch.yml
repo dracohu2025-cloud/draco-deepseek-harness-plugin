@@ -1,0 +1,35 @@
+# SuperGrok / xAI layer for an official DeepSeek Harness profile.
+# Install with:
+#   dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin
+# Then boot:
+#   dsh --profile web
+
+- insert:
+    - id: grok-oauth
+      name: dsh-grok-oauth/oauth
+
+    - id: grok-oauth-ui
+      name: dsh-grok-oauth
+
+    - id: grok-llm-responses
+      name: dsh-grok-oauth/responses
+      config:
+        baseURL: https://api.x.ai/v1
+        providers:
+          xai-oauth:
+            displayName: xAI Grok OAuth (SuperGrok)
+            auth:
+              kind: oauth
+            models:
+              - id: grok-4.6
+                name: Grok 4.6
+                contextWindow: 1000000
+          xai:
+            displayName: xAI (API key)
+            auth:
+              kind: api-key
+              apiKeyEnv: XAI_API_KEY
+            models:
+              - id: grok-4.6
+                name: Grok 4.6
+                contextWindow: 1000000
