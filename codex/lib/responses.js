@@ -2,6 +2,124 @@ import z from "@deepseek-ai/schemastery";
 import { credentialRef } from "@deepseek-ai/dsh-credentials";
 import { CallId, LlmAdapter, LlmError, assertUsableApiKey, attributionHeaders, contentHasImage } from "@deepseek-ai/dsh-llm";
 import { EventSourceParserStream } from "eventsource-parser/stream";
+//#region lib/types/codex-headers.js
+/**
+* Cloudflare originator headers required by `chatgpt.com/backend-api/codex`.
+* Hermes pins `originator: codex_cli_rs` and extracts `ChatGPT-Account-ID`
+* from the OAuth JWT; a malformed token omits the account header so the
+* provider still answers 401 instead of crashing client construction.
+* @module dsh-draco-llm-responses/codex-headers
+*/
+/** Headers that keep Codex Responses requests off the Cloudflare challenge path. */
+function codexCloudflareHeaders(accessToken) {
+	const headers = {
+		"User-Agent": "codex_cli_rs/0.0.0 (Draco Harness)",
+		originator: "codex_cli_rs"
+	};
+	const parts = accessToken.split(".");
+	const segment = parts[1];
+	if (parts.length < 2 || segment === void 0) return headers;
+	try {
+		const payload = segment + "=".repeat((4 - segment.length % 4) % 4);
+		const accountId = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"))["https://api.openai.com/auth"]?.chatgpt_account_id;
+		if (typeof accountId === "string" && accountId.length > 0) headers["ChatGPT-Account-ID"] = accountId;
+	} catch {}
+	return headers;
+}
+//#endregion
+//#region lib/types/catalog.js
+/**
+* Advisory model catalogs for Responses routes. The selector shows these
+* entries; {@link ResponsesApiAdapter.resolveModel} still accepts an
+* unlisted id. Codex live discovery uses the ChatGPT `/models` listing
+* Hermes documents; xAI uses the Hermes static fallback plus `grok-4.6`.
+* @module @deepseek-ai/dsh-draco-llm-responses/catalog
+*/
+/** Display names for known slugs; unknown ids keep the wire id. */
+const KNOWN_NAMES = {
+	"gpt-5.5": "GPT-5.5",
+	"gpt-5.4-mini": "GPT-5.4 Mini",
+	"gpt-5.4": "GPT-5.4",
+	"gpt-5.3-codex": "GPT-5.3 Codex",
+	"gpt-5.2-codex": "GPT-5.2 Codex",
+	"gpt-5.1-codex-max": "GPT-5.1 Codex Max",
+	"gpt-5.1-codex-mini": "GPT-5.1 Codex Mini",
+	"grok-4.6": "Grok 4.6",
+	"grok-4.20-0309-reasoning": "Grok 4.20 Reasoning",
+	"grok-4.20-0309-non-reasoning": "Grok 4.20",
+	"grok-4.20-multi-agent-0309": "Grok 4.20 Multi-agent",
+	"grok-4-1-fast": "Grok 4.1 Fast",
+	"grok-4-1-fast-non-reasoning": "Grok 4.1 Fast (no reasoning)",
+	"grok-4-fast": "Grok 4 Fast",
+	"grok-4-fast-non-reasoning": "Grok 4 Fast (no reasoning)",
+	"grok-4": "Grok 4",
+	"grok-code-fast-1": "Grok Code Fast"
+};
+/** Selector label for one wire model id. */
+function catalogName(id) {
+	return KNOWN_NAMES[id] ?? id;
+}
+/**
+* Visible, API-supported slugs from a Codex `/models` payload, ordered by
+* `priority` then slug. Hidden or `supported_in_api: false` entries drop.
+* @param payload - JSON body of `GET …/codex/models`.
+*/
+function parseCodexModelsListing(payload) {
+	const entries = typeof payload === "object" && payload !== null && !Array.isArray(payload) ? payload.models : void 0;
+	if (!Array.isArray(entries)) return [];
+	const sortable = [];
+	for (const item of entries) {
+		if (typeof item !== "object" || item === null) continue;
+		const row = item;
+		if (typeof row.slug !== "string" || row.slug.trim().length === 0) continue;
+		if (row.supported_in_api === false) continue;
+		const visibility = typeof row.visibility === "string" ? row.visibility.trim().toLowerCase() : "";
+		if (visibility === "hide" || visibility === "hidden") continue;
+		const slug = row.slug.trim();
+		const rank = typeof row.priority === "number" && Number.isFinite(row.priority) ? row.priority : 1e4;
+		sortable.push({
+			rank,
+			slug
+		});
+	}
+	sortable.sort((a, b) => a.rank - b.rank || a.slug.localeCompare(b.slug));
+	const seen = /* @__PURE__ */ new Set();
+	const ordered = [];
+	for (const { slug } of sortable) {
+		if (seen.has(slug)) continue;
+		seen.add(slug);
+		ordered.push(slug);
+	}
+	return ordered;
+}
+/**
+* Live Codex catalog when a bearer is available; otherwise `undefined` so
+* the configured fallback stays on screen.
+* @param baseURL - Codex Responses base (`…/codex`).
+* @param bearer - ChatGPT access token.
+*/
+async function fetchCodexModels(baseURL, bearer) {
+	let response;
+	try {
+		response = await fetch(`${baseURL.replace(/\/$/, "")}/models?client_version=1.0.0`, { headers: {
+			accept: "application/json",
+			authorization: `Bearer ${bearer}`,
+			...codexCloudflareHeaders(bearer)
+		} });
+	} catch {
+		return;
+	}
+	if (response.status !== 200) return void 0;
+	let payload;
+	try {
+		payload = await response.json();
+	} catch {
+		return;
+	}
+	const ids = parseCodexModelsListing(payload);
+	return ids.length > 0 ? ids : void 0;
+}
+//#endregion
 //#region lib/types/adapter.js
 /**
 * `ResponsesApiAdapter`: fetch + SSE against an OpenAI Responses API endpoint
@@ -163,16 +281,28 @@ var ResponsesApiAdapter = class extends LlmAdapter {
 			name: this.options.facts().get(provider)?.displayName ?? provider
 		};
 	}
-	listModels(provider) {
+	async listModels(provider) {
 		const facts = this.options.facts().get(provider);
-		if (facts === void 0) return Promise.resolve([]);
-		return Promise.resolve(facts.models.map((model) => ({
+		if (facts === void 0) return [];
+		return ((facts.auth.kind === "oauth" && facts.auth.session === "codex" ? await this.liveCodexCatalog(facts) : void 0) ?? facts.models).map((model) => ({
 			provider,
 			id: model.id,
 			name: model.name ?? model.id,
 			...model.description !== void 0 ? { description: model.description } : {},
 			inputModalities: [...INPUT_MODALITIES]
-		})));
+		}));
+	}
+	/** Live Codex `/models` listing when a bearer exists; otherwise `undefined`. */
+	async liveCodexCatalog(facts) {
+		if (facts.auth.kind !== "oauth") return void 0;
+		const bearer = await this.options.oauthBearer(facts.auth.session);
+		if (bearer === void 0) return void 0;
+		const ids = await fetchCodexModels(facts.baseURL, bearer);
+		if (ids === void 0) return void 0;
+		return ids.map((id) => ({
+			id,
+			name: catalogName(id)
+		}));
 	}
 	resolveModel(provider, model) {
 		const catalog = this.options.facts().get(provider)?.models.find((entry) => entry.id === model);
@@ -418,31 +548,6 @@ var ResponsesApiAdapter = class extends LlmAdapter {
 		};
 	}
 };
-//#endregion
-//#region lib/types/codex-headers.js
-/**
-* Cloudflare originator headers required by `chatgpt.com/backend-api/codex`.
-* Hermes pins `originator: codex_cli_rs` and extracts `ChatGPT-Account-ID`
-* from the OAuth JWT; a malformed token omits the account header so the
-* provider still answers 401 instead of crashing client construction.
-* @module dsh-draco-llm-responses/codex-headers
-*/
-/** Headers that keep Codex Responses requests off the Cloudflare challenge path. */
-function codexCloudflareHeaders(accessToken) {
-	const headers = {
-		"User-Agent": "codex_cli_rs/0.0.0 (Draco Harness)",
-		originator: "codex_cli_rs"
-	};
-	const parts = accessToken.split(".");
-	const segment = parts[1];
-	if (parts.length < 2 || segment === void 0) return headers;
-	try {
-		const payload = segment + "=".repeat((4 - segment.length % 4) % 4);
-		const accountId = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"))["https://api.openai.com/auth"]?.chatgpt_account_id;
-		if (typeof accountId === "string" && accountId.length > 0) headers["ChatGPT-Account-ID"] = accountId;
-	} catch {}
-	return headers;
-}
 //#endregion
 //#region lib/types/index.js
 /**

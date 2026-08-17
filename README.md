@@ -8,8 +8,8 @@ Each plugin is independent. Install only the ones you want.
 
 | Plugin | Install | What you get |
 |---|---|---|
-| SuperGrok / xAI | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin` | SuperGrok OAuth + Grok 4.6 Responses (JPEG/PNG input) |
-| Codex / ChatGPT | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex` | Codex OAuth + GPT-5.4 + `gpt-image-2` after first login |
+| SuperGrok / xAI | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin` | SuperGrok OAuth + Grok catalog (4.6 / 4.20 / 4.1 Fast / Code Fast, JPEG/PNG input) |
+| Codex / ChatGPT | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex` | Codex OAuth + GPT-5.x catalog + `gpt-image-2` after first login |
 
 Then start the official Web profile:
 
@@ -31,7 +31,7 @@ dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plu
 dsh --profile web
 ```
 
-Open **Settings → Models**, click **Sign in with SuperGrok**, approve the device-code URL, then pick **xAI Grok OAuth (SuperGrok) → Grok 4.6**.
+Open **Settings → Models**, click **Sign in with SuperGrok**, approve the device-code URL, then pick a Grok model (`grok-4.6`, `grok-4.20-*`, `grok-4-1-fast`, `grok-code-fast-1`, …).
 
 CLI fallbacks: `/grok-login`, `/grok-status`. Tokens live at `$DSH_HOME/draco/xai-oauth.json` (`0600`).
 

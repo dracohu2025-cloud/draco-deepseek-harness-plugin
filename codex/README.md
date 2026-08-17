@@ -28,7 +28,7 @@ Then start the official Web profile:
 dsh --profile web
 ```
 
-Open **Settings → Models**. Under the Hermes-compatible section, click **Sign in with Codex**, approve `https://auth.openai.com/codex/device`, then pick **OpenAI Codex OAuth (ChatGPT) → GPT-5.4**.
+Open **Settings → Models**. Under the Hermes-compatible section, click **Sign in with Codex**, approve `https://auth.openai.com/codex/device`, then pick a Codex model. After login the selector prefers the live ChatGPT `/models` listing; before login it shows the Hermes fallback (`gpt-5.5`, `gpt-5.4`, `gpt-5.4-mini`, `gpt-5.3-codex`, …).
 
 The first successful login defaults an unset image-generation backend to Codex `gpt-image-2` (medium). An explicit user choice is left alone.
 

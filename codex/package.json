@@ -1,6 +1,6 @@
 {
   "name": "draco-codex-oauth",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "DeepSeek Harness plugin: OpenAI Codex / ChatGPT OAuth login, GPT-5.4 Responses, and gpt-image-2 generation after login",
   "license": "MIT",
   "type": "module",
@@ -64,12 +64,24 @@
     "react": "^18.2.0"
   },
   "peerDependenciesMeta": {
-    "@deepseek-ai/dsh-client-locale": { "optional": true },
-    "@deepseek-ai/dsh-client-runtime": { "optional": true },
-    "@deepseek-ai/dsh-client-ui-settings": { "optional": true },
-    "@deepseek-ai/dsh-client-ui-settings-models": { "optional": true },
-    "@deepseek-ai/dsh-client-ui-slots": { "optional": true },
-    "react": { "optional": true }
+    "@deepseek-ai/dsh-client-locale": {
+      "optional": true
+    },
+    "@deepseek-ai/dsh-client-runtime": {
+      "optional": true
+    },
+    "@deepseek-ai/dsh-client-ui-settings": {
+      "optional": true
+    },
+    "@deepseek-ai/dsh-client-ui-settings-models": {
+      "optional": true
+    },
+    "@deepseek-ai/dsh-client-ui-slots": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@deepseek-ai/schemastery": "^3.18.1",
