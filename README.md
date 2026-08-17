@@ -1,4 +1,4 @@
-# dsh-grok-oauth
+# draco-grok-oauth
 
 English | 中文
 
@@ -23,7 +23,7 @@ dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plu
 Or install a packed tarball:
 
 ```sh
-dsh plugin --profile web add ./dsh-grok-oauth-0.1.0.tgz
+dsh plugin --profile web add ./draco-grok-oauth-0.1.1.tgz
 ```
 
 Then start the official Web profile:
@@ -40,9 +40,9 @@ CLI fallbacks still work: `/grok-login`, `/grok-status`.
 
 | Row | Package export | Role |
 |---|---|---|
-| `grok-oauth` | `dsh-grok-oauth/oauth` | Device-code session, token file, `/grok-login` |
-| `grok-oauth-ui` | `dsh-grok-oauth` | Settings → Models SuperGrok card |
-| `grok-llm-responses` | `dsh-grok-oauth/responses` | Grok 4.6 Responses adapter, JPEG/PNG input |
+| `draco-grok-oauth` | `draco-grok-oauth/oauth` | Device-code session, token file, `/grok-login` |
+| `draco-grok-oauth-ui` | `draco-grok-oauth` | Settings → Models SuperGrok card |
+| `draco-grok-llm-responses` | `draco-grok-oauth/responses` | Grok 4.6 Responses adapter, JPEG/PNG input |
 
 Tokens are stored at `$DSH_HOME/draco/xai-oauth.json` (`0600`). The adapter advertises `text` + `image` and serializes durable JPEG/PNG attachments as Responses `input_image` data URLs. WebP and GIF are rejected.
 
@@ -51,7 +51,7 @@ Optional API-key route: set `XAI_API_KEY` and select **xAI (API key)**.
 ## Uninstall
 
 ```sh
-dsh plugin --profile web remove dsh-grok-oauth
+dsh plugin --profile web remove draco-grok-oauth
 ```
 
 ## Develop

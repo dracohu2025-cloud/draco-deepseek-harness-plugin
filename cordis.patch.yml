@@ -5,14 +5,14 @@
 #   dsh --profile web
 
 - insert:
-    - id: grok-oauth
-      name: dsh-grok-oauth/oauth
+    - id: draco-grok-oauth
+      name: draco-grok-oauth/oauth
 
-    - id: grok-oauth-ui
-      name: dsh-grok-oauth
+    - id: draco-grok-oauth-ui
+      name: draco-grok-oauth
 
-    - id: grok-llm-responses
-      name: dsh-grok-oauth/responses
+    - id: draco-grok-llm-responses
+      name: draco-grok-oauth/responses
       config:
         baseURL: https://api.x.ai/v1
         providers:
