@@ -1,30 +1,15 @@
-# draco-grok-oauth
+# Draco DeepSeek Harness plugins
 
 English | 中文
 
-A DeepSeek Harness **bundle** that adds SuperGrok / xAI OAuth login and Grok 4.6 on the Responses API, including JPEG/PNG image input. Install it into an official DSH profile. You do not need the Draco fork to use it.
+Installable DeepSeek Harness **bundles** for official `dsh` profiles. You do not need the Draco fork or `dsh --profile draco`.
 
-## Install
+Each plugin is independent. Install only the ones you want.
 
-You need a working `dsh` CLI (the official DeepSeek Harness release, not a source checkout of this plugin).
-
-```sh
-dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin
-```
-
-pnpm ≥10 will refuse the git `prepare`-less install of a prebuilt package without extra permission. This repository ships **built** `lib/` artifacts, so no `prepare` script runs. If `add` still asks you to allow a build, that is for a dependency, not this package.
-
-Pin a commit if you want a frozen install:
-
-```sh
-dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#<sha>
-```
-
-Or install a packed tarball:
-
-```sh
-dsh plugin --profile web add ./draco-grok-oauth-0.1.1.tgz
-```
+| Plugin | Install | What you get |
+|---|---|---|
+| SuperGrok / xAI | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin` | SuperGrok OAuth + Grok 4.6 Responses (JPEG/PNG input) |
+| Codex / ChatGPT | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex` | Codex OAuth + GPT-5.4 + `gpt-image-2` after first login |
 
 Then start the official Web profile:
 
@@ -32,11 +17,23 @@ Then start the official Web profile:
 dsh --profile web
 ```
 
-Open **Settings → Models**. Under the Hermes-compatible section, click **Sign in with SuperGrok**, approve the device-code URL, then pick **xAI Grok OAuth (SuperGrok) → Grok 4.6**.
+Open **Settings → Models**. The Hermes-compatible section shows a card for each installed plugin.
 
-CLI fallbacks still work: `/grok-login`, `/grok-status`.
+- SuperGrok: [README](./README.md#supergrok--xai) below
+- Codex: [codex/README.md](./codex/README.md)
 
-## What this bundle inserts
+## SuperGrok / xAI
+
+The repository root package is `draco-grok-oauth`.
+
+```sh
+dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin
+dsh --profile web
+```
+
+Open **Settings → Models**, click **Sign in with SuperGrok**, approve the device-code URL, then pick **xAI Grok OAuth (SuperGrok) → Grok 4.6**.
+
+CLI fallbacks: `/grok-login`, `/grok-status`. Tokens live at `$DSH_HOME/draco/xai-oauth.json` (`0600`).
 
 | Row | Package export | Role |
 |---|---|---|
@@ -44,19 +41,24 @@ CLI fallbacks still work: `/grok-login`, `/grok-status`.
 | `draco-grok-oauth-ui` | `draco-grok-oauth` | Settings → Models SuperGrok card |
 | `draco-grok-llm-responses` | `draco-grok-oauth/responses` | Grok 4.6 Responses adapter, JPEG/PNG input |
 
-Tokens are stored at `$DSH_HOME/draco/xai-oauth.json` (`0600`). The adapter advertises `text` + `image` and serializes durable JPEG/PNG attachments as Responses `input_image` data URLs. WebP and GIF are rejected.
-
 Optional API-key route: set `XAI_API_KEY` and select **xAI (API key)**.
-
-## Uninstall
 
 ```sh
 dsh plugin --profile web remove draco-grok-oauth
 ```
 
+## Codex / ChatGPT
+
+The subdirectory package is `draco-codex-oauth`. See [codex/README.md](./codex/README.md).
+
+```sh
+dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex
+dsh plugin --profile web remove draco-codex-oauth
+```
+
 ## Develop
 
-Source of this plugin lives in the Draco fork of DeepSeek Harness (`packages/draco/draco-oauth-xai`, `draco-oauth-xai-ui`, `draco-llm-responses`). This repository is the **publish face**: built artifacts plus the bundle patch. Rebuild there, then copy `lib/` here before tagging a release.
+Source lives in the Draco fork of DeepSeek Harness (`packages/draco/…`). This repository is the **publish face**: built artifacts plus bundle patches. Rebuild there, then copy `lib/` here before tagging a release.
 
 ## License
 

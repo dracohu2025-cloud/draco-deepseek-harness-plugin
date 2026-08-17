@@ -1,0 +1,34 @@
+# OpenAI Codex / ChatGPT layer for an official DeepSeek Harness profile.
+# Install with:
+#   dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex
+# Then boot:
+#   dsh --profile web
+
+- insert:
+    - id: draco-codex-oauth
+      name: draco-codex-oauth/oauth
+
+    - id: draco-codex-oauth-ui
+      name: draco-codex-oauth
+
+    - id: draco-codex-llm-responses
+      name: draco-codex-oauth/responses
+      config:
+        baseURL: https://chatgpt.com/backend-api/codex
+        providers:
+          openai-codex:
+            displayName: OpenAI Codex OAuth (ChatGPT)
+            baseURL: https://chatgpt.com/backend-api/codex
+            auth:
+              kind: oauth
+              session: codex
+            models:
+              - id: gpt-5.4
+                name: GPT-5.4
+                contextWindow: 1000000
+
+    - id: draco-image-gen
+      name: draco-codex-oauth/image-gen
+      config:
+        provider: none
+        quality: medium
