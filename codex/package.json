@@ -1,6 +1,6 @@
 {
   "name": "draco-codex-oauth",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "DeepSeek Harness plugin: OpenAI Codex / ChatGPT OAuth login, GPT-5.4 Responses, and gpt-image-2 generation after login",
   "license": "MIT",
   "type": "module",
