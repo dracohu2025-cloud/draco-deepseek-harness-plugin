@@ -6,6 +6,7 @@ window.__ModuleLoader__.load({
 		Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 		let react_jsx_runtime = require("react/jsx-runtime");
 		let react = require("react");
+		let _deepseek_ai_dsh_client_runtime_client = require("@deepseek-ai/dsh-client-runtime/client");
 		//#region ../../../node_modules/.pnpm/zod@4.4.3/node_modules/zod/v4/core/core.js
 		var _a$1;
 		function $constructor(name, initializer, params) {
@@ -4144,7 +4145,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		}
 		//#endregion
 		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-oauth-codex-ui/src/client/HermesCompatCard.module.css.mjs
-		const css = ".uuGEca_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.uuGEca_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.uuGEca_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.uuGEca_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.uuGEca_tag{color:var(--dsw-alias-label-secondary);background:var(--dsw-alias-bg-layer-2);border-radius:999px;padding:1px 6px;font-size:11px;line-height:16px}.uuGEca_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.uuGEca_row,.uuGEca_awaiting{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uuGEca_primary,.uuGEca_secondary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;padding:4px 10px;font-size:13px;line-height:20px}.uuGEca_primary:disabled{opacity:.6;cursor:default}.uuGEca_ready{color:var(--dsw-alias-state-success-primary);align-items:center;gap:6px;font-size:13px;display:inline-flex}.uuGEca_link{color:var(--dsw-alias-label-primary);text-decoration:underline}.uuGEca_code{font-family:var(--ds-font-family-code);background:var(--dsw-alias-bg-layer-2);border-radius:4px;padding:0 4px}.uuGEca_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.uuGEca_error{color:var(--dsw-alias-state-error-primary);font-size:12px}.uuGEca_dotReady,.uuGEca_dotWait,.uuGEca_dotIdle{border-radius:50%;flex:none;width:8px;height:8px}.uuGEca_dotReady{background:var(--dsw-alias-state-success-primary)}.uuGEca_dotWait{background:var(--dsw-alias-state-warn-primary)}.uuGEca_dotIdle{background:var(--dsw-alias-border-l3)}";
+		const css = ".uuGEca_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.uuGEca_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.uuGEca_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.uuGEca_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.uuGEca_tag{color:var(--dsw-alias-label-secondary);background:var(--dsw-alias-bg-layer-2);border-radius:999px;padding:1px 6px;font-size:11px;line-height:16px}.uuGEca_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.uuGEca_row,.uuGEca_awaiting{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uuGEca_primary,.uuGEca_secondary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;padding:4px 10px;font-size:13px;line-height:20px}.uuGEca_primary:disabled{opacity:.6;cursor:default}.uuGEca_selected{background:var(--dsw-alias-bg-module-platform);border-color:var(--dsw-static-neutral-bluish-400);font-weight:500}.uuGEca_ready{color:var(--dsw-alias-state-success-primary);align-items:center;gap:6px;font-size:13px;display:inline-flex}.uuGEca_link{color:var(--dsw-alias-label-primary);text-decoration:underline}.uuGEca_code{font-family:var(--ds-font-family-code);background:var(--dsw-alias-bg-layer-2);border-radius:4px;padding:0 4px}.uuGEca_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.uuGEca_error{color:var(--dsw-alias-state-error-primary);font-size:12px}.uuGEca_dotReady,.uuGEca_dotWait,.uuGEca_dotIdle{border-radius:50%;flex:none;width:8px;height:8px}.uuGEca_dotReady{background:var(--dsw-alias-state-success-primary)}.uuGEca_dotWait{background:var(--dsw-alias-state-warn-primary)}.uuGEca_dotIdle{background:var(--dsw-alias-border-l3)}";
 		const tagId = "draco-codex-oauth/HermesCompatCard.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
 			const tag = document.createElement("style");
@@ -4154,24 +4155,25 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var HermesCompatCard_module_css_default = {
-			"hint": "uuGEca_hint",
 			"error": "uuGEca_error",
-			"code": "uuGEca_code",
 			"dotWait": "uuGEca_dotWait",
-			"card": "uuGEca_card",
-			"awaiting": "uuGEca_awaiting",
-			"secondary": "uuGEca_secondary",
+			"primary": "uuGEca_primary",
+			"dotReady": "uuGEca_dotReady",
 			"row": "uuGEca_row",
+			"card": "uuGEca_card",
 			"head": "uuGEca_head",
 			"identity": "uuGEca_identity",
 			"ready": "uuGEca_ready",
-			"tag": "uuGEca_tag",
-			"muted": "uuGEca_muted",
-			"name": "uuGEca_name",
-			"primary": "uuGEca_primary",
 			"dotIdle": "uuGEca_dotIdle",
+			"tag": "uuGEca_tag",
+			"awaiting": "uuGEca_awaiting",
 			"link": "uuGEca_link",
-			"dotReady": "uuGEca_dotReady"
+			"hint": "uuGEca_hint",
+			"name": "uuGEca_name",
+			"secondary": "uuGEca_secondary",
+			"selected": "uuGEca_selected",
+			"muted": "uuGEca_muted",
+			"code": "uuGEca_code"
 		};
 		//#endregion
 		//#region lib/types/client/HermesCompatCard.js
@@ -4320,6 +4322,91 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			});
 		}
 		//#endregion
+		//#region lib/types/client/ImageGenCard.js
+		const CHOICES = [
+			{
+				id: "none",
+				label: "image.off"
+			},
+			{
+				id: "low",
+				label: "image.low"
+			},
+			{
+				id: "medium",
+				label: "image.medium"
+			},
+			{
+				id: "high",
+				label: "image.high"
+			}
+		];
+		/**
+		* Image-generation picker under Settings → Models. Writes `draco-image-gen`
+		* (`provider` / `quality`); the chat model selector does not own this.
+		*/
+		function ImageGenCard({ t, setChoice, useStore }) {
+			const choice = useStore((s) => s.choice);
+			return (0, react_jsx_runtime.jsxs)("article", {
+				className: HermesCompatCard_module_css_default.card,
+				children: [
+					(0, react_jsx_runtime.jsx)("div", {
+						className: HermesCompatCard_module_css_default.head,
+						children: (0, react_jsx_runtime.jsxs)("div", {
+							className: HermesCompatCard_module_css_default.identity,
+							children: [(0, react_jsx_runtime.jsx)("span", {
+								className: HermesCompatCard_module_css_default.name,
+								children: t("image.title")
+							}), (0, react_jsx_runtime.jsx)("span", {
+								className: HermesCompatCard_module_css_default.tag,
+								children: t("compat.tag")
+							})]
+						})
+					}),
+					(0, react_jsx_runtime.jsx)("p", {
+						className: HermesCompatCard_module_css_default.hint,
+						children: t("image.hint")
+					}),
+					choice === void 0 ? (0, react_jsx_runtime.jsx)("p", {
+						className: HermesCompatCard_module_css_default.muted,
+						children: t("image.unavailable")
+					}) : (0, react_jsx_runtime.jsx)("div", {
+						className: HermesCompatCard_module_css_default.row,
+						role: "radiogroup",
+						"aria-label": t("image.title"),
+						children: CHOICES.map((option) => (0, react_jsx_runtime.jsx)("button", {
+							type: "button",
+							role: "radio",
+							"aria-checked": choice === option.id,
+							className: choice === option.id ? `${HermesCompatCard_module_css_default.primary} ${HermesCompatCard_module_css_default.selected}` : HermesCompatCard_module_css_default.secondary,
+							onClick: () => {
+								setChoice(option.id);
+							},
+							children: t(option.label)
+						}, option.id))
+					})
+				]
+			});
+		}
+		//#endregion
+		//#region lib/types/client/image-gen-store.js
+		/**
+		* Image-generation card store: a mirror of the `draco-image-gen` settings
+		* section. Apply is the only writer; the card reads via props.useStore.
+		*/
+		/**
+		* Declares the image-generation card state.
+		* @returns the store handle.
+		*/
+		function createImageGenCardStore() {
+			return (0, _deepseek_ai_dsh_client_runtime_client.defineStore)({
+				init: () => ({ choice: void 0 }),
+				actions: { sync: (draft, choice) => {
+					draft.choice = choice;
+				} }
+			});
+		}
+		//#endregion
 		//#region lib/types/client/locales.js
 		/** `draco-codex` namespace dictionaries (the Codex wizard chip's copy). */
 		/** Simplified Chinese dictionary (the key-set source of truth). */
@@ -4336,7 +4423,14 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"active.expires": "有效期至",
 			"active.logout": "退出登录",
 			"error.retry": "重试",
-			"error.fallback": "登录失败"
+			"error.fallback": "登录失败",
+			"image.title": "生图模型",
+			"image.hint": "对话模型选择器不管生图。登录 Codex 后默认 GPT Image 2（中）。",
+			"image.off": "关闭",
+			"image.low": "GPT Image 2（低）",
+			"image.medium": "GPT Image 2（中）",
+			"image.high": "GPT Image 2（高）",
+			"image.unavailable": "设置尚未就绪"
 		};
 		/** English dictionary, checked complete against the zh key set. */
 		const en = {
@@ -4352,7 +4446,14 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"active.expires": "Valid until",
 			"active.logout": "Sign out",
 			"error.retry": "Retry",
-			"error.fallback": "Login failed"
+			"error.fallback": "Login failed",
+			"image.title": "Image generation",
+			"image.hint": "The chat model selector does not control image generation. After a Codex login the default is GPT Image 2 (medium).",
+			"image.off": "Off",
+			"image.low": "GPT Image 2 (Low)",
+			"image.medium": "GPT Image 2 (Medium)",
+			"image.high": "GPT Image 2 (High)",
+			"image.unavailable": "Settings are not ready yet"
 		};
 		/** The namespace key used for locale registration and seat props. */
 		const NS = "draco-codex";
@@ -4365,11 +4466,21 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		* device-code login, shows the verification link and user code, polls the
 		* session while awaiting approval, and reports readiness or failure.
 		*/
+		/** Host settings section owned by `@deepseek-ai/dsh-draco-image-gen`. */
+		const IMAGE_GEN_NS = "draco-image-gen";
+		function choiceOf(section) {
+			if (section === void 0) return void 0;
+			if (section.provider === "none") return "none";
+			if (section.provider === "openai-codex") return section.quality === "low" || section.quality === "high" ? section.quality : "medium";
+			return "none";
+		}
 		/** Services required by the browser half. */
 		const inject = [
 			"slots",
 			"remote",
-			"locale"
+			"locale",
+			"connection",
+			"settingsScope"
 		];
 		/**
 		* Client plugin body: mount the OAuth Remote namespace, install the card
@@ -4414,6 +4525,36 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			}, HermesCompatCard));
 			disposers.push(async () => {
 				injected();
+			});
+			const imageScope = ctx.settingsScope.bind({ namespace: IMAGE_GEN_NS });
+			const imageStore = createImageGenCardStore();
+			let imageBound;
+			const syncImage = () => {
+				const snap = imageScope.getSnapshot();
+				imageBound?.sync(snap.status === "ready" ? choiceOf(snap.value) ?? "none" : void 0);
+			};
+			ctx.effect(() => imageScope.subscribe(syncImage), "draco-oauth-codex-ui: image-gen settings");
+			const imageInjected = ctx.slots.inject("settings.models.compat", () => ctx.slots.register({
+				name: "settings.models.compat",
+				id: "codex-image-gen",
+				order: 21,
+				locale: NS,
+				store: imageStore,
+				inject: (actions) => {
+					imageBound = actions;
+					syncImage();
+					return { setChoice: (choice) => {
+						if (choice === "none") {
+							imageScope.set("provider", "none");
+							return;
+						}
+						imageScope.set("provider", "openai-codex");
+						imageScope.set("quality", choice);
+					} };
+				}
+			}, ImageGenCard));
+			disposers.push(async () => {
+				imageInjected();
 			});
 			return async () => {
 				for (const dispose of disposers.reverse()) await dispose();

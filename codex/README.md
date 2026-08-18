@@ -30,7 +30,7 @@ dsh --profile web
 
 Open **Settings → Models**. Under the Hermes-compatible section, click **Sign in with Codex**, approve `https://auth.openai.com/codex/device`, then pick a Codex model. After login the selector prefers the live ChatGPT `/models` listing; before login it shows the Hermes fallback (`gpt-5.5`, `gpt-5.4`, `gpt-5.4-mini`, `gpt-5.3-codex`, …).
 
-The first successful login defaults an unset image-generation backend to Codex `gpt-image-2` (medium). An explicit user choice is left alone.
+The same section has an **Image generation** card for GPT Image 2 (`Off` / `Low` / `Medium` / `High`). The first successful login defaults an unset backend to medium. An explicit user choice is left alone.
 
 CLI fallbacks: `/codex-login`, `/codex-status`.
 
@@ -54,6 +54,8 @@ dsh plugin --profile web remove draco-codex-oauth
 ## Develop
 
 Source lives in the Draco fork of DeepSeek Harness (`packages/draco/draco-oauth-codex`, `draco-oauth-codex-ui`, `draco-llm-responses`, `draco-image-gen`). This directory is the **publish face**: built artifacts plus the bundle patch. Rebuild there, then copy `lib/` here before tagging a release.
+
+`lib/client.js` must register as `draco-codex-oauth` (the package name / patch `name`). Do not leave `@deepseek-ai/dsh-draco-oauth-codex-ui` or the row id `draco-codex-oauth-ui`.
 
 ## License
 

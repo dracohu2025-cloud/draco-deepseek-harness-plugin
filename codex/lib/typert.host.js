@@ -82,8 +82,8 @@ export const TYPERT = {
     "services": [],
     "events": [
       {
-        "description": "Codex OAuth just became active after a successful device-code login. Image-generation config listens and defaults its provider to Codex `gpt-image-2` when the user has not already chosen a backend.",
-        "summary": "Codex OAuth just became active after a successful device-code login.",
+        "description": "Codex OAuth just became usable: a successful device-code login, a persisted session loading from disk, or a successful token refresh. Image-generation config listens and defaults its provider to Codex `gpt-image-2` when the user has not already chosen a backend.",
+        "summary": "Codex OAuth just became usable: a successful device-code login, a persisted session loading from disk, or a successful token refresh.",
         "tags": [
           {
             "name": "param",
@@ -97,7 +97,7 @@ export const TYPERT = {
             "text": "@mode emit"
           }
         ],
-        "jsDoc": "/**\n * Codex OAuth just became active after a successful device-code login.\n * Image-generation config listens and defaults its provider to Codex\n * `gpt-image-2` when the user has not already chosen a backend.\n * @param expiresAt - epoch milliseconds at which the new access token expires.\n * @mode emit\n */",
+        "jsDoc": "/**\n * Codex OAuth just became usable: a successful device-code login, a\n * persisted session loading from disk, or a successful token refresh.\n * Image-generation config listens and defaults its provider to Codex\n * `gpt-image-2` when the user has not already chosen a backend.\n * @param expiresAt - epoch milliseconds at which the new access token expires.\n * @mode emit\n */",
         "name": "draco/codex-oauth-ready",
         "mode": "emit",
         "signature": "'draco/codex-oauth-ready'(expiresAt: number): void"

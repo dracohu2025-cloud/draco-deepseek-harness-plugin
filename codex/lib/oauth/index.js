@@ -6,7 +6,7 @@ import { Remote, TypertRemoteService } from "@deepseek-ai/dsh-typert-protocol";
 /**
 * JWT helpers for Codex access tokens. Expiry lives in the JWT `exp` claim;
 * the token endpoint does not always return `expires_in`.
-* @module draco-codex-oauth/jwt
+* @module @deepseek-ai/dsh-draco-oauth-codex/jwt
 */
 /** Decode the middle JWT segment as a JSON object; malformed tokens yield `{}`. */
 function decodeJwtClaims(token) {
@@ -49,7 +49,7 @@ function jwtIsExpiring(token, skewMs) {
 * Typert Remote surface of the Codex OAuth session: browser clients mount this
 * contribution (generated `./remote` artifact) and drive the device-code
 * login without touching the model. The wire namespace is `codexOauthRemote`.
-* @module draco-codex-oauth/remote
+* @module @deepseek-ai/dsh-draco-oauth-codex/remote
 */
 var __runInitializers = function(thisArg, initializers, value) {
 	var useValue = arguments.length > 2;
@@ -199,11 +199,13 @@ let CodexOauthRemote = (() => {
 * `auth.openai.com`, poll until the user approves at `/codex/device`,
 * exchange the authorization code for tokens, persist them under the
 * harness home (`$DSH_HOME/draco/codex-oauth.json`), and refresh the
-* access token in the background. The plugin provides the `codexOauth`
+* access token in the background. A persisted or refreshed session announces
+* `draco/codex-oauth-ready` the same way a fresh login does, so dependents
+* can default their backends on startup. The plugin provides the `codexOauth`
 * service; adapter and image-generation plugins resolve bearer tokens
 * through it, so no API key is required when a ChatGPT / Codex
 * subscription is active.
-* @module draco-codex-oauth
+* @module @deepseek-ai/dsh-draco-oauth-codex
 */
 const name = "draco-oauth-codex";
 /** OpenAI Codex device-auth endpoints (Hermes-verified constants). */
@@ -336,10 +338,13 @@ function apply(ctx) {
 	const loadTokens = () => {
 		if (tokens !== void 0) return tokens;
 		tokens = readTokensFromDisk();
-		if (tokens !== void 0) status = {
-			kind: "active",
-			expiresAt: tokens.expiresAt
-		};
+		if (tokens !== void 0) {
+			status = {
+				kind: "active",
+				expiresAt: tokens.expiresAt
+			};
+			if (!jwtIsExpiring(tokens.accessToken, REFRESH_SKEW_MS) && Date.now() + REFRESH_SKEW_MS < tokens.expiresAt) ctx.emit("draco/codex-oauth-ready", tokens.expiresAt);
+		}
 		return tokens;
 	};
 	/** Poll until the user approves, then exchange the authorization code. */
@@ -389,6 +394,7 @@ function apply(ctx) {
 			kind: "active",
 			expiresAt: next.expiresAt
 		};
+		ctx.emit("draco/codex-oauth-ready", next.expiresAt);
 		return next;
 	};
 	const service = {

@@ -38,7 +38,7 @@ function codexCloudflareHeaders(accessToken) {
 * Codex `gpt-image-2` (medium quality); an explicit user choice is left
 * alone. Generation itself goes through the Codex Responses
 * `image_generation` tool when that backend is selected.
-* @module draco-codex-oauth
+* @module @deepseek-ai/dsh-draco-image-gen
 */
 const name = "draco-image-gen";
 const inject = ["tools"];

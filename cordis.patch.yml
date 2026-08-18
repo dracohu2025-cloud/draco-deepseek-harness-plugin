@@ -23,6 +23,7 @@
             models:
               - id: grok-4.6
                 name: Grok 4.6
+                contextWindow: 500000
               - id: grok-4.20-0309-reasoning
                 name: Grok 4.20 Reasoning
               - id: grok-4.20-0309-non-reasoning
@@ -49,6 +50,7 @@
             models:
               - id: grok-4.6
                 name: Grok 4.6
+                contextWindow: 500000
               - id: grok-4.20-0309-reasoning
                 name: Grok 4.20 Reasoning
               - id: grok-4.20-0309-non-reasoning

@@ -1,6 +1,7 @@
 import z from "@deepseek-ai/schemastery";
 import { credentialRef } from "@deepseek-ai/dsh-credentials";
 import { CallId, LlmAdapter, LlmError, assertUsableApiKey, attributionHeaders, contentHasImage } from "@deepseek-ai/dsh-llm";
+import { MAX_TIMER_DELAY_MS, idleWatchdog, timeoutOf } from "@deepseek-ai/dsh-timeout";
 import { EventSourceParserStream } from "eventsource-parser/stream";
 //#region lib/types/codex-headers.js
 /**
@@ -130,11 +131,76 @@ async function fetchCodexModels(baseURL, bearer) {
 * Responses wire does not guarantee a numeric index on argument deltas.
 * User and nested tool-result images resolve through the durable attachment
 * service into `input_image` data URLs; assistant image output is rejected.
+* One stream read may idle at most `streamIdleTimeoutMs` before the watchdog
+* fails the request with `TIMEOUT`; unexpected transport failures classify as
+* `TRANSPORT` so the caller's retry policy can engage.
 *
 * @module dsh-draco-llm-responses/adapter
 */
+var __addDisposableResource = function(env, value, async) {
+	if (value !== null && value !== void 0) {
+		if (typeof value !== "object" && typeof value !== "function") throw new TypeError("Object expected.");
+		var dispose, inner;
+		if (async) {
+			if (!Symbol.asyncDispose) throw new TypeError("Symbol.asyncDispose is not defined.");
+			dispose = value[Symbol.asyncDispose];
+		}
+		if (dispose === void 0) {
+			if (!Symbol.dispose) throw new TypeError("Symbol.dispose is not defined.");
+			dispose = value[Symbol.dispose];
+			if (async) inner = dispose;
+		}
+		if (typeof dispose !== "function") throw new TypeError("Object not disposable.");
+		if (inner) dispose = function() {
+			try {
+				inner.call(this);
+			} catch (e) {
+				return Promise.reject(e);
+			}
+		};
+		env.stack.push({
+			value,
+			dispose,
+			async
+		});
+	} else if (async) env.stack.push({ async: true });
+	return value;
+};
+var __disposeResources = (function(SuppressedError) {
+	return function(env) {
+		function fail(e) {
+			env.error = env.hasError ? new SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
+			env.hasError = true;
+		}
+		var r, s = 0;
+		function next() {
+			while (r = env.stack.pop()) try {
+				if (!r.async && s === 1) return s = 0, env.stack.push(r), Promise.resolve().then(next);
+				if (r.dispose) {
+					var result = r.dispose.call(r.value);
+					if (r.async) return s |= 2, Promise.resolve(result).then(next, function(e) {
+						fail(e);
+						return next();
+					});
+				} else s |= 1;
+			} catch (e) {
+				fail(e);
+			}
+			if (s === 1) return env.hasError ? Promise.reject(env.error) : Promise.resolve();
+			if (env.hasError) throw env.error;
+		}
+		return next();
+	};
+})(typeof SuppressedError === "function" ? SuppressedError : function(error, suppressed, message) {
+	var e = new Error(message);
+	return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+});
 /** Modalities this adapter can place on the Responses wire. */
 const INPUT_MODALITIES = ["text", "image"];
+/** Default maximum provider idle time while one stream read is outstanding. */
+const DEFAULT_STREAM_IDLE_TIMEOUT_MS = 3e5;
+/** Abort-reason code attached by the stream idle watchdog. */
+const STREAM_IDLE_TIMEOUT_CODE = "LLM_STREAM_IDLE_TIMEOUT";
 /** xAI image-understanding accepts JPEG and PNG only. */
 const XAI_IMAGE_MEDIA_TYPES = new Set(["image/jpeg", "image/png"]);
 /** Join the text blocks of a message. */
@@ -320,163 +386,201 @@ var ResponsesApiAdapter = class extends LlmAdapter {
 		});
 	}
 	async *stream(options) {
-		const facts = this.options.facts().get(options.provider);
-		if (facts === void 0) throw new LlmError(`draco-llm-responses: no provider route ${JSON.stringify(options.provider)}; add it to the providers config`, "NO_ADAPTER");
-		let bearer;
-		let extraHeaders = {};
-		if (facts.auth.kind === "api-key") bearer = await this.options.resolveApiKey(facts.auth.apiKeyEnv, options.provider);
-		else {
-			const session = facts.auth.session;
-			const token = await this.options.oauthBearer(session);
-			if (token === void 0) throw new LlmError(session === "codex" ? "draco-llm-responses: no OpenAI Codex OAuth session; start a login (the Draco web UI shows the verification link) or configure an api-key route" : "draco-llm-responses: no xAI OAuth session; start a login (the Draco web UI shows the verification link) or configure an api-key route", "MISSING_CREDENTIAL");
-			bearer = token;
-			extraHeaders = this.options.oauthHeaders?.(session, bearer) ?? {};
-		}
-		const attachments = options.messages.some((message) => contentHasImage(message.content)) ? this.options.resolveAttachments?.() : void 0;
-		const input = await serializeInput(options.messages, attachments);
-		const tools = serializeTools(options.tools);
-		const body = {
-			model: options.model,
-			input,
-			stream: true,
-			...options.system !== void 0 && options.system.length > 0 ? { instructions: options.system } : {},
-			...tools !== void 0 ? { tools } : {},
-			...options.temperature !== void 0 ? { temperature: options.temperature } : {},
-			...options.maxTokens !== void 0 ? { max_output_tokens: options.maxTokens } : {}
+		const env_1 = {
+			stack: [],
+			error: void 0,
+			hasError: false
 		};
-		let response;
 		try {
-			response = await fetch(`${facts.baseURL}/responses`, {
-				method: "POST",
-				headers: {
-					"content-type": "application/json",
-					authorization: `Bearer ${bearer}`,
-					...extraHeaders,
-					...attributionHeaders()
-				},
-				body: JSON.stringify(body),
-				signal: options.signal ?? null
-			});
-		} catch (error) {
-			if (options.signal?.aborted) throw new LlmError("draco-llm-responses: request aborted", "ABORTED", { cause: error });
-			throw new LlmError(`draco-llm-responses: provider request failed: ${String(error)}`, "TRANSPORT", { cause: error });
-		}
-		if (!response.ok) {
-			const raw = await response.text().catch(() => "");
-			let message = `draco-llm-responses: provider returned HTTP ${response.status}`;
+			const facts = this.options.facts().get(options.provider);
+			if (facts === void 0) throw new LlmError(`draco-llm-responses: no provider route ${JSON.stringify(options.provider)}; add it to the providers config`, "NO_ADAPTER");
+			let bearer;
+			let extraHeaders = {};
+			if (facts.auth.kind === "api-key") bearer = await this.options.resolveApiKey(facts.auth.apiKeyEnv, options.provider);
+			else {
+				const session = facts.auth.session;
+				const token = await this.options.oauthBearer(session);
+				if (token === void 0) throw new LlmError(session === "codex" ? "draco-llm-responses: no OpenAI Codex OAuth session; start a login (the Draco web UI shows the verification link) or configure an api-key route" : "draco-llm-responses: no xAI OAuth session; start a login (the Draco web UI shows the verification link) or configure an api-key route", "MISSING_CREDENTIAL");
+				bearer = token;
+				extraHeaders = this.options.oauthHeaders?.(session, bearer) ?? {};
+			}
+			const attachments = options.messages.some((message) => contentHasImage(message.content)) ? this.options.resolveAttachments?.() : void 0;
+			const input = await serializeInput(options.messages, attachments);
+			const tools = serializeTools(options.tools);
+			const body = {
+				model: options.model,
+				input,
+				stream: true,
+				...options.system !== void 0 && options.system.length > 0 ? { instructions: options.system } : {},
+				...tools !== void 0 ? { tools } : {},
+				...options.temperature !== void 0 ? { temperature: options.temperature } : {},
+				...options.maxTokens !== void 0 ? { max_output_tokens: options.maxTokens } : {}
+			};
+			const consumer = new AbortController();
+			const watchdog = __addDisposableResource(env_1, idleWatchdog(options.signal === void 0 ? consumer.signal : AbortSignal.any([options.signal, consumer.signal]), this.options.streamIdleTimeoutMs, STREAM_IDLE_TIMEOUT_CODE), false);
+			let response;
 			try {
-				const parsed = JSON.parse(raw);
-				if (parsed.error?.message !== void 0) message += `: ${parsed.error.message}`;
-			} catch {}
-			throw new LlmError(message, classifyHttpError(response.status, raw));
-		}
-		if (response.body === null) throw new LlmError("draco-llm-responses: provider returned an empty body", "EMPTY_RESPONSE");
-		let text = "";
-		let reasoning = "";
-		const toolCalls = /* @__PURE__ */ new Map();
-		let completedUsage;
-		let terminalError;
-		let sawFunctionCall = false;
-		let sawTerminal = false;
-		let openedText = false;
-		const toolIndexFor = (callId) => {
-			let pending = toolCalls.get(callId);
-			if (pending === void 0) {
-				pending = {
-					index: this.nextToolIndex++,
-					id: callId,
-					arguments: ""
-				};
-				toolCalls.set(callId, pending);
+				response = await fetch(`${facts.baseURL}/responses`, {
+					method: "POST",
+					headers: {
+						"content-type": "application/json",
+						authorization: `Bearer ${bearer}`,
+						...extraHeaders,
+						...attributionHeaders()
+					},
+					body: JSON.stringify(body),
+					signal: watchdog.signal
+				});
+			} catch (error) {
+				if (options.signal?.aborted) throw new LlmError("draco-llm-responses: request aborted", "ABORTED", { cause: error });
+				throw new LlmError(`draco-llm-responses: provider request failed: ${String(error)}`, "TRANSPORT", { cause: error });
 			}
-			return pending;
-		};
-		const applyFunctionCallItem = (item) => {
-			if (typeof item.call_id !== "string" || item.call_id.length === 0) return;
-			sawFunctionCall = true;
-			const pending = toolIndexFor(item.call_id);
-			if (typeof item.name === "string" && item.name.length > 0) pending.name = item.name;
-			if (pending.arguments.length === 0 && typeof item.arguments === "string") pending.arguments = item.arguments;
-		};
-		try {
-			for await (const data of parseSse(response.body)) {
-				let event;
+			if (!response.ok) {
+				const raw = await response.text().catch(() => "");
+				let message = `draco-llm-responses: provider returned HTTP ${response.status}`;
 				try {
-					event = JSON.parse(data);
-				} catch {
-					continue;
-				}
-				if (event.type === "response.output_text.delta" && typeof event.delta === "string" && event.delta.length > 0) {
-					if (!openedText) {
-						openedText = true;
-						yield {
-							type: "block-start",
-							index: 0,
-							blockType: "text"
-						};
-					}
-					text += event.delta;
-					yield {
-						type: "text-delta",
-						index: 0,
-						text: event.delta
-					};
-					continue;
-				}
-				if (event.type === "response.reasoning_text.delta" && typeof event.delta === "string" && event.delta.length > 0) {
-					reasoning += event.delta;
-					yield {
-						type: "reasoning-delta",
-						index: 0,
-						text: event.delta
-					};
-					continue;
-				}
-				if (event.type === "response.function_call_arguments.delta") {
-					if (typeof event.call_id !== "string" || event.call_id.length === 0) continue;
-					const pending = toolIndexFor(event.call_id);
-					if (typeof event.delta === "string" && event.delta.length > 0) {
-						pending.arguments += event.delta;
-						yield {
-							type: "tool-call-delta",
-							index: pending.index,
-							id: CallId(pending.id ?? event.call_id),
-							argumentsDelta: event.delta
-						};
-					}
-					continue;
-				}
-				if ((event.type === "response.output_item.added" || event.type === "response.output_item.done") && event.item?.type === "function_call") {
-					applyFunctionCallItem(event.item);
-					continue;
-				}
-				if (event.type === "response.completed") {
-					sawTerminal = true;
-					const usage = event.response?.usage;
-					if (usage !== void 0) completedUsage = {
-						inputTokens: usage.input_tokens ?? 0,
-						outputTokens: usage.output_tokens ?? 0,
-						...usage.input_tokens_details?.cached_tokens !== void 0 && usage.input_tokens_details.cached_tokens > 0 ? { cacheReadTokens: usage.input_tokens_details.cached_tokens } : {},
-						...usage.output_tokens_details?.reasoning_tokens !== void 0 && usage.output_tokens_details.reasoning_tokens > 0 ? { reasoningTokens: usage.output_tokens_details.reasoning_tokens } : {}
-					};
-					break;
-				}
-				if (event.type === "response.failed") {
-					sawTerminal = true;
-					terminalError = event.response?.error?.message ?? "draco-llm-responses: provider failed the response";
-					break;
-				}
-				if (event.type === "response.incomplete") {
-					sawTerminal = true;
-					terminalError = "draco-llm-responses: provider response incomplete";
-					break;
-				}
-				if (event.type === "error") {
-					terminalError = event.error?.message ?? "draco-llm-responses: provider stream error";
-					break;
-				}
+					const parsed = JSON.parse(raw);
+					if (parsed.error?.message !== void 0) message += `: ${parsed.error.message}`;
+				} catch {}
+				throw new LlmError(message, classifyHttpError(response.status, raw));
 			}
-		} catch (error) {
+			if (response.body === null) throw new LlmError("draco-llm-responses: provider returned an empty body", "EMPTY_RESPONSE");
+			let text = "";
+			let reasoning = "";
+			const toolCalls = /* @__PURE__ */ new Map();
+			let completedUsage;
+			let terminalError;
+			let sawFunctionCall = false;
+			let sawTerminal = false;
+			let openedText = false;
+			const toolIndexFor = (callId) => {
+				let pending = toolCalls.get(callId);
+				if (pending === void 0) {
+					pending = {
+						index: this.nextToolIndex++,
+						id: callId,
+						arguments: ""
+					};
+					toolCalls.set(callId, pending);
+				}
+				return pending;
+			};
+			const applyFunctionCallItem = (item) => {
+				if (typeof item.call_id !== "string" || item.call_id.length === 0) return;
+				sawFunctionCall = true;
+				const pending = toolIndexFor(item.call_id);
+				if (typeof item.name === "string" && item.name.length > 0) pending.name = item.name;
+				if (pending.arguments.length === 0 && typeof item.arguments === "string") pending.arguments = item.arguments;
+			};
+			const iterator = parseSse(response.body)[Symbol.asyncIterator]();
+			let exhausted = false;
+			try {
+				while (true) {
+					const result = await watchdog.next(iterator);
+					if (result.done) {
+						exhausted = true;
+						break;
+					}
+					const data = result.value;
+					let event;
+					try {
+						event = JSON.parse(data);
+					} catch {
+						continue;
+					}
+					if (event.type === "response.output_text.delta" && typeof event.delta === "string" && event.delta.length > 0) {
+						if (!openedText) {
+							openedText = true;
+							yield {
+								type: "block-start",
+								index: 0,
+								blockType: "text"
+							};
+						}
+						text += event.delta;
+						yield {
+							type: "text-delta",
+							index: 0,
+							text: event.delta
+						};
+						continue;
+					}
+					if (event.type === "response.reasoning_text.delta" && typeof event.delta === "string" && event.delta.length > 0) {
+						reasoning += event.delta;
+						yield {
+							type: "reasoning-delta",
+							index: 0,
+							text: event.delta
+						};
+						continue;
+					}
+					if (event.type === "response.function_call_arguments.delta") {
+						if (typeof event.call_id !== "string" || event.call_id.length === 0) continue;
+						const pending = toolIndexFor(event.call_id);
+						if (typeof event.delta === "string" && event.delta.length > 0) {
+							pending.arguments += event.delta;
+							yield {
+								type: "tool-call-delta",
+								index: pending.index,
+								id: CallId(pending.id ?? event.call_id),
+								argumentsDelta: event.delta
+							};
+						}
+						continue;
+					}
+					if ((event.type === "response.output_item.added" || event.type === "response.output_item.done") && event.item?.type === "function_call") {
+						applyFunctionCallItem(event.item);
+						continue;
+					}
+					if (event.type === "response.completed") {
+						sawTerminal = true;
+						const usage = event.response?.usage;
+						if (usage !== void 0) completedUsage = {
+							inputTokens: usage.input_tokens ?? 0,
+							outputTokens: usage.output_tokens ?? 0,
+							...usage.input_tokens_details?.cached_tokens !== void 0 && usage.input_tokens_details.cached_tokens > 0 ? { cacheReadTokens: usage.input_tokens_details.cached_tokens } : {},
+							...usage.output_tokens_details?.reasoning_tokens !== void 0 && usage.output_tokens_details.reasoning_tokens > 0 ? { reasoningTokens: usage.output_tokens_details.reasoning_tokens } : {}
+						};
+						break;
+					}
+					if (event.type === "response.failed") {
+						sawTerminal = true;
+						terminalError = event.response?.error?.message ?? "draco-llm-responses: provider failed the response";
+						break;
+					}
+					if (event.type === "response.incomplete") {
+						sawTerminal = true;
+						terminalError = "draco-llm-responses: provider response incomplete";
+						break;
+					}
+					if (event.type === "error") {
+						terminalError = event.error?.message ?? "draco-llm-responses: provider stream error";
+						break;
+					}
+				}
+			} catch (error) {
+				if (timeoutOf(watchdog.signal, STREAM_IDLE_TIMEOUT_CODE) !== void 0) throw new LlmError(`draco-llm-responses: provider stream idle timeout after ${this.options.streamIdleTimeoutMs}ms`, "TIMEOUT", { cause: error });
+				if (options.signal?.aborted) {
+					yield {
+						type: "finish",
+						reason: {
+							kind: "aborted",
+							failure: {
+								message: "draco-llm-responses: stream aborted",
+								code: "ABORTED"
+							}
+						}
+					};
+					return;
+				}
+				if (error instanceof LlmError) throw error;
+				throw new LlmError(`draco-llm-responses: provider stream failed: ${String(error)}`, "TRANSPORT", { cause: error });
+			} finally {
+				consumer.abort("draco-llm-responses: stream consumer stopped");
+				if (!exhausted && iterator.return !== void 0) try {
+					await iterator.return(void 0);
+				} catch (_abortedTransportTeardown) {}
+			}
 			if (options.signal?.aborted) {
 				yield {
 					type: "finish",
@@ -490,70 +594,61 @@ var ResponsesApiAdapter = class extends LlmAdapter {
 				};
 				return;
 			}
-			throw error;
-		}
-		if (options.signal?.aborted) {
-			yield {
-				type: "finish",
-				reason: {
-					kind: "aborted",
-					failure: {
-						message: "draco-llm-responses: stream aborted",
-						code: "ABORTED"
+			if (terminalError !== void 0) {
+				yield {
+					type: "finish",
+					reason: {
+						kind: "error",
+						failure: {
+							message: terminalError,
+							code: "SERVER"
+						}
 					}
+				};
+				return;
+			}
+			if (!sawTerminal && text.length === 0 && toolCalls.size === 0) throw new LlmError("draco-llm-responses: stream ended without a terminal event", "STREAM_CLOSED");
+			if (openedText && text.length > 0) yield {
+				type: "block-end",
+				index: 0,
+				block: {
+					type: "text",
+					text
 				}
 			};
-			return;
-		}
-		if (terminalError !== void 0) {
+			for (const pending of toolCalls.values()) {
+				if (pending.name === void 0 || pending.name.length === 0) continue;
+				yield {
+					type: "block-end",
+					index: pending.index,
+					block: {
+						type: "tool-call",
+						id: CallId(pending.id ?? `call_${pending.index}`),
+						name: pending.name,
+						arguments: pending.arguments || "{}"
+					}
+				};
+			}
+			if (completedUsage !== void 0) yield {
+				type: "usage",
+				usage: completedUsage
+			};
 			yield {
 				type: "finish",
-				reason: {
+				reason: sawFunctionCall ? { kind: "tool-calls" } : terminalError !== void 0 ? {
 					kind: "error",
 					failure: {
 						message: terminalError,
 						code: "SERVER"
 					}
-				}
+				} : { kind: "stop" }
 			};
-			return;
+		} catch (e_1) {
+			env_1.error = e_1;
+			env_1.hasError = true;
+		} finally {
+			__disposeResources(env_1);
 		}
-		if (!sawTerminal && text.length === 0 && toolCalls.size === 0) throw new LlmError("draco-llm-responses: stream ended without a terminal event", "STREAM_CLOSED");
-		if (openedText && text.length > 0) yield {
-			type: "block-end",
-			index: 0,
-			block: {
-				type: "text",
-				text
-			}
-		};
-		for (const pending of toolCalls.values()) {
-			if (pending.name === void 0 || pending.name.length === 0) continue;
-			yield {
-				type: "block-end",
-				index: pending.index,
-				block: {
-					type: "tool-call",
-					id: CallId(pending.id ?? `call_${pending.index}`),
-					name: pending.name,
-					arguments: pending.arguments || "{}"
-				}
-			};
-		}
-		if (completedUsage !== void 0) yield {
-			type: "usage",
-			usage: completedUsage
-		};
-		yield {
-			type: "finish",
-			reason: sawFunctionCall ? { kind: "tool-calls" } : terminalError !== void 0 ? {
-				kind: "error",
-				failure: {
-					message: terminalError,
-					code: "SERVER"
-				}
-			} : { kind: "stop" }
-		};
 	}
 };
 //#endregion
@@ -575,6 +670,7 @@ const inject = ["llm"];
 /** Schemastery configuration for the Responses adapter. */
 const Config = z.object({
 	baseURL: z.string().default("https://api.x.ai/v1"),
+	streamIdleTimeoutMs: z.number().min(Number.MIN_VALUE).max(MAX_TIMER_DELAY_MS).default(DEFAULT_STREAM_IDLE_TIMEOUT_MS),
 	providers: z.dict(z.object({
 		displayName: z.string().default(""),
 		baseURL: z.string(),
@@ -623,6 +719,7 @@ function apply(ctx, config) {
 	const adapter = new ResponsesApiAdapter({
 		facts,
 		resolveApiKey,
+		streamIdleTimeoutMs: config.streamIdleTimeoutMs ?? 3e5,
 		oauthBearer: async (session) => session === "codex" ? ctx.get("codexOauth")?.getBearer() : ctx.get("xaiOauth")?.getBearer(),
 		oauthHeaders: (session, bearer) => session === "codex" ? codexCloudflareHeaders(bearer) : {},
 		resolveAttachments: () => ctx.get("attachments")
