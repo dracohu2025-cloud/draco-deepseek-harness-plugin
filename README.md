@@ -17,7 +17,7 @@ Then start the official Web profile:
 dsh --profile web
 ```
 
-Open **Settings → Models**. The Hermes-compatible section shows a card for each installed plugin.
+Open **Settings → Draco-suite**. Each installed plugin contributes a login card there, plus one shared image-generation dropdown.
 
 - SuperGrok: [README](./README.md#supergrok--xai) below
 - Codex: [codex/README.md](./codex/README.md)
@@ -31,7 +31,7 @@ dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plu
 dsh --profile web
 ```
 
-Open **Settings → Models**, click **Sign in with SuperGrok**, approve the device-code URL, then pick **Grok 4.6**. The selector does not offer older Grok 4.x rows.
+Open **Settings → Draco-suite**, click **Sign in with SuperGrok**, approve the device-code URL, then pick **Grok 4.6** in the composer. The selector does not offer older Grok 4.x rows.
 
 CLI fallbacks: `/grok-login`, `/grok-status`. Tokens live at `$DSH_HOME/draco/xai-oauth.json` (`0600`).
 
@@ -39,12 +39,12 @@ CLI fallbacks: `/grok-login`, `/grok-status`. Tokens live at `$DSH_HOME/draco/xa
 
 An HTTP 400 that names a maximum prompt length is classified as context overflow, so harness automatic compaction can recover instead of failing the turn. JPEG/PNG images attach as Responses `input_image` data URLs. Idle streams time out after 300s by default (`streamIdleTimeoutMs`); mid-stream transport errors retry.
 
-After SuperGrok login, Settings → Models shows one **Image generation** dropdown (`Off`, `grok-imagine-image-2.0 (1K/2K)`, and `gpt-image-2-low/medium/high` when the Codex plugin is also installed). The closed control shows the full model id. A SuperGrok-only login defaults an unset backend to Imagine Image 2.0 at 1K. If Codex is also signed in, the backend stays unset until you pick a row here. `image_generate` then calls `POST /v1/images/generations` (`grok-imagine-image-2.0`) and commits a durable `ImageBlock`. `video_generate` calls Imagine Video (`grok-imagine-video`, 1–15s) and writes an MP4 under `$DSH_HOME/draco/videos/`. Both tools reuse the SuperGrok OAuth bearer, or `XAI_API_KEY`.
+After SuperGrok login, Settings → Draco-suite shows one **Image generation** dropdown (`Off`, `grok-imagine-image-2.0 (1K/2K)`, and `gpt-image-2-low/medium/high` when the Codex plugin is also installed). The closed control shows the full model id. A SuperGrok-only login defaults an unset backend to Imagine Image 2.0 at 1K. If Codex is also signed in, the backend stays unset until you pick a row here. `image_generate` then calls `POST /v1/images/generations` (`grok-imagine-image-2.0`) and commits a durable `ImageBlock`. `video_generate` calls Imagine Video (`grok-imagine-video`, 1–15s) and writes an MP4 under `$DSH_HOME/draco/videos/`. Both tools reuse the SuperGrok OAuth bearer, or `XAI_API_KEY`.
 
 | Row | Package export | Role |
 |---|---|---|
 | `draco-grok-oauth` | `draco-grok-oauth/oauth` | Device-code session, token file, `/grok-login` |
-| `draco-grok-oauth-ui` | `draco-grok-oauth` | Settings → Models SuperGrok card |
+| `draco-grok-oauth-ui` | `draco-grok-oauth` | Settings → Draco-suite SuperGrok card |
 | `draco-grok-llm-responses` | `draco-grok-oauth/responses` | Grok Responses adapter: 500k window, JPEG/PNG, overflow 400s, disjoint cache usage |
 | `draco-grok-imagine` | `draco-grok-oauth/imagine` | `image_generate` + `video_generate` via Grok Imagine Image 2.0 / Video after SuperGrok login |
 

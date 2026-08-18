@@ -4144,6 +4144,161 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			return bridge;
 		}
 		//#endregion
+		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-oauth-codex-ui/src/client/DracoSuiteSection.module.css.mjs
+		const css$1 = ".SwbIYa_section{max-width:720px;color:var(--dsw-alias-label-primary);flex-direction:column;gap:12px;display:flex}.SwbIYa_title{color:var(--dsw-alias-label-primary);margin:0;font-size:16px;font-weight:500;line-height:24px}.SwbIYa_intro{color:var(--dsw-alias-label-tertiary);margin:0;font-size:14px;line-height:22px}.SwbIYa_cards{flex-direction:column;gap:8px;margin-top:4px;display:flex}";
+		const tagId$1 = "draco-codex-oauth/DracoSuiteSection.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$1) + "]") === null) {
+			const tag = document.createElement("style");
+			tag.dataset.plugin = "draco-codex-oauth";
+			tag.dataset.pluginCss = tagId$1;
+			tag.textContent = css$1;
+			document.head.appendChild(tag);
+		}
+		var DracoSuiteSection_module_css_default = {
+			"title": "SwbIYa_title",
+			"cards": "SwbIYa_cards",
+			"section": "SwbIYa_section",
+			"intro": "SwbIYa_intro"
+		};
+		//#endregion
+		//#region lib/types/client/DracoSuiteSection.js
+		/**
+		* Settings page for SuperGrok / Codex login and the shared image-generation
+		* dropdown. Cards arrive through `settings.draco.item`.
+		*/
+		function DracoSuiteSection({ t, renderSlot }) {
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: DracoSuiteSection_module_css_default.section,
+				children: [
+					(0, react_jsx_runtime.jsx)("h2", {
+						className: DracoSuiteSection_module_css_default.title,
+						children: t("suite.title")
+					}),
+					(0, react_jsx_runtime.jsx)("p", {
+						className: DracoSuiteSection_module_css_default.intro,
+						children: t("suite.intro")
+					}),
+					(0, react_jsx_runtime.jsx)("div", {
+						className: DracoSuiteSection_module_css_default.cards,
+						children: renderSlot("settings.draco.item", {})
+					})
+				]
+			});
+		}
+		//#endregion
+		//#region lib/types/client/locales.js
+		/** `draco-codex` namespace dictionaries (the Codex wizard chip's copy). */
+		/** Simplified Chinese dictionary (the key-set source of truth). */
+		const zh = {
+			"compat.provider": "OpenAI Codex OAuth (ChatGPT)",
+			"compat.tag": "Hermes",
+			"idle.login": "Codex 登录",
+			"idle.hint": "使用 ChatGPT / Codex 订阅登录以使用 GPT-5.4，并默认开启 gpt-image-2 生图",
+			"awaiting.title": "等待批准",
+			"awaiting.link": "打开验证页",
+			"awaiting.code": "验证码",
+			"awaiting.pending": "等待浏览器批准…",
+			"active.ready": "Codex 已就绪",
+			"active.expires": "有效期至",
+			"active.logout": "退出登录",
+			"error.retry": "重试",
+			"error.fallback": "登录失败",
+			"suite.nav": "Draco-suite",
+			"suite.title": "Draco-suite",
+			"suite.intro": "SuperGrok 与 Codex 订阅登录，以及生图后端。不使用 API Key。",
+			"image.title": "生图模型",
+			"image.hint": "对话模型选择器不管生图。仅登录 SuperGrok 时默认 Imagine Image 2.0（1K）。仅登录 Codex 时默认 GPT Image 2（中）。两侧都已登录时请在此选择后端。video_generate 始终走 Imagine Video。",
+			"image.off": "关闭",
+			"image.imagine1k": "grok-imagine-image-2.0 (1K)",
+			"image.imagine2k": "grok-imagine-image-2.0 (2K)",
+			"image.codexLow": "gpt-image-2-low",
+			"image.codexMedium": "gpt-image-2-medium",
+			"image.codexHigh": "gpt-image-2-high",
+			"image.unavailable": "设置尚未就绪"
+		};
+		/** English dictionary, checked complete against the zh key set. */
+		const en = {
+			"compat.provider": "OpenAI Codex OAuth (ChatGPT)",
+			"compat.tag": "Hermes",
+			"idle.login": "Sign in with Codex",
+			"idle.hint": "Sign in with your ChatGPT / Codex subscription to use GPT-5.4 and default image generation to gpt-image-2",
+			"awaiting.title": "Awaiting approval",
+			"awaiting.link": "Open verification page",
+			"awaiting.code": "Code",
+			"awaiting.pending": "Waiting for browser approval…",
+			"active.ready": "Codex ready",
+			"active.expires": "Valid until",
+			"active.logout": "Sign out",
+			"error.retry": "Retry",
+			"error.fallback": "Login failed",
+			"suite.nav": "Draco-suite",
+			"suite.title": "Draco-suite",
+			"suite.intro": "SuperGrok and Codex subscription login, plus the image-generation backend. These do not use an API key.",
+			"image.title": "Image generation",
+			"image.hint": "The chat model selector does not control image generation. A SuperGrok-only login defaults to Imagine Image 2.0 (1K). A Codex-only login defaults to GPT Image 2 (medium). When both are signed in, pick a backend here. video_generate always uses Imagine Video.",
+			"image.off": "Off",
+			"image.imagine1k": "grok-imagine-image-2.0 (1K)",
+			"image.imagine2k": "grok-imagine-image-2.0 (2K)",
+			"image.codexLow": "gpt-image-2-low",
+			"image.codexMedium": "gpt-image-2-medium",
+			"image.codexHigh": "gpt-image-2-high",
+			"image.unavailable": "Settings are not ready yet"
+		};
+		/** The namespace key used for locale registration and seat props. */
+		const NS = "draco-codex";
+		//#endregion
+		//#region lib/types/client/draco-suite.js
+		const HUB$1 = Symbol.for("dsh.draco-suite.section");
+		/** Settings nav / section id. */
+		const DRACO_SUITE_SECTION_ID = "draco-suite";
+		/** Card slot owned by the Draco-suite section. */
+		const DRACO_ITEM_SLOT = "settings.draco.item";
+		function hub$1() {
+			const global = globalThis;
+			return global[HUB$1] ??= { mounts: /* @__PURE__ */ new Map() };
+		}
+		/**
+		* Mount the Draco-suite settings section if it is absent.
+		* @param ctx - client root context.
+		* @param owner - which UI plugin is applying (`imagine` or `codex`).
+		* @returns disposer that remounts from a leftover plugin when this one unloads.
+		*/
+		function installDracoSuite(ctx, owner) {
+			const h = hub$1();
+			const mount = () => {
+				if (h.dispose !== void 0) return;
+				const t = ctx.locale.bind(NS);
+				h.dispose = ctx.slots.inject("settings.section", () => ctx.slots.register({
+					name: "settings.section",
+					id: DRACO_SUITE_SECTION_ID,
+					order: 25,
+					label: () => t("suite.nav"),
+					locale: NS,
+					children: { [DRACO_ITEM_SLOT]: {
+						kind: "list",
+						scope: "root"
+					} }
+				}, DracoSuiteSection));
+				h.owner = owner;
+			};
+			h.mounts.set(owner, mount);
+			mount();
+			return () => {
+				h.mounts.delete(owner);
+				if (h.owner === owner) {
+					h.dispose?.();
+					delete h.dispose;
+					delete h.owner;
+					const leftover = h.mounts.keys().next().value;
+					if (leftover !== void 0) h.mounts.get(leftover)?.();
+				}
+				if (h.mounts.size === 0) {
+					const global = globalThis;
+					delete global[HUB$1];
+				}
+			};
+		}
+		//#endregion
 		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-oauth-codex-ui/src/client/HermesCompatCard.module.css.mjs
 		const css = ".uuGEca_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.uuGEca_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.uuGEca_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.uuGEca_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.uuGEca_tag{color:var(--dsw-alias-label-secondary);background:var(--dsw-alias-bg-layer-2);border-radius:999px;padding:1px 6px;font-size:11px;line-height:16px}.uuGEca_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.uuGEca_row,.uuGEca_awaiting{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uuGEca_primary,.uuGEca_secondary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;padding:4px 10px;font-size:13px;line-height:20px}.uuGEca_primary:disabled{opacity:.6;cursor:default}.uuGEca_selected{background:var(--dsw-alias-bg-module-platform);border-color:var(--dsw-static-neutral-bluish-400);font-weight:500}.uuGEca_ready{color:var(--dsw-alias-state-success-primary);align-items:center;gap:6px;font-size:13px;display:inline-flex}.uuGEca_link{color:var(--dsw-alias-label-primary);text-decoration:underline}.uuGEca_code{font-family:var(--ds-font-family-code);background:var(--dsw-alias-bg-layer-2);border-radius:4px;padding:0 4px}.uuGEca_select{appearance:none;box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);cursor:pointer;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:12px 12px;border-radius:8px;padding:0 32px 0 10px;font-size:13px;line-height:20px}.uuGEca_select:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.uuGEca_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.uuGEca_error{color:var(--dsw-alias-state-error-primary);font-size:12px}.uuGEca_dotReady,.uuGEca_dotWait,.uuGEca_dotIdle{border-radius:50%;flex:none;width:8px;height:8px}.uuGEca_dotReady{background:var(--dsw-alias-state-success-primary)}.uuGEca_dotWait{background:var(--dsw-alias-state-warn-primary)}.uuGEca_dotIdle{background:var(--dsw-alias-border-l3)}";
 		const tagId = "draco-codex-oauth/HermesCompatCard.module.css";
@@ -4155,33 +4310,33 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var HermesCompatCard_module_css_default = {
-			"primary": "uuGEca_primary",
-			"select": "uuGEca_select",
-			"identity": "uuGEca_identity",
 			"dotReady": "uuGEca_dotReady",
-			"selected": "uuGEca_selected",
-			"muted": "uuGEca_muted",
-			"error": "uuGEca_error",
-			"ready": "uuGEca_ready",
-			"dotWait": "uuGEca_dotWait",
-			"head": "uuGEca_head",
 			"code": "uuGEca_code",
-			"dotIdle": "uuGEca_dotIdle",
+			"name": "uuGEca_name",
+			"selected": "uuGEca_selected",
+			"head": "uuGEca_head",
+			"identity": "uuGEca_identity",
+			"primary": "uuGEca_primary",
+			"muted": "uuGEca_muted",
+			"ready": "uuGEca_ready",
 			"hint": "uuGEca_hint",
 			"awaiting": "uuGEca_awaiting",
-			"name": "uuGEca_name",
-			"row": "uuGEca_row",
+			"secondary": "uuGEca_secondary",
 			"link": "uuGEca_link",
-			"tag": "uuGEca_tag",
+			"dotWait": "uuGEca_dotWait",
 			"card": "uuGEca_card",
-			"secondary": "uuGEca_secondary"
+			"tag": "uuGEca_tag",
+			"dotIdle": "uuGEca_dotIdle",
+			"row": "uuGEca_row",
+			"select": "uuGEca_select",
+			"error": "uuGEca_error"
 		};
 		//#endregion
 		//#region lib/types/client/HermesCompatCard.js
 		/** Poll interval while a login awaits approval. */
 		const POLL_MS = 3e3;
 		/**
-		* Codex OAuth card under Settings → Models. Renders nothing until the
+		* Codex OAuth card under Settings → Draco-suite. Renders nothing until the
 		* plugin bridge is installed; otherwise shows idle / awaiting / active state.
 		*/
 		function HermesCompatCard({ t }) {
@@ -4385,7 +4540,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"codex-high": "image.codexHigh"
 		};
 		/**
-		* One Settings → Models dropdown for every installed image backend.
+		* One Settings → Draco-suite dropdown for every installed image backend.
 		* Imagine and Codex UI plugins share this seat through a process hub.
 		* Option labels are the full model id so the closed select still names it.
 		*/
@@ -4459,61 +4614,6 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			});
 		}
 		//#endregion
-		//#region lib/types/client/locales.js
-		/** `draco-codex` namespace dictionaries (the Codex wizard chip's copy). */
-		/** Simplified Chinese dictionary (the key-set source of truth). */
-		const zh = {
-			"compat.provider": "OpenAI Codex OAuth (ChatGPT)",
-			"compat.tag": "Hermes",
-			"idle.login": "Codex 登录",
-			"idle.hint": "使用 ChatGPT / Codex 订阅登录以使用 GPT-5.4，并默认开启 gpt-image-2 生图",
-			"awaiting.title": "等待批准",
-			"awaiting.link": "打开验证页",
-			"awaiting.code": "验证码",
-			"awaiting.pending": "等待浏览器批准…",
-			"active.ready": "Codex 已就绪",
-			"active.expires": "有效期至",
-			"active.logout": "退出登录",
-			"error.retry": "重试",
-			"error.fallback": "登录失败",
-			"image.title": "生图模型",
-			"image.hint": "对话模型选择器不管生图。仅登录 SuperGrok 时默认 Imagine Image 2.0（1K）。仅登录 Codex 时默认 GPT Image 2（中）。两侧都已登录时请在此选择后端。video_generate 始终走 Imagine Video。",
-			"image.off": "关闭",
-			"image.imagine1k": "grok-imagine-image-2.0 (1K)",
-			"image.imagine2k": "grok-imagine-image-2.0 (2K)",
-			"image.codexLow": "gpt-image-2-low",
-			"image.codexMedium": "gpt-image-2-medium",
-			"image.codexHigh": "gpt-image-2-high",
-			"image.unavailable": "设置尚未就绪"
-		};
-		/** English dictionary, checked complete against the zh key set. */
-		const en = {
-			"compat.provider": "OpenAI Codex OAuth (ChatGPT)",
-			"compat.tag": "Hermes",
-			"idle.login": "Sign in with Codex",
-			"idle.hint": "Sign in with your ChatGPT / Codex subscription to use GPT-5.4 and default image generation to gpt-image-2",
-			"awaiting.title": "Awaiting approval",
-			"awaiting.link": "Open verification page",
-			"awaiting.code": "Code",
-			"awaiting.pending": "Waiting for browser approval…",
-			"active.ready": "Codex ready",
-			"active.expires": "Valid until",
-			"active.logout": "Sign out",
-			"error.retry": "Retry",
-			"error.fallback": "Login failed",
-			"image.title": "Image generation",
-			"image.hint": "The chat model selector does not control image generation. A SuperGrok-only login defaults to Imagine Image 2.0 (1K). A Codex-only login defaults to GPT Image 2 (medium). When both are signed in, pick a backend here. video_generate always uses Imagine Video.",
-			"image.off": "Off",
-			"image.imagine1k": "grok-imagine-image-2.0 (1K)",
-			"image.imagine2k": "grok-imagine-image-2.0 (2K)",
-			"image.codexLow": "gpt-image-2-low",
-			"image.codexMedium": "gpt-image-2-medium",
-			"image.codexHigh": "gpt-image-2-high",
-			"image.unavailable": "Settings are not ready yet"
-		};
-		/** The namespace key used for locale registration and seat props. */
-		const NS = "draco-codex";
-		//#endregion
 		//#region lib/types/client/image-gen-picker.js
 		const HUB = Symbol.for("dsh.draco-image-gen.picker");
 		function hub() {
@@ -4561,8 +4661,8 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			const mount = () => {
 				if (h.disposeSeat !== void 0) return;
 				const store = createImageGenPickerStore();
-				h.disposeSeat = ctx.slots.inject("settings.models.compat", () => ctx.slots.register({
-					name: "settings.models.compat",
+				h.disposeSeat = ctx.slots.inject(DRACO_ITEM_SLOT, () => ctx.slots.register({
+					name: DRACO_ITEM_SLOT,
 					id: IMAGE_GEN_SEAT_ID,
 					order: 25,
 					locale: NS,
@@ -4607,7 +4707,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		/**
 		* Codex login wizard plugin, browser half: mounts the
 		* `draco-codex-oauth` Typert Remote contribution and injects a
-		* Settings → Models Hermes-compatible card that starts the Codex OAuth
+		* Settings → Draco-suite card that starts the Codex OAuth
 		* device-code login, shows the verification link and user code, polls the
 		* session while awaiting approval, and reports readiness or failure.
 		*/
@@ -4621,7 +4721,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		];
 		/**
 		* Client plugin body: mount the OAuth Remote namespace, install the card
-		* bridge, and register the Settings → Models compat seat for its lifetime.
+		* bridge, and register the Settings → Draco-suite seats for its lifetime.
 		* @param ctx - client root context.
 		* @returns disposer unwinding the mount, bridge, dictionaries, and seat in reverse.
 		*/
@@ -4654,8 +4754,12 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			disposers.push(async () => {
 				installBridge(void 0);
 			});
-			const injected = ctx.slots.inject("settings.models.compat", () => ctx.slots.register({
-				name: "settings.models.compat",
+			const suite = installDracoSuite(ctx, "codex");
+			disposers.push(async () => {
+				suite();
+			});
+			const injected = ctx.slots.inject(DRACO_ITEM_SLOT, () => ctx.slots.register({
+				name: DRACO_ITEM_SLOT,
 				id: "codex-oauth",
 				order: 20,
 				locale: NS
