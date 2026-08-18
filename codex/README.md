@@ -34,6 +34,8 @@ Chat and image-generation requests send `store: false`. The ChatGPT Codex backen
 
 The same section has an **Image generation** card for GPT Image 2 (`Off` / `Low` / `Medium` / `High`). The first successful login defaults an unset backend to medium. An explicit user choice is left alone.
 
+A successful `image_generate` commits the PNG through the session attachment store and returns a text envelope plus an `ImageBlock`. A DeepSeek Harness Web build that renders tool-result images shows the picture on the tool row. A convenience copy also lands under `$DSH_HOME/draco/images/`.
+
 CLI fallbacks: `/codex-login`, `/codex-status`.
 
 ## What this bundle inserts
@@ -43,9 +45,9 @@ CLI fallbacks: `/codex-login`, `/codex-status`.
 | `draco-codex-oauth` | `draco-codex-oauth/oauth` | ChatGPT device-auth session, token file, `/codex-login` |
 | `draco-codex-oauth-ui` | `draco-codex-oauth` | Settings → Models Codex card |
 | `draco-codex-llm-responses` | `draco-codex-oauth/responses` | GPT-5.6 Sol/Terra/Luna Responses adapter (1.05M window, Cloudflare originator headers, `store: false`) |
-| `draco-image-gen` | `draco-codex-oauth/image-gen` | `image_generate` tool; defaults to `gpt-image-2` after first login |
+| `draco-image-gen` | `draco-codex-oauth/image-gen` | `image_generate` tool; defaults to `gpt-image-2` after first login; commits a durable `ImageBlock` |
 
-Tokens are stored at `$DSH_HOME/draco/codex-oauth.json` (`0600`). Generated PNGs land under `$DSH_HOME/draco/images/`. This plugin does not read or write `~/.codex/auth.json`.
+Tokens are stored at `$DSH_HOME/draco/codex-oauth.json` (`0600`). Generated images are durable session attachments; a convenience PNG also lands under `$DSH_HOME/draco/images/`. This plugin does not read or write `~/.codex/auth.json`.
 
 ## Uninstall
 

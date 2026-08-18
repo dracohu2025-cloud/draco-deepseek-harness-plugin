@@ -1,6 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import z from "@deepseek-ai/schemastery";
+import { AttachmentId } from "@deepseek-ai/dsh-attachment";
 import { settingsNamespace } from "@deepseek-ai/dsh-settings";
 import { dshHomePath } from "@deepseek-ai/dsh-home-paths";
 import { defineTool } from "@deepseek-ai/dsh-tools";
@@ -37,7 +38,9 @@ function codexCloudflareHeaders(accessToken) {
 * Completing an OpenAI Codex OAuth login defaults an unset selection to
 * Codex `gpt-image-2` (medium quality); an explicit user choice is left
 * alone. Generation itself goes through the Codex Responses
-* `image_generation` tool when that backend is selected.
+* `image_generation` tool when that backend is selected. The PNG is committed
+* through `ctx.attachments` before the tool result is appended, so the
+* session log carries a durable `ImageBlock` rather than only a filesystem path.
 * @module @deepseek-ai/dsh-draco-image-gen
 */
 const name = "draco-image-gen";
@@ -67,6 +70,41 @@ const Config = z.object({
 		z.const("high")
 	]).default(CODEX_DEFAULT_QUALITY)
 });
+/**
+* Re-brand a canonical generated-image outcome into the attachment reference
+* an `ImageBlock` carries.
+* @param image - the canonical image metadata from the output schema.
+*/
+function imageRefFromValue(image) {
+	return {
+		attachmentId: AttachmentId(image.attachmentId),
+		mediaType: image.mediaType,
+		bytes: image.bytes,
+		width: image.width,
+		height: image.height,
+		...image.name === void 0 ? {} : { name: image.name }
+	};
+}
+/**
+* Format a generation as the model-facing envelope beside its image block.
+* @param value - the canonical generation outcome.
+*/
+function formatImageGenerateOutput(value) {
+	return `Generated ${value.quality} image via ${value.provider} (${CODEX_IMAGE_MODEL}) → ${value.path}`;
+}
+/**
+* Project one canonical generation into its envelope and durable image.
+* @param value - the canonical generation outcome.
+*/
+function imageGenerateContent(value) {
+	return [{
+		type: "text",
+		text: formatImageGenerateOutput(value)
+	}, {
+		type: "image",
+		attachment: imageRefFromValue(value.image)
+	}];
+}
 /** Decode an SSE byte stream into event `data` payloads. */
 async function* parseSse(stream) {
 	const events = stream.pipeThrough(new TextDecoderStream()).pipeThrough(new EventSourceParserStream());
@@ -189,30 +227,72 @@ function apply(ctx, config) {
 					prompt: {
 						type: "string",
 						required: true
+					},
+					image: {
+						type: "object",
+						additionalProperties: false,
+						required: true,
+						properties: {
+							attachmentId: {
+								type: "string",
+								required: true
+							},
+							mediaType: {
+								type: "string",
+								enum: ["image/png"],
+								required: true
+							},
+							bytes: {
+								type: "integer",
+								required: true
+							},
+							width: {
+								type: "integer",
+								required: true
+							},
+							height: {
+								type: "integer",
+								required: true
+							},
+							name: { type: "string" }
+						}
 					}
 				}
 			},
-			render: (_args, value) => [{
-				type: "text",
-				text: `Generated ${value.quality} image via ${value.provider} (${CODEX_IMAGE_MODEL}) → ${value.path}`
-			}]
+			render: (_args, value) => imageGenerateContent(value)
 		},
 		async execute(args, exec) {
 			const prompt = args.prompt.trim();
 			if (prompt.length === 0) throw new Error("prompt must be a non-empty string");
 			if (current.provider !== "openai-codex") throw new Error("image generation is not configured; sign in with OpenAI Codex or set image_gen.provider to openai-codex");
+			const attachments = ctx.get("attachments");
+			if (attachments === void 0) throw new Error("cannot persist a generated image: no attachment service is mounted");
 			const bearer = await ctx.get("codexOauth")?.getBearer();
 			if (bearer === void 0) throw new Error("no OpenAI Codex OAuth session; run /codex-login or use Settings → Models → Sign in with Codex");
 			const b64 = await collectImageB64(bearer, prompt, SIZES[args.aspect ?? "square"] ?? SIZES.square, current.quality, exec.signal);
 			const bytes = Buffer.from(b64, "base64");
-			const path = dshHomePath(join("draco", "images", `gpt-image-2-${Date.now()}.png`));
+			const name = `gpt-image-2-${Date.now()}.png`;
+			const path = dshHomePath(join("draco", "images", name));
 			mkdirSync(dirname(path), { recursive: true });
 			writeFileSync(path, bytes);
+			const ref = await attachments.saveImage({
+				data: new Uint8Array(bytes),
+				mediaType: "image/png",
+				name
+			});
 			return {
 				path,
 				provider: "openai-codex",
 				quality: current.quality,
-				prompt
+				prompt,
+				image: {
+					attachmentId: ref.attachmentId,
+					mediaType: "image/png",
+					bytes: ref.bytes,
+					width: ref.width,
+					height: ref.height,
+					...ref.name === void 0 ? {} : { name: ref.name }
+				}
 			};
 		},
 		presentCall(args) {
@@ -225,4 +305,4 @@ function apply(ctx, config) {
 	}));
 }
 //#endregion
-export { CODEX_DEFAULT_QUALITY, CODEX_IMAGE_MODEL, Config, IMAGE_GEN_SETTINGS_NAMESPACE, apply, inject, name };
+export { CODEX_DEFAULT_QUALITY, CODEX_IMAGE_MODEL, Config, IMAGE_GEN_SETTINGS_NAMESPACE, apply, formatImageGenerateOutput, imageGenerateContent, imageRefFromValue, inject, name };
