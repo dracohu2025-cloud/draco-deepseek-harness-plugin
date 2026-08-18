@@ -33,7 +33,7 @@
                 name: GPT-5.6 Luna
                 contextWindow: 1050000
 
-    - id: draco-image-gen
+    - id: draco-codex-image-gen
       name: draco-codex-oauth/image-gen
       config:
         provider: none

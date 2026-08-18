@@ -46,7 +46,7 @@ After SuperGrok login, Settings → Models shows a **Grok Imagine** card (Off / 
 | `draco-grok-oauth` | `draco-grok-oauth/oauth` | Device-code session, token file, `/grok-login` |
 | `draco-grok-oauth-ui` | `draco-grok-oauth` | Settings → Models SuperGrok card |
 | `draco-grok-llm-responses` | `draco-grok-oauth/responses` | Grok Responses adapter: 500k window, JPEG/PNG, overflow 400s, disjoint cache usage |
-| `draco-image-gen` | `draco-grok-oauth/imagine` | `image_generate` + `video_generate` via Grok Imagine Image 2.0 / Video after SuperGrok login |
+| `draco-grok-imagine` | `draco-grok-oauth/imagine` | `image_generate` + `video_generate` via Grok Imagine Image 2.0 / Video after SuperGrok login |
 
 Optional API-key route: set `XAI_API_KEY` and select **xAI (API key)**.
 

@@ -34,7 +34,7 @@
                 name: Grok 4.6
                 contextWindow: 500000
 
-    - id: draco-image-gen
+    - id: draco-grok-imagine
       name: draco-grok-oauth/imagine
       config:
         provider: none
