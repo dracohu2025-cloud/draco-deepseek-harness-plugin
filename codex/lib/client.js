@@ -4155,10 +4155,10 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var DracoSuiteSection_module_css_default = {
-			"section": "SwbIYa_section",
+			"cards": "SwbIYa_cards",
 			"title": "SwbIYa_title",
 			"intro": "SwbIYa_intro",
-			"cards": "SwbIYa_cards"
+			"section": "SwbIYa_section"
 		};
 		//#endregion
 		//#region lib/types/client/DracoSuiteSection.js
@@ -4191,7 +4191,6 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		/** Simplified Chinese dictionary (the key-set source of truth). */
 		const zh = {
 			"compat.provider": "OpenAI Codex OAuth (ChatGPT)",
-			"compat.tag": "Hermes",
 			"idle.login": "Codex 登录",
 			"idle.hint": "使用 ChatGPT / Codex 订阅登录以使用 GPT-5.4，并默认开启 gpt-image-2 生图",
 			"awaiting.title": "等待批准",
@@ -4219,7 +4218,6 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		/** English dictionary, checked complete against the zh key set. */
 		const en = {
 			"compat.provider": "OpenAI Codex OAuth (ChatGPT)",
-			"compat.tag": "Hermes",
 			"idle.login": "Sign in with Codex",
 			"idle.hint": "Sign in with your ChatGPT / Codex subscription to use GPT-5.4 and default image generation to gpt-image-2",
 			"awaiting.title": "Awaiting approval",
@@ -4310,26 +4308,26 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var HermesCompatCard_module_css_default = {
-			"tag": "uuGEca_tag",
-			"awaiting": "uuGEca_awaiting",
-			"card": "uuGEca_card",
-			"error": "uuGEca_error",
-			"code": "uuGEca_code",
-			"head": "uuGEca_head",
-			"row": "uuGEca_row",
-			"muted": "uuGEca_muted",
-			"identity": "uuGEca_identity",
 			"primary": "uuGEca_primary",
-			"dotIdle": "uuGEca_dotIdle",
-			"name": "uuGEca_name",
-			"dotWait": "uuGEca_dotWait",
-			"select": "uuGEca_select",
-			"ready": "uuGEca_ready",
-			"link": "uuGEca_link",
-			"dotReady": "uuGEca_dotReady",
+			"awaiting": "uuGEca_awaiting",
+			"row": "uuGEca_row",
+			"head": "uuGEca_head",
 			"selected": "uuGEca_selected",
+			"card": "uuGEca_card",
+			"select": "uuGEca_select",
+			"identity": "uuGEca_identity",
+			"error": "uuGEca_error",
+			"dotReady": "uuGEca_dotReady",
+			"tag": "uuGEca_tag",
+			"muted": "uuGEca_muted",
+			"ready": "uuGEca_ready",
+			"code": "uuGEca_code",
+			"name": "uuGEca_name",
+			"link": "uuGEca_link",
+			"dotIdle": "uuGEca_dotIdle",
 			"hint": "uuGEca_hint",
-			"secondary": "uuGEca_secondary"
+			"secondary": "uuGEca_secondary",
+			"dotWait": "uuGEca_dotWait"
 		};
 		//#endregion
 		//#region lib/types/client/HermesCompatCard.js
@@ -4388,15 +4386,12 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 				children: [
 					(0, react_jsx_runtime.jsxs)("div", {
 						className: HermesCompatCard_module_css_default.head,
-						children: [(0, react_jsx_runtime.jsxs)("div", {
+						children: [(0, react_jsx_runtime.jsx)("div", {
 							className: HermesCompatCard_module_css_default.identity,
-							children: [(0, react_jsx_runtime.jsx)("span", {
+							children: (0, react_jsx_runtime.jsx)("span", {
 								className: HermesCompatCard_module_css_default.name,
 								children: t("compat.provider")
-							}), (0, react_jsx_runtime.jsx)("span", {
-								className: HermesCompatCard_module_css_default.tag,
-								children: t("compat.tag")
-							})]
+							})
 						}), view.kind === "active" ? (0, react_jsx_runtime.jsx)("span", {
 							className: HermesCompatCard_module_css_default.dotReady,
 							role: "img",
@@ -4553,15 +4548,12 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 				children: [
 					(0, react_jsx_runtime.jsx)("div", {
 						className: HermesCompatCard_module_css_default.head,
-						children: (0, react_jsx_runtime.jsxs)("div", {
+						children: (0, react_jsx_runtime.jsx)("div", {
 							className: HermesCompatCard_module_css_default.identity,
-							children: [(0, react_jsx_runtime.jsx)("span", {
+							children: (0, react_jsx_runtime.jsx)("span", {
 								className: HermesCompatCard_module_css_default.name,
 								children: t("image.title")
-							}), (0, react_jsx_runtime.jsx)("span", {
-								className: HermesCompatCard_module_css_default.tag,
-								children: t("compat.tag")
-							})]
+							})
 						})
 					}),
 					(0, react_jsx_runtime.jsx)("p", {
