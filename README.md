@@ -9,7 +9,7 @@ Each plugin is independent. Install only the ones you want.
 | Plugin | Install | What you get |
 |---|---|---|
 | SuperGrok / xAI | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin` | SuperGrok OAuth + **Grok 4.6** only (JPEG/PNG, 500k context window) |
-| Codex / ChatGPT | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex` | Codex OAuth + **GPT-5.6 Sol / Terra / Luna** only (1.05M window) + `gpt-image-2` after first login |
+| Codex / ChatGPT | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex` | Codex OAuth + **GPT-5.6 Sol / Terra / Luna** only (1.05M window, `store: false`) + `gpt-image-2` after first login |
 
 Then start the official Web profile:
 
@@ -54,6 +54,8 @@ dsh plugin --profile web remove draco-grok-oauth
 ## Codex / ChatGPT
 
 The subdirectory package is `draco-codex-oauth`. See [codex/README.md](./codex/README.md).
+
+Codex chat and image-generation requests send `store: false`. The ChatGPT Codex backend refuses to persist Responses and returns HTTP 400 `Store must be set to false` without that field. SuperGrok / xAI routes do not send it.
 
 ```sh
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex

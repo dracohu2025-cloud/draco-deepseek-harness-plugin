@@ -141,8 +141,10 @@ async function fetchCodexModels(baseURL, bearer) {
 * service into `input_image` data URLs; assistant image output is rejected.
 * HTTP 400 bodies that name a maximum context length or window classify as
 * `CONTEXT_WINDOW_EXCEEDED` so overflow compaction can retry; other 400s stay
-* `INVALID_REQUEST`. Text, reasoning, and tool-call blocks share one
-* per-request index counter so parallel tool calls do not collide with text.
+* `INVALID_REQUEST`. Codex OAuth routes send `store: false` because the
+* ChatGPT Codex backend refuses to persist Responses. Text, reasoning, and
+* tool-call blocks share one per-request index counter so parallel tool
+* calls do not collide with text.
 * One stream read may idle at most `streamIdleTimeoutMs` before the watchdog
 * fails the request with `TIMEOUT`; unexpected transport failures classify as
 * `TRANSPORT` so the caller's retry policy can engage.
@@ -348,6 +350,7 @@ function providerErrorDetail(raw) {
 			if (detail.length > 0) return detail;
 		}
 		if (typeof parsed.message === "string" && parsed.message.length > 0) return parsed.message;
+		if (typeof parsed.detail === "string" && parsed.detail.length > 0) return parsed.detail;
 	} catch {}
 	return raw;
 }
@@ -459,10 +462,12 @@ var ResponsesApiAdapter = class extends LlmAdapter {
 			const attachments = options.messages.some((message) => contentHasImage(message.content)) ? this.options.resolveAttachments?.() : void 0;
 			const input = await serializeInput(options.messages, attachments);
 			const tools = serializeTools(options.tools);
+			const omitResponseStore = facts.auth.kind === "oauth" && facts.auth.session === "codex";
 			const body = {
 				model: options.model,
 				input,
 				stream: true,
+				...omitResponseStore ? { store: false } : {},
 				...options.system !== void 0 && options.system.length > 0 ? { instructions: options.system } : {},
 				...tools !== void 0 ? { tools } : {},
 				...options.temperature !== void 0 ? { temperature: options.temperature } : {},
@@ -708,9 +713,10 @@ var ResponsesApiAdapter = class extends LlmAdapter {
 * (`xai` → SuperGrok, `codex` → ChatGPT/Codex) and `api-key` resolves
 * through the credentials seam. The wire protocol is the OpenAI Responses
 * API (`POST /responses`, SSE). A route may override `baseURL`; the plugin
-* default is the xAI API. User and nested tool-result images resolve through
-* `ctx.attachments` into `input_image` data URLs; listed and unlisted models
-* advertise text plus image.
+* default is the xAI API. Codex OAuth routes send `store: false` because the
+* ChatGPT Codex backend refuses to persist Responses. User and nested
+* tool-result images resolve through `ctx.attachments` into `input_image`
+* data URLs; listed and unlisted models advertise text plus image.
 * @module @deepseek-ai/dsh-draco-llm-responses
 */
 const name = "draco-llm-responses";
