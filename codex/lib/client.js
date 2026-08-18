@@ -4145,7 +4145,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		}
 		//#endregion
 		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-oauth-codex-ui/src/client/HermesCompatCard.module.css.mjs
-		const css = ".uuGEca_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.uuGEca_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.uuGEca_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.uuGEca_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.uuGEca_tag{color:var(--dsw-alias-label-secondary);background:var(--dsw-alias-bg-layer-2);border-radius:999px;padding:1px 6px;font-size:11px;line-height:16px}.uuGEca_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.uuGEca_row,.uuGEca_awaiting{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uuGEca_primary,.uuGEca_secondary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;padding:4px 10px;font-size:13px;line-height:20px}.uuGEca_primary:disabled{opacity:.6;cursor:default}.uuGEca_selected{background:var(--dsw-alias-bg-module-platform);border-color:var(--dsw-static-neutral-bluish-400);font-weight:500}.uuGEca_ready{color:var(--dsw-alias-state-success-primary);align-items:center;gap:6px;font-size:13px;display:inline-flex}.uuGEca_link{color:var(--dsw-alias-label-primary);text-decoration:underline}.uuGEca_code{font-family:var(--ds-font-family-code);background:var(--dsw-alias-bg-layer-2);border-radius:4px;padding:0 4px}.uuGEca_select{appearance:none;box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:320px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);cursor:pointer;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:12px 12px;border-radius:8px;padding:0 32px 0 10px;font-size:13px;line-height:20px}.uuGEca_select:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.uuGEca_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.uuGEca_error{color:var(--dsw-alias-state-error-primary);font-size:12px}.uuGEca_dotReady,.uuGEca_dotWait,.uuGEca_dotIdle{border-radius:50%;flex:none;width:8px;height:8px}.uuGEca_dotReady{background:var(--dsw-alias-state-success-primary)}.uuGEca_dotWait{background:var(--dsw-alias-state-warn-primary)}.uuGEca_dotIdle{background:var(--dsw-alias-border-l3)}";
+		const css = ".uuGEca_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.uuGEca_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.uuGEca_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.uuGEca_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.uuGEca_tag{color:var(--dsw-alias-label-secondary);background:var(--dsw-alias-bg-layer-2);border-radius:999px;padding:1px 6px;font-size:11px;line-height:16px}.uuGEca_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.uuGEca_row,.uuGEca_awaiting{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uuGEca_primary,.uuGEca_secondary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;padding:4px 10px;font-size:13px;line-height:20px}.uuGEca_primary:disabled{opacity:.6;cursor:default}.uuGEca_selected{background:var(--dsw-alias-bg-module-platform);border-color:var(--dsw-static-neutral-bluish-400);font-weight:500}.uuGEca_ready{color:var(--dsw-alias-state-success-primary);align-items:center;gap:6px;font-size:13px;display:inline-flex}.uuGEca_link{color:var(--dsw-alias-label-primary);text-decoration:underline}.uuGEca_code{font-family:var(--ds-font-family-code);background:var(--dsw-alias-bg-layer-2);border-radius:4px;padding:0 4px}.uuGEca_select{appearance:none;box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);cursor:pointer;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:12px 12px;border-radius:8px;padding:0 32px 0 10px;font-size:13px;line-height:20px}.uuGEca_select:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.uuGEca_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.uuGEca_error{color:var(--dsw-alias-state-error-primary);font-size:12px}.uuGEca_dotReady,.uuGEca_dotWait,.uuGEca_dotIdle{border-radius:50%;flex:none;width:8px;height:8px}.uuGEca_dotReady{background:var(--dsw-alias-state-success-primary)}.uuGEca_dotWait{background:var(--dsw-alias-state-warn-primary)}.uuGEca_dotIdle{background:var(--dsw-alias-border-l3)}";
 		const tagId = "draco-codex-oauth/HermesCompatCard.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
 			const tag = document.createElement("style");
@@ -4155,26 +4155,26 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var HermesCompatCard_module_css_default = {
-			"row": "uuGEca_row",
-			"dotIdle": "uuGEca_dotIdle",
-			"awaiting": "uuGEca_awaiting",
-			"code": "uuGEca_code",
-			"link": "uuGEca_link",
 			"primary": "uuGEca_primary",
-			"secondary": "uuGEca_secondary",
-			"tag": "uuGEca_tag",
-			"identity": "uuGEca_identity",
-			"head": "uuGEca_head",
-			"dotReady": "uuGEca_dotReady",
-			"hint": "uuGEca_hint",
-			"selected": "uuGEca_selected",
-			"card": "uuGEca_card",
-			"muted": "uuGEca_muted",
-			"name": "uuGEca_name",
-			"ready": "uuGEca_ready",
 			"select": "uuGEca_select",
+			"identity": "uuGEca_identity",
+			"dotReady": "uuGEca_dotReady",
+			"selected": "uuGEca_selected",
+			"muted": "uuGEca_muted",
 			"error": "uuGEca_error",
-			"dotWait": "uuGEca_dotWait"
+			"ready": "uuGEca_ready",
+			"dotWait": "uuGEca_dotWait",
+			"head": "uuGEca_head",
+			"code": "uuGEca_code",
+			"dotIdle": "uuGEca_dotIdle",
+			"hint": "uuGEca_hint",
+			"awaiting": "uuGEca_awaiting",
+			"name": "uuGEca_name",
+			"row": "uuGEca_row",
+			"link": "uuGEca_link",
+			"tag": "uuGEca_tag",
+			"card": "uuGEca_card",
+			"secondary": "uuGEca_secondary"
 		};
 		//#endregion
 		//#region lib/types/client/HermesCompatCard.js
@@ -4387,14 +4387,12 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		/**
 		* One Settings → Models dropdown for every installed image backend.
 		* Imagine and Codex UI plugins share this seat through a process hub.
+		* Option labels are the full model id so the closed select still names it.
 		*/
 		function ImageGenPickerCard({ t, setValue, useStore }) {
 			const ready = useStore((s) => s.ready);
 			const available = useStore((s) => s.available);
 			const value = useStore((s) => s.value);
-			const rows = optionsFor(available, value);
-			const imagine = rows.some((row) => row === "imagine-1k");
-			const codex = rows.some((row) => row === "codex-low");
 			return (0, react_jsx_runtime.jsxs)("article", {
 				className: HermesCompatCard_module_css_default.card,
 				children: [
@@ -4415,46 +4413,17 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 						className: HermesCompatCard_module_css_default.hint,
 						children: t("image.hint")
 					}),
-					ready ? (0, react_jsx_runtime.jsxs)("select", {
+					ready ? (0, react_jsx_runtime.jsx)("select", {
 						className: HermesCompatCard_module_css_default.select,
 						"aria-label": t("image.title"),
 						value,
 						onChange: (event) => {
 							setValue(event.target.value);
 						},
-						children: [
-							(0, react_jsx_runtime.jsx)("option", {
-								value: "none",
-								children: t(LABELS.none)
-							}),
-							imagine ? (0, react_jsx_runtime.jsxs)("optgroup", {
-								label: t("image.groupImagine"),
-								children: [(0, react_jsx_runtime.jsx)("option", {
-									value: "imagine-1k",
-									children: t(LABELS["imagine-1k"])
-								}), (0, react_jsx_runtime.jsx)("option", {
-									value: "imagine-2k",
-									children: t(LABELS["imagine-2k"])
-								})]
-							}) : null,
-							codex ? (0, react_jsx_runtime.jsxs)("optgroup", {
-								label: t("image.groupCodex"),
-								children: [
-									(0, react_jsx_runtime.jsx)("option", {
-										value: "codex-low",
-										children: t(LABELS["codex-low"])
-									}),
-									(0, react_jsx_runtime.jsx)("option", {
-										value: "codex-medium",
-										children: t(LABELS["codex-medium"])
-									}),
-									(0, react_jsx_runtime.jsx)("option", {
-										value: "codex-high",
-										children: t(LABELS["codex-high"])
-									})
-								]
-							}) : null
-						]
+						children: optionsFor(available, value).map((row) => (0, react_jsx_runtime.jsx)("option", {
+							value: row,
+							children: t(LABELS[row])
+						}, row))
 					}) : (0, react_jsx_runtime.jsx)("p", {
 						className: HermesCompatCard_module_css_default.muted,
 						children: t("image.unavailable")
@@ -4510,13 +4479,11 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"image.title": "生图模型",
 			"image.hint": "对话模型选择器不管生图。仅登录 SuperGrok 时默认 Imagine Image 2.0（1K）。仅登录 Codex 时默认 GPT Image 2（中）。两侧都已登录时请在此选择后端。video_generate 始终走 Imagine Video。",
 			"image.off": "关闭",
-			"image.groupImagine": "Grok Imagine",
-			"image.groupCodex": "GPT Image 2",
-			"image.imagine1k": "Image 2.0（1K）",
-			"image.imagine2k": "Image 2.0（2K）",
-			"image.codexLow": "低",
-			"image.codexMedium": "中",
-			"image.codexHigh": "高",
+			"image.imagine1k": "grok-imagine-image-2.0 (1K)",
+			"image.imagine2k": "grok-imagine-image-2.0 (2K)",
+			"image.codexLow": "gpt-image-2-low",
+			"image.codexMedium": "gpt-image-2-medium",
+			"image.codexHigh": "gpt-image-2-high",
 			"image.unavailable": "设置尚未就绪"
 		};
 		/** English dictionary, checked complete against the zh key set. */
@@ -4537,13 +4504,11 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"image.title": "Image generation",
 			"image.hint": "The chat model selector does not control image generation. A SuperGrok-only login defaults to Imagine Image 2.0 (1K). A Codex-only login defaults to GPT Image 2 (medium). When both are signed in, pick a backend here. video_generate always uses Imagine Video.",
 			"image.off": "Off",
-			"image.groupImagine": "Grok Imagine",
-			"image.groupCodex": "GPT Image 2",
-			"image.imagine1k": "Image 2.0 (1K)",
-			"image.imagine2k": "Image 2.0 (2K)",
-			"image.codexLow": "Low",
-			"image.codexMedium": "Medium",
-			"image.codexHigh": "High",
+			"image.imagine1k": "grok-imagine-image-2.0 (1K)",
+			"image.imagine2k": "grok-imagine-image-2.0 (2K)",
+			"image.codexLow": "gpt-image-2-low",
+			"image.codexMedium": "gpt-image-2-medium",
+			"image.codexHigh": "gpt-image-2-high",
 			"image.unavailable": "Settings are not ready yet"
 		};
 		/** The namespace key used for locale registration and seat props. */

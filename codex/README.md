@@ -32,7 +32,7 @@ Open **Settings → Models**. Under the Hermes-compatible section, click **Sign 
 
 Chat and image-generation requests send `store: false`. The ChatGPT Codex backend refuses to persist Responses and returns HTTP 400 `Store must be set to false` without that field.
 
-The same section has one **Image generation** dropdown (Off, GPT Image 2 Low/Medium/High, and Grok Imagine Image 2.0 1K/2K when the SuperGrok plugin is also installed). A Codex-only login defaults an unset backend to medium. When SuperGrok is also signed in, the backend stays unset until you pick a row here. An explicit user choice is left alone.
+The same section has one **Image generation** dropdown (`Off`, `gpt-image-2-low/medium/high`, and `grok-imagine-image-2.0 (1K/2K)` when the SuperGrok plugin is also installed). The closed control shows the full model id. A Codex-only login defaults an unset backend to medium. When SuperGrok is also signed in, the backend stays unset until you pick a row here. An explicit user choice is left alone.
 
 A successful `image_generate` commits the PNG through the session attachment store and returns a text envelope plus an `ImageBlock`. A DeepSeek Harness Web build that renders tool-result images shows the picture on the tool row. A convenience copy also lands under `$DSH_HOME/draco/images/`.
 
