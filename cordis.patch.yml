@@ -24,33 +24,6 @@
               - id: grok-4.6
                 name: Grok 4.6
                 contextWindow: 500000
-              - id: grok-4.20-0309-reasoning
-                name: Grok 4.20 Reasoning
-                contextWindow: 500000
-              - id: grok-4.20-0309-non-reasoning
-                name: Grok 4.20
-                contextWindow: 500000
-              - id: grok-4.20-multi-agent-0309
-                name: Grok 4.20 Multi-agent
-                contextWindow: 500000
-              - id: grok-4-1-fast
-                name: Grok 4.1 Fast
-                contextWindow: 500000
-              - id: grok-4-1-fast-non-reasoning
-                name: Grok 4.1 Fast (no reasoning)
-                contextWindow: 500000
-              - id: grok-4-fast
-                name: Grok 4 Fast
-                contextWindow: 500000
-              - id: grok-4-fast-non-reasoning
-                name: Grok 4 Fast (no reasoning)
-                contextWindow: 500000
-              - id: grok-4
-                name: Grok 4
-                contextWindow: 500000
-              - id: grok-code-fast-1
-                name: Grok Code Fast
-                contextWindow: 500000
           xai:
             displayName: xAI (API key)
             auth:
@@ -59,31 +32,4 @@
             models:
               - id: grok-4.6
                 name: Grok 4.6
-                contextWindow: 500000
-              - id: grok-4.20-0309-reasoning
-                name: Grok 4.20 Reasoning
-                contextWindow: 500000
-              - id: grok-4.20-0309-non-reasoning
-                name: Grok 4.20
-                contextWindow: 500000
-              - id: grok-4.20-multi-agent-0309
-                name: Grok 4.20 Multi-agent
-                contextWindow: 500000
-              - id: grok-4-1-fast
-                name: Grok 4.1 Fast
-                contextWindow: 500000
-              - id: grok-4-1-fast-non-reasoning
-                name: Grok 4.1 Fast (no reasoning)
-                contextWindow: 500000
-              - id: grok-4-fast
-                name: Grok 4 Fast
-                contextWindow: 500000
-              - id: grok-4-fast-non-reasoning
-                name: Grok 4 Fast (no reasoning)
-                contextWindow: 500000
-              - id: grok-4
-                name: Grok 4
-                contextWindow: 500000
-              - id: grok-code-fast-1
-                name: Grok Code Fast
                 contextWindow: 500000

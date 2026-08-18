@@ -8,8 +8,8 @@ Each plugin is independent. Install only the ones you want.
 
 | Plugin | Install | What you get |
 |---|---|---|
-| SuperGrok / xAI | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin` | SuperGrok OAuth + Grok catalog (4.6 / 4.20 / 4.1 Fast / Code Fast, JPEG/PNG input, 500k context window) |
-| Codex / ChatGPT | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex` | Codex OAuth + GPT-5.x catalog + `gpt-image-2` after first login |
+| SuperGrok / xAI | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin` | SuperGrok OAuth + **Grok 4.6** only (JPEG/PNG, 500k context window) |
+| Codex / ChatGPT | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex` | Codex OAuth + **GPT-5.6 Sol / Terra / Luna** only (1.05M window) + `gpt-image-2` after first login |
 
 Then start the official Web profile:
 
@@ -31,11 +31,11 @@ dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plu
 dsh --profile web
 ```
 
-Open **Settings → Models**, click **Sign in with SuperGrok**, approve the device-code URL, then pick a Grok model (`grok-4.6`, `grok-4.20-*`, `grok-4-1-fast`, `grok-code-fast-1`, …).
+Open **Settings → Models**, click **Sign in with SuperGrok**, approve the device-code URL, then pick **Grok 4.6**. The selector does not offer older Grok 4.x rows.
 
 CLI fallbacks: `/grok-login`, `/grok-status`. Tokens live at `$DSH_HOME/draco/xai-oauth.json` (`0600`).
 
-Listed Grok models advertise a **500,000-token** combined context window; an unlisted xAI id resolves to the same default. The Web occupancy ring and stats-line percent appear once a request records that capacity. Cached prompt tokens are published as cache-read (not double-counted as uncached input), so occupancy matches the prompt size xAI compares to the window.
+**Grok 4.6** advertises a **500,000-token** combined context window; an unlisted xAI id resolves to the same default. The Web occupancy ring and stats-line percent appear once a request records that capacity. Cached prompt tokens are published as cache-read (not double-counted as uncached input), so occupancy matches the prompt size xAI compares to the window.
 
 An HTTP 400 that names a maximum prompt length is classified as context overflow, so harness automatic compaction can recover instead of failing the turn. JPEG/PNG images attach as Responses `input_image` data URLs. Idle streams time out after 300s by default (`streamIdleTimeoutMs`); mid-stream transport errors retry.
 

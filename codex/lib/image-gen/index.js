@@ -45,7 +45,7 @@ const inject = ["tools"];
 /** Settings namespace owned by this plugin. */
 const IMAGE_GEN_SETTINGS_NAMESPACE = settingsNamespace("draco-image-gen");
 /** Codex Responses host that invokes the image_generation tool. */
-const CODEX_CHAT_MODEL = "gpt-5.4";
+const CODEX_CHAT_MODEL = "gpt-5.6-terra";
 /** Codex Responses endpoint. */
 const CODEX_BASE_URL = "https://chatgpt.com/backend-api/codex";
 /** Wire model id sent to the image_generation tool. */
