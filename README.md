@@ -8,7 +8,7 @@ Each plugin is independent. Install only the ones you want.
 
 | Plugin | Install | What you get |
 |---|---|---|
-| SuperGrok / xAI | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin` | SuperGrok OAuth + **Grok 4.6** only (JPEG/PNG, 500k context window) |
+| SuperGrok / xAI | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin` | SuperGrok OAuth + **Grok 4.6** only (JPEG/PNG, 500k) + **Grok Imagine** Image 2.0 / Video |
 | Codex / ChatGPT | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex` | Codex OAuth + **GPT-5.6 Sol / Terra / Luna** only (1.05M window, `store: false`) + `gpt-image-2` after first login (durable `ImageBlock` + `$DSH_HOME/draco/images/` copy) |
 
 Then start the official Web profile:
@@ -39,11 +39,14 @@ CLI fallbacks: `/grok-login`, `/grok-status`. Tokens live at `$DSH_HOME/draco/xa
 
 An HTTP 400 that names a maximum prompt length is classified as context overflow, so harness automatic compaction can recover instead of failing the turn. JPEG/PNG images attach as Responses `input_image` data URLs. Idle streams time out after 300s by default (`streamIdleTimeoutMs`); mid-stream transport errors retry.
 
+After SuperGrok login, Settings → Models shows a **Grok Imagine** card (Off / Image 2.0 1K / 2K). The first login defaults an unset backend to Imagine Image 2.0 at 1K. `image_generate` then calls `POST /v1/images/generations` (`grok-imagine-image-2.0`) and commits a durable `ImageBlock`. `video_generate` calls Imagine Video (`grok-imagine-video`, 1–15s) and writes an MP4 under `$DSH_HOME/draco/videos/`. Both tools reuse the SuperGrok OAuth bearer, or `XAI_API_KEY`.
+
 | Row | Package export | Role |
 |---|---|---|
 | `draco-grok-oauth` | `draco-grok-oauth/oauth` | Device-code session, token file, `/grok-login` |
 | `draco-grok-oauth-ui` | `draco-grok-oauth` | Settings → Models SuperGrok card |
 | `draco-grok-llm-responses` | `draco-grok-oauth/responses` | Grok Responses adapter: 500k window, JPEG/PNG, overflow 400s, disjoint cache usage |
+| `draco-image-gen` | `draco-grok-oauth/imagine` | `image_generate` + `video_generate` via Grok Imagine Image 2.0 / Video after SuperGrok login |
 
 Optional API-key route: set `XAI_API_KEY` and select **xAI (API key)**.
 

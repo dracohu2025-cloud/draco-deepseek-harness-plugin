@@ -18,6 +18,7 @@
     ".": "./lib/index.js",
     "./oauth": "./lib/oauth/index.js",
     "./responses": "./lib/responses/index.js",
+    "./imagine": "./lib/imagine/index.js",
     "./types": "./lib/types.js",
     "./typert": "./lib/typert.host.js",
     "./remote": "./lib/typert.remote-client.js",
@@ -56,6 +57,8 @@
     "@deepseek-ai/dsh-credentials": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-home-paths": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-llm": ">=0.0.1-rc.1",
+    "@deepseek-ai/dsh-settings": ">=0.0.1-rc.1",
+    "@deepseek-ai/dsh-tools": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-typert-protocol": ">=0.0.1-rc.1",
     "react": "^18.2.0"
   },

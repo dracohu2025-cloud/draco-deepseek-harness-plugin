@@ -60,6 +60,8 @@ const COPIES = [
   ['draco-oauth-xai', 'lib/types/types.js', '', 'lib/types.js'],
   ['draco-llm-responses', 'lib/index.js', '', 'lib/responses/index.js'],
   ['draco-llm-responses', 'lib/invariant.js', '', 'lib/responses/invariant.js'],
+  ['draco-image-gen', 'lib/index.js', '', 'lib/imagine/index.js'],
+  ['draco-image-gen', 'lib/invariant.js', '', 'lib/imagine/invariant.js'],
 ]
 
 /** [forkPackage, forkFile, publishFile] — copied with id rewrite per layer. */

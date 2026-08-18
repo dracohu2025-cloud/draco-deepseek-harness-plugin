@@ -38,3 +38,4 @@
       config:
         provider: none
         quality: medium
+        resolution: 1k
