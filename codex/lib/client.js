@@ -4155,10 +4155,10 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var DracoSuiteSection_module_css_default = {
-			"title": "SwbIYa_title",
-			"cards": "SwbIYa_cards",
 			"section": "SwbIYa_section",
-			"intro": "SwbIYa_intro"
+			"title": "SwbIYa_title",
+			"intro": "SwbIYa_intro",
+			"cards": "SwbIYa_cards"
 		};
 		//#endregion
 		//#region lib/types/client/DracoSuiteSection.js
@@ -4205,9 +4205,9 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"error.fallback": "登录失败",
 			"suite.nav": "Draco-suite",
 			"suite.title": "Draco-suite",
-			"suite.intro": "SuperGrok 与 Codex 订阅登录，以及生图后端。不使用 API Key。",
+			"suite.intro": "SuperGrok 与 Codex 订阅登录，以及生图 / 生视频后端。不使用 API Key。",
 			"image.title": "生图模型",
-			"image.hint": "对话模型选择器不管生图。仅登录 SuperGrok 时默认 Imagine Image 2.0（1K）。仅登录 Codex 时默认 GPT Image 2（中）。两侧都已登录时请在此选择后端。video_generate 始终走 Imagine Video。",
+			"image.hint": "对话模型选择器不管生图。仅登录 SuperGrok 时默认 Imagine Image 2.0（1K）。仅登录 Codex 时默认 GPT Image 2（中）。两侧都已登录时请在此选择后端。",
 			"image.off": "关闭",
 			"image.imagine1k": "grok-imagine-image-2.0 (1K)",
 			"image.imagine2k": "grok-imagine-image-2.0 (2K)",
@@ -4233,9 +4233,9 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"error.fallback": "Login failed",
 			"suite.nav": "Draco-suite",
 			"suite.title": "Draco-suite",
-			"suite.intro": "SuperGrok and Codex subscription login, plus the image-generation backend. These do not use an API key.",
+			"suite.intro": "SuperGrok and Codex subscription login, plus the image and video backends. These do not use an API key.",
 			"image.title": "Image generation",
-			"image.hint": "The chat model selector does not control image generation. A SuperGrok-only login defaults to Imagine Image 2.0 (1K). A Codex-only login defaults to GPT Image 2 (medium). When both are signed in, pick a backend here. video_generate always uses Imagine Video.",
+			"image.hint": "The chat model selector does not control image generation. A SuperGrok-only login defaults to Imagine Image 2.0 (1K). A Codex-only login defaults to GPT Image 2 (medium). When both are signed in, pick a backend here.",
 			"image.off": "Off",
 			"image.imagine1k": "grok-imagine-image-2.0 (1K)",
 			"image.imagine2k": "grok-imagine-image-2.0 (2K)",
@@ -4310,26 +4310,26 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var HermesCompatCard_module_css_default = {
-			"dotReady": "uuGEca_dotReady",
+			"tag": "uuGEca_tag",
+			"awaiting": "uuGEca_awaiting",
+			"card": "uuGEca_card",
+			"error": "uuGEca_error",
 			"code": "uuGEca_code",
-			"name": "uuGEca_name",
-			"selected": "uuGEca_selected",
 			"head": "uuGEca_head",
+			"row": "uuGEca_row",
+			"muted": "uuGEca_muted",
 			"identity": "uuGEca_identity",
 			"primary": "uuGEca_primary",
-			"muted": "uuGEca_muted",
-			"ready": "uuGEca_ready",
-			"hint": "uuGEca_hint",
-			"awaiting": "uuGEca_awaiting",
-			"secondary": "uuGEca_secondary",
-			"link": "uuGEca_link",
-			"dotWait": "uuGEca_dotWait",
-			"card": "uuGEca_card",
-			"tag": "uuGEca_tag",
 			"dotIdle": "uuGEca_dotIdle",
-			"row": "uuGEca_row",
+			"name": "uuGEca_name",
+			"dotWait": "uuGEca_dotWait",
 			"select": "uuGEca_select",
-			"error": "uuGEca_error"
+			"ready": "uuGEca_ready",
+			"link": "uuGEca_link",
+			"dotReady": "uuGEca_dotReady",
+			"selected": "uuGEca_selected",
+			"hint": "uuGEca_hint",
+			"secondary": "uuGEca_secondary"
 		};
 		//#endregion
 		//#region lib/types/client/HermesCompatCard.js
