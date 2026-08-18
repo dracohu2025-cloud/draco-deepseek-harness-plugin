@@ -383,7 +383,8 @@ function videoGenerateContent(value) {
 	}];
 }
 const XAI_API_KEY = credentialRef("XAI_API_KEY");
-const appliedRoots = /* @__PURE__ */ new WeakSet();
+/** Shared across the SuperGrok and Codex package copies of this file. */
+const TOOLS_MARK = Symbol.for("dsh.draco-image-gen.tools");
 async function resolveXaiBearer(ctx) {
 	const oauth = await ctx.get("xaiOauth")?.getBearer();
 	if (oauth !== void 0 && oauth.length > 0) return oauth;
@@ -460,12 +461,12 @@ async function collectImageB64(bearer, prompt, size, quality, signal) {
 	return imageB64;
 }
 function apply(ctx, config) {
-	const root = ctx.root ?? ctx;
-	if (appliedRoots.has(root)) return;
-	appliedRoots.add(root);
+	const tools = ctx.tools;
+	if (tools[TOOLS_MARK] === true || ctx.tools.get?.("image_generate") !== void 0) return;
+	tools[TOOLS_MARK] = true;
 	ctx.effect(() => () => {
-		appliedRoots.delete(root);
-	}, "draco-image-gen: singleton");
+		delete tools[TOOLS_MARK];
+	}, "draco-image-gen: shared tools");
 	let current = config;
 	ctx.inject(["settings"], (sctx) => {
 		const scope = sctx.settings.register(IMAGE_GEN_SETTINGS_NAMESPACE, Config, { base: config });
