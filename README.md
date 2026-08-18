@@ -39,7 +39,7 @@ CLI fallbacks: `/grok-login`, `/grok-status`. Tokens live at `$DSH_HOME/draco/xa
 
 An HTTP 400 that names a maximum prompt length is classified as context overflow, so harness automatic compaction can recover instead of failing the turn. JPEG/PNG images attach as Responses `input_image` data URLs. Idle streams time out after 300s by default (`streamIdleTimeoutMs`); mid-stream transport errors retry.
 
-After SuperGrok login, Settings → Models shows a **Grok Imagine** card (Off / Image 2.0 1K / 2K). The first login defaults an unset backend to Imagine Image 2.0 at 1K. `image_generate` then calls `POST /v1/images/generations` (`grok-imagine-image-2.0`) and commits a durable `ImageBlock`. `video_generate` calls Imagine Video (`grok-imagine-video`, 1–15s) and writes an MP4 under `$DSH_HOME/draco/videos/`. Both tools reuse the SuperGrok OAuth bearer, or `XAI_API_KEY`.
+After SuperGrok login, Settings → Models shows a **Grok Imagine** card (Off / Image 2.0 1K / 2K). A SuperGrok-only login defaults an unset backend to Imagine Image 2.0 at 1K. If Codex is also signed in, the backend stays unset until you pick Imagine here or GPT Image 2 on the Codex card. `image_generate` then calls `POST /v1/images/generations` (`grok-imagine-image-2.0`) and commits a durable `ImageBlock`. `video_generate` calls Imagine Video (`grok-imagine-video`, 1–15s) and writes an MP4 under `$DSH_HOME/draco/videos/`. Both tools reuse the SuperGrok OAuth bearer, or `XAI_API_KEY`.
 
 | Row | Package export | Role |
 |---|---|---|

@@ -4155,25 +4155,25 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var HermesCompatCard_module_css_default = {
+			"selected": "uuGEca_selected",
 			"error": "uuGEca_error",
-			"dotWait": "uuGEca_dotWait",
-			"primary": "uuGEca_primary",
-			"dotReady": "uuGEca_dotReady",
-			"row": "uuGEca_row",
+			"dotIdle": "uuGEca_dotIdle",
+			"hint": "uuGEca_hint",
 			"card": "uuGEca_card",
-			"head": "uuGEca_head",
+			"code": "uuGEca_code",
 			"identity": "uuGEca_identity",
 			"ready": "uuGEca_ready",
-			"dotIdle": "uuGEca_dotIdle",
-			"tag": "uuGEca_tag",
+			"dotReady": "uuGEca_dotReady",
+			"row": "uuGEca_row",
 			"awaiting": "uuGEca_awaiting",
-			"link": "uuGEca_link",
-			"hint": "uuGEca_hint",
 			"name": "uuGEca_name",
+			"primary": "uuGEca_primary",
 			"secondary": "uuGEca_secondary",
-			"selected": "uuGEca_selected",
+			"link": "uuGEca_link",
 			"muted": "uuGEca_muted",
-			"code": "uuGEca_code"
+			"head": "uuGEca_head",
+			"dotWait": "uuGEca_dotWait",
+			"tag": "uuGEca_tag"
 		};
 		//#endregion
 		//#region lib/types/client/HermesCompatCard.js
@@ -4347,6 +4347,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		*/
 		function ImageGenCard({ t, setChoice, useStore }) {
 			const choice = useStore((s) => s.choice);
+			const selected = choice === "other" || choice === void 0 ? null : choice;
 			return (0, react_jsx_runtime.jsxs)("article", {
 				className: HermesCompatCard_module_css_default.card,
 				children: [
@@ -4365,7 +4366,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 					}),
 					(0, react_jsx_runtime.jsx)("p", {
 						className: HermesCompatCard_module_css_default.hint,
-						children: t("image.hint")
+						children: choice === "other" ? t("image.other") : t("image.hint")
 					}),
 					choice === void 0 ? (0, react_jsx_runtime.jsx)("p", {
 						className: HermesCompatCard_module_css_default.muted,
@@ -4377,8 +4378,8 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 						children: CHOICES.map((option) => (0, react_jsx_runtime.jsx)("button", {
 							type: "button",
 							role: "radio",
-							"aria-checked": choice === option.id,
-							className: choice === option.id ? `${HermesCompatCard_module_css_default.primary} ${HermesCompatCard_module_css_default.selected}` : HermesCompatCard_module_css_default.secondary,
+							"aria-checked": selected === option.id,
+							className: selected === option.id ? `${HermesCompatCard_module_css_default.primary} ${HermesCompatCard_module_css_default.selected}` : HermesCompatCard_module_css_default.secondary,
 							onClick: () => {
 								setChoice(option.id);
 							},
@@ -4425,7 +4426,8 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"error.retry": "重试",
 			"error.fallback": "登录失败",
 			"image.title": "生图模型",
-			"image.hint": "对话模型选择器不管生图。登录 Codex 后默认 GPT Image 2（中）。",
+			"image.hint": "对话模型选择器不管生图。仅登录 Codex 时默认 GPT Image 2（中）。Grok 也已登录时请在此选择 GPT Image 2，或到 SuperGrok 卡片选 Imagine。",
+			"image.other": "当前使用 Grok Imagine。点选一种 GPT Image 2 质量即可切换过来。",
 			"image.off": "关闭",
 			"image.low": "GPT Image 2（低）",
 			"image.medium": "GPT Image 2（中）",
@@ -4448,7 +4450,8 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"error.retry": "Retry",
 			"error.fallback": "Login failed",
 			"image.title": "Image generation",
-			"image.hint": "The chat model selector does not control image generation. After a Codex login the default is GPT Image 2 (medium).",
+			"image.hint": "The chat model selector does not control image generation. A Codex-only login defaults to GPT Image 2 (medium). When SuperGrok is also signed in, pick a GPT Image 2 quality here or pick Imagine on the SuperGrok card.",
+			"image.other": "Grok Imagine is active. Choose a GPT Image 2 quality to switch.",
 			"image.off": "Off",
 			"image.low": "GPT Image 2 (Low)",
 			"image.medium": "GPT Image 2 (Medium)",
@@ -4470,8 +4473,8 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		const IMAGE_GEN_NS = "draco-image-gen";
 		function choiceOf(section) {
 			if (section === void 0) return void 0;
-			if (section.provider === "none") return "none";
 			if (section.provider === "openai-codex") return section.quality === "low" || section.quality === "high" ? section.quality : "medium";
+			if (section.provider === "xai-imagine") return "other";
 			return "none";
 		}
 		/** Services required by the browser half. */
@@ -4545,7 +4548,8 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 					syncImage();
 					return { setChoice: (choice) => {
 						if (choice === "none") {
-							imageScope.set("provider", "none");
+							const current = imageScope.getSnapshot();
+							if (current.status === "ready" && current.value?.provider === "openai-codex") imageScope.set("provider", "none");
 							return;
 						}
 						imageScope.set("provider", "openai-codex");
