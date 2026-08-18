@@ -4145,7 +4145,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		}
 		//#endregion
 		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-oauth-codex-ui/src/client/HermesCompatCard.module.css.mjs
-		const css = ".uuGEca_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.uuGEca_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.uuGEca_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.uuGEca_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.uuGEca_tag{color:var(--dsw-alias-label-secondary);background:var(--dsw-alias-bg-layer-2);border-radius:999px;padding:1px 6px;font-size:11px;line-height:16px}.uuGEca_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.uuGEca_row,.uuGEca_awaiting{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uuGEca_primary,.uuGEca_secondary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;padding:4px 10px;font-size:13px;line-height:20px}.uuGEca_primary:disabled{opacity:.6;cursor:default}.uuGEca_selected{background:var(--dsw-alias-bg-module-platform);border-color:var(--dsw-static-neutral-bluish-400);font-weight:500}.uuGEca_ready{color:var(--dsw-alias-state-success-primary);align-items:center;gap:6px;font-size:13px;display:inline-flex}.uuGEca_link{color:var(--dsw-alias-label-primary);text-decoration:underline}.uuGEca_code{font-family:var(--ds-font-family-code);background:var(--dsw-alias-bg-layer-2);border-radius:4px;padding:0 4px}.uuGEca_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.uuGEca_error{color:var(--dsw-alias-state-error-primary);font-size:12px}.uuGEca_dotReady,.uuGEca_dotWait,.uuGEca_dotIdle{border-radius:50%;flex:none;width:8px;height:8px}.uuGEca_dotReady{background:var(--dsw-alias-state-success-primary)}.uuGEca_dotWait{background:var(--dsw-alias-state-warn-primary)}.uuGEca_dotIdle{background:var(--dsw-alias-border-l3)}";
+		const css = ".uuGEca_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.uuGEca_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.uuGEca_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.uuGEca_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.uuGEca_tag{color:var(--dsw-alias-label-secondary);background:var(--dsw-alias-bg-layer-2);border-radius:999px;padding:1px 6px;font-size:11px;line-height:16px}.uuGEca_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.uuGEca_row,.uuGEca_awaiting{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uuGEca_primary,.uuGEca_secondary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;padding:4px 10px;font-size:13px;line-height:20px}.uuGEca_primary:disabled{opacity:.6;cursor:default}.uuGEca_selected{background:var(--dsw-alias-bg-module-platform);border-color:var(--dsw-static-neutral-bluish-400);font-weight:500}.uuGEca_ready{color:var(--dsw-alias-state-success-primary);align-items:center;gap:6px;font-size:13px;display:inline-flex}.uuGEca_link{color:var(--dsw-alias-label-primary);text-decoration:underline}.uuGEca_code{font-family:var(--ds-font-family-code);background:var(--dsw-alias-bg-layer-2);border-radius:4px;padding:0 4px}.uuGEca_select{appearance:none;box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:320px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);cursor:pointer;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:12px 12px;border-radius:8px;padding:0 32px 0 10px;font-size:13px;line-height:20px}.uuGEca_select:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.uuGEca_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.uuGEca_error{color:var(--dsw-alias-state-error-primary);font-size:12px}.uuGEca_dotReady,.uuGEca_dotWait,.uuGEca_dotIdle{border-radius:50%;flex:none;width:8px;height:8px}.uuGEca_dotReady{background:var(--dsw-alias-state-success-primary)}.uuGEca_dotWait{background:var(--dsw-alias-state-warn-primary)}.uuGEca_dotIdle{background:var(--dsw-alias-border-l3)}";
 		const tagId = "draco-codex-oauth/HermesCompatCard.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
 			const tag = document.createElement("style");
@@ -4155,25 +4155,26 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var HermesCompatCard_module_css_default = {
-			"selected": "uuGEca_selected",
-			"error": "uuGEca_error",
-			"dotIdle": "uuGEca_dotIdle",
-			"hint": "uuGEca_hint",
-			"card": "uuGEca_card",
-			"code": "uuGEca_code",
-			"identity": "uuGEca_identity",
-			"ready": "uuGEca_ready",
-			"dotReady": "uuGEca_dotReady",
 			"row": "uuGEca_row",
+			"dotIdle": "uuGEca_dotIdle",
 			"awaiting": "uuGEca_awaiting",
-			"name": "uuGEca_name",
+			"code": "uuGEca_code",
+			"link": "uuGEca_link",
 			"primary": "uuGEca_primary",
 			"secondary": "uuGEca_secondary",
-			"link": "uuGEca_link",
-			"muted": "uuGEca_muted",
+			"tag": "uuGEca_tag",
+			"identity": "uuGEca_identity",
 			"head": "uuGEca_head",
-			"dotWait": "uuGEca_dotWait",
-			"tag": "uuGEca_tag"
+			"dotReady": "uuGEca_dotReady",
+			"hint": "uuGEca_hint",
+			"selected": "uuGEca_selected",
+			"card": "uuGEca_card",
+			"muted": "uuGEca_muted",
+			"name": "uuGEca_name",
+			"ready": "uuGEca_ready",
+			"select": "uuGEca_select",
+			"error": "uuGEca_error",
+			"dotWait": "uuGEca_dotWait"
 		};
 		//#endregion
 		//#region lib/types/client/HermesCompatCard.js
@@ -4322,32 +4323,78 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			});
 		}
 		//#endregion
-		//#region lib/types/client/ImageGenCard.js
-		const CHOICES = [
-			{
-				id: "none",
-				label: "image.off"
-			},
-			{
-				id: "low",
-				label: "image.low"
-			},
-			{
-				id: "medium",
-				label: "image.medium"
-			},
-			{
-				id: "high",
-				label: "image.high"
-			}
-		];
+		//#region lib/types/client/image-gen-value.js
 		/**
-		* Image-generation picker under Settings → Models. Writes `draco-image-gen`
-		* (`provider` / `quality`); the chat model selector does not own this.
+		* Shared `draco-image-gen` picker values. SuperGrok and Codex both write this
+		* namespace; the dropdown lists only the backends whose UI plugin is loaded.
 		*/
-		function ImageGenCard({ t, setChoice, useStore }) {
-			const choice = useStore((s) => s.choice);
-			const selected = choice === "other" || choice === void 0 ? null : choice;
+		/** Host settings section owned by `@deepseek-ai/dsh-draco-image-gen`. */
+		const IMAGE_GEN_NS = "draco-image-gen";
+		/** Slot id for the single image-generation card (duplicate ids throw). */
+		const IMAGE_GEN_SEAT_ID = "draco-image-gen";
+		/**
+		* Map a Host section onto one dropdown value.
+		* @param section - last accepted `draco-image-gen` section, if any.
+		* @returns `none` when the backend is off or the section is empty.
+		*/
+		function valueOf(section) {
+			if (section === void 0) return "none";
+			if (section.provider === "xai-imagine") return section.resolution === "2k" ? "imagine-2k" : "imagine-1k";
+			if (section.provider === "openai-codex") {
+				if (section.quality === "low" || section.quality === "high") return `codex-${section.quality}`;
+				return "codex-medium";
+			}
+			return "none";
+		}
+		/**
+		* Host writes for one dropdown value. `none` clears `provider` only.
+		* @param value - selected dropdown row.
+		* @returns field writes in mutation order.
+		*/
+		function writesOf(value) {
+			switch (value) {
+				case "none": return [["provider", "none"]];
+				case "imagine-1k": return [["provider", "xai-imagine"], ["resolution", "1k"]];
+				case "imagine-2k": return [["provider", "xai-imagine"], ["resolution", "2k"]];
+				case "codex-low": return [["provider", "openai-codex"], ["quality", "low"]];
+				case "codex-medium": return [["provider", "openai-codex"], ["quality", "medium"]];
+				case "codex-high": return [["provider", "openai-codex"], ["quality", "high"]];
+			}
+		}
+		/**
+		* Dropdown rows for the loaded backends, plus the current value's family so a
+		* leftover Host choice stays selectable after one plugin unloads.
+		* @param available - backends whose UI plugin is loaded.
+		* @param value - current Host-backed value.
+		* @returns rows in display order, Off first.
+		*/
+		function optionsFor(available, value) {
+			const rows = ["none"];
+			if (available.imagine || value === "imagine-1k" || value === "imagine-2k") rows.push("imagine-1k", "imagine-2k");
+			if (available.codex || value === "codex-low" || value === "codex-medium" || value === "codex-high") rows.push("codex-low", "codex-medium", "codex-high");
+			return rows;
+		}
+		//#endregion
+		//#region lib/types/client/ImageGenPickerCard.js
+		const LABELS = {
+			none: "image.off",
+			"imagine-1k": "image.imagine1k",
+			"imagine-2k": "image.imagine2k",
+			"codex-low": "image.codexLow",
+			"codex-medium": "image.codexMedium",
+			"codex-high": "image.codexHigh"
+		};
+		/**
+		* One Settings → Models dropdown for every installed image backend.
+		* Imagine and Codex UI plugins share this seat through a process hub.
+		*/
+		function ImageGenPickerCard({ t, setValue, useStore }) {
+			const ready = useStore((s) => s.ready);
+			const available = useStore((s) => s.available);
+			const value = useStore((s) => s.value);
+			const rows = optionsFor(available, value);
+			const imagine = rows.some((row) => row === "imagine-1k");
+			const codex = rows.some((row) => row === "codex-low");
 			return (0, react_jsx_runtime.jsxs)("article", {
 				className: HermesCompatCard_module_css_default.card,
 				children: [
@@ -4366,25 +4413,51 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 					}),
 					(0, react_jsx_runtime.jsx)("p", {
 						className: HermesCompatCard_module_css_default.hint,
-						children: choice === "other" ? t("image.other") : t("image.hint")
+						children: t("image.hint")
 					}),
-					choice === void 0 ? (0, react_jsx_runtime.jsx)("p", {
+					ready ? (0, react_jsx_runtime.jsxs)("select", {
+						className: HermesCompatCard_module_css_default.select,
+						"aria-label": t("image.title"),
+						value,
+						onChange: (event) => {
+							setValue(event.target.value);
+						},
+						children: [
+							(0, react_jsx_runtime.jsx)("option", {
+								value: "none",
+								children: t(LABELS.none)
+							}),
+							imagine ? (0, react_jsx_runtime.jsxs)("optgroup", {
+								label: t("image.groupImagine"),
+								children: [(0, react_jsx_runtime.jsx)("option", {
+									value: "imagine-1k",
+									children: t(LABELS["imagine-1k"])
+								}), (0, react_jsx_runtime.jsx)("option", {
+									value: "imagine-2k",
+									children: t(LABELS["imagine-2k"])
+								})]
+							}) : null,
+							codex ? (0, react_jsx_runtime.jsxs)("optgroup", {
+								label: t("image.groupCodex"),
+								children: [
+									(0, react_jsx_runtime.jsx)("option", {
+										value: "codex-low",
+										children: t(LABELS["codex-low"])
+									}),
+									(0, react_jsx_runtime.jsx)("option", {
+										value: "codex-medium",
+										children: t(LABELS["codex-medium"])
+									}),
+									(0, react_jsx_runtime.jsx)("option", {
+										value: "codex-high",
+										children: t(LABELS["codex-high"])
+									})
+								]
+							}) : null
+						]
+					}) : (0, react_jsx_runtime.jsx)("p", {
 						className: HermesCompatCard_module_css_default.muted,
 						children: t("image.unavailable")
-					}) : (0, react_jsx_runtime.jsx)("div", {
-						className: HermesCompatCard_module_css_default.row,
-						role: "radiogroup",
-						"aria-label": t("image.title"),
-						children: CHOICES.map((option) => (0, react_jsx_runtime.jsx)("button", {
-							type: "button",
-							role: "radio",
-							"aria-checked": selected === option.id,
-							className: selected === option.id ? `${HermesCompatCard_module_css_default.primary} ${HermesCompatCard_module_css_default.selected}` : HermesCompatCard_module_css_default.secondary,
-							onClick: () => {
-								setChoice(option.id);
-							},
-							children: t(option.label)
-						}, option.id))
 					})
 				]
 			});
@@ -4392,18 +4465,27 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		//#endregion
 		//#region lib/types/client/image-gen-store.js
 		/**
-		* Image-generation card store: a mirror of the `draco-image-gen` settings
-		* section. Apply is the only writer; the card reads via props.useStore.
+		* Image-generation dropdown store: a mirror of the `draco-image-gen` settings
+		* section plus which OAuth UI plugins have advertised a backend.
 		*/
 		/**
-		* Declares the image-generation card state.
+		* Declares the image-generation dropdown state.
 		* @returns the store handle.
 		*/
-		function createImageGenCardStore() {
+		function createImageGenPickerStore() {
 			return (0, _deepseek_ai_dsh_client_runtime_client.defineStore)({
-				init: () => ({ choice: void 0 }),
-				actions: { sync: (draft, choice) => {
-					draft.choice = choice;
+				init: () => ({
+					ready: false,
+					available: {
+						imagine: false,
+						codex: false
+					},
+					value: "none"
+				}),
+				actions: { sync: (draft, next) => {
+					draft.ready = next.ready;
+					draft.available = next.available;
+					draft.value = next.value;
 				} }
 			});
 		}
@@ -4426,12 +4508,15 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"error.retry": "重试",
 			"error.fallback": "登录失败",
 			"image.title": "生图模型",
-			"image.hint": "对话模型选择器不管生图。仅登录 Codex 时默认 GPT Image 2（中）。Grok 也已登录时请在此选择 GPT Image 2，或到 SuperGrok 卡片选 Imagine。",
-			"image.other": "当前使用 Grok Imagine。点选一种 GPT Image 2 质量即可切换过来。",
+			"image.hint": "对话模型选择器不管生图。仅登录 SuperGrok 时默认 Imagine Image 2.0（1K）。仅登录 Codex 时默认 GPT Image 2（中）。两侧都已登录时请在此选择后端。video_generate 始终走 Imagine Video。",
 			"image.off": "关闭",
-			"image.low": "GPT Image 2（低）",
-			"image.medium": "GPT Image 2（中）",
-			"image.high": "GPT Image 2（高）",
+			"image.groupImagine": "Grok Imagine",
+			"image.groupCodex": "GPT Image 2",
+			"image.imagine1k": "Image 2.0（1K）",
+			"image.imagine2k": "Image 2.0（2K）",
+			"image.codexLow": "低",
+			"image.codexMedium": "中",
+			"image.codexHigh": "高",
 			"image.unavailable": "设置尚未就绪"
 		};
 		/** English dictionary, checked complete against the zh key set. */
@@ -4450,16 +4535,108 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"error.retry": "Retry",
 			"error.fallback": "Login failed",
 			"image.title": "Image generation",
-			"image.hint": "The chat model selector does not control image generation. A Codex-only login defaults to GPT Image 2 (medium). When SuperGrok is also signed in, pick a GPT Image 2 quality here or pick Imagine on the SuperGrok card.",
-			"image.other": "Grok Imagine is active. Choose a GPT Image 2 quality to switch.",
+			"image.hint": "The chat model selector does not control image generation. A SuperGrok-only login defaults to Imagine Image 2.0 (1K). A Codex-only login defaults to GPT Image 2 (medium). When both are signed in, pick a backend here. video_generate always uses Imagine Video.",
 			"image.off": "Off",
-			"image.low": "GPT Image 2 (Low)",
-			"image.medium": "GPT Image 2 (Medium)",
-			"image.high": "GPT Image 2 (High)",
+			"image.groupImagine": "Grok Imagine",
+			"image.groupCodex": "GPT Image 2",
+			"image.imagine1k": "Image 2.0 (1K)",
+			"image.imagine2k": "Image 2.0 (2K)",
+			"image.codexLow": "Low",
+			"image.codexMedium": "Medium",
+			"image.codexHigh": "High",
 			"image.unavailable": "Settings are not ready yet"
 		};
 		/** The namespace key used for locale registration and seat props. */
 		const NS = "draco-codex";
+		//#endregion
+		//#region lib/types/client/image-gen-picker.js
+		const HUB = Symbol.for("dsh.draco-image-gen.picker");
+		function hub() {
+			const global = globalThis;
+			return global[HUB] ??= {
+				backends: /* @__PURE__ */ new Set(),
+				writers: /* @__PURE__ */ new Map(),
+				mounts: /* @__PURE__ */ new Map()
+			};
+		}
+		function snapshotOf(scope) {
+			const h = hub();
+			const snap = scope.getSnapshot();
+			return {
+				ready: snap.status === "ready",
+				available: {
+					imagine: h.backends.has("imagine"),
+					codex: h.backends.has("codex")
+				},
+				value: valueOf(snap.value)
+			};
+		}
+		function push(scope) {
+			hub().bound?.sync(snapshotOf(scope));
+		}
+		function ownerOf(value) {
+			if (value === "imagine-1k" || value === "imagine-2k") return "imagine";
+			if (value === "codex-low" || value === "codex-medium" || value === "codex-high") return "codex";
+		}
+		/**
+		* Advertise one image backend and mount the shared dropdown if it is absent.
+		* @param ctx - client root context (settings scope + Models compat slot).
+		* @param backend - which OAuth UI is applying.
+		* @returns disposer that withdraws this backend and remounts if another remains.
+		*/
+		function installImageGenPicker(ctx, backend) {
+			const h = hub();
+			const scope = ctx.settingsScope.bind({ namespace: IMAGE_GEN_NS });
+			const unsub = scope.subscribe(() => {
+				push(scope);
+			});
+			const write = (value) => {
+				for (const [field, next] of writesOf(value)) scope.set(field, next);
+			};
+			const mount = () => {
+				if (h.disposeSeat !== void 0) return;
+				const store = createImageGenPickerStore();
+				h.disposeSeat = ctx.slots.inject("settings.models.compat", () => ctx.slots.register({
+					name: "settings.models.compat",
+					id: IMAGE_GEN_SEAT_ID,
+					order: 25,
+					locale: NS,
+					store,
+					inject: (actions) => {
+						h.bound = actions;
+						push(scope);
+						return { setValue: (value) => {
+							const owner = ownerOf(value);
+							((owner !== void 0 ? h.writers.get(owner) : void 0) ?? h.writers.values().next().value)?.(value);
+						} };
+					}
+				}, ImageGenPickerCard));
+				h.owner = backend;
+			};
+			h.backends.add(backend);
+			h.writers.set(backend, write);
+			h.mounts.set(backend, mount);
+			mount();
+			push(scope);
+			return () => {
+				unsub();
+				h.backends.delete(backend);
+				h.writers.delete(backend);
+				h.mounts.delete(backend);
+				if (h.owner === backend) {
+					h.disposeSeat?.();
+					delete h.disposeSeat;
+					delete h.bound;
+					delete h.owner;
+					const leftover = h.backends.values().next().value;
+					if (leftover !== void 0) h.mounts.get(leftover)?.();
+				} else push(scope);
+				if (h.backends.size === 0) {
+					const global = globalThis;
+					delete global[HUB];
+				}
+			};
+		}
 		//#endregion
 		//#region lib/types/client/index.js
 		/**
@@ -4469,14 +4646,6 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		* device-code login, shows the verification link and user code, polls the
 		* session while awaiting approval, and reports readiness or failure.
 		*/
-		/** Host settings section owned by `@deepseek-ai/dsh-draco-image-gen`. */
-		const IMAGE_GEN_NS = "draco-image-gen";
-		function choiceOf(section) {
-			if (section === void 0) return void 0;
-			if (section.provider === "openai-codex") return section.quality === "low" || section.quality === "high" ? section.quality : "medium";
-			if (section.provider === "xai-imagine") return "other";
-			return "none";
-		}
 		/** Services required by the browser half. */
 		const inject = [
 			"slots",
@@ -4529,36 +4698,9 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			disposers.push(async () => {
 				injected();
 			});
-			const imageScope = ctx.settingsScope.bind({ namespace: IMAGE_GEN_NS });
-			const imageStore = createImageGenCardStore();
-			let imageBound;
-			const syncImage = () => {
-				const snap = imageScope.getSnapshot();
-				imageBound?.sync(snap.status === "ready" ? choiceOf(snap.value) ?? "none" : void 0);
-			};
-			ctx.effect(() => imageScope.subscribe(syncImage), "draco-oauth-codex-ui: image-gen settings");
-			const imageInjected = ctx.slots.inject("settings.models.compat", () => ctx.slots.register({
-				name: "settings.models.compat",
-				id: "codex-image-gen",
-				order: 21,
-				locale: NS,
-				store: imageStore,
-				inject: (actions) => {
-					imageBound = actions;
-					syncImage();
-					return { setChoice: (choice) => {
-						if (choice === "none") {
-							const current = imageScope.getSnapshot();
-							if (current.status === "ready" && current.value?.provider === "openai-codex") imageScope.set("provider", "none");
-							return;
-						}
-						imageScope.set("provider", "openai-codex");
-						imageScope.set("quality", choice);
-					} };
-				}
-			}, ImageGenCard));
+			const picker = installImageGenPicker(ctx, "codex");
 			disposers.push(async () => {
-				imageInjected();
+				picker();
 			});
 			return async () => {
 				for (const dispose of disposers.reverse()) await dispose();
