@@ -411,7 +411,8 @@ function apply(ctx) {
 				interval: Number(payload.interval ?? DEFAULT_POLL_INTERVAL_SEC)
 			};
 			if (ticket.deviceAuthId.length === 0 || ticket.userCode.length === 0) throw new CodexOauthError("Codex device-code response missing required fields", "DEVICE_CODE");
-			pollAbort = new AbortController();
+			const controller = new AbortController();
+			pollAbort = controller;
 			status = {
 				kind: "awaiting-approval",
 				ticket,
@@ -419,7 +420,7 @@ function apply(ctx) {
 			};
 			(async () => {
 				try {
-					const next = await pollForToken(ticket, pollAbort.signal);
+					const next = await pollForToken(ticket, controller.signal);
 					tokens = next;
 					writeTokensToDisk(next);
 					status = {
