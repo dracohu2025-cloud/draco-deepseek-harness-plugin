@@ -178,6 +178,27 @@ async function collectSeedAudio(apiKey, prompt, voice, signal) {
 		...extracted.durationSeconds === void 0 ? {} : { durationSeconds: extracted.durationSeconds }
 	};
 }
+/** Host aborts a Settings probe after this many milliseconds. */
+const SPEECH_PROBE_TIMEOUT_MS = 2e4;
+/**
+* Verify Doubao TTS credentials with a one-character synthesis. The bytes are
+* discarded — Settings only cares whether the HTTP call succeeds.
+* @param appId - Volcengine TTS app id.
+* @param token - Volcengine TTS access token.
+* @param signal - abort for the in-flight fetch.
+*/
+async function probeDoubaoTts(appId, token, signal) {
+	await collectDoubaoTts(appId, token, "测", DEFAULT_SPEECH_VOICE, 1, signal);
+}
+/**
+* Verify a Seed-Audio API key with a one-character synthesis. The bytes are
+* discarded — Settings only cares whether the HTTP call succeeds.
+* @param apiKey - `X-Api-Key` from the speech console.
+* @param signal - abort for the in-flight fetch.
+*/
+async function probeSeedAudio(apiKey, signal) {
+	await collectSeedAudio(apiKey, buildSeedAudioPrompt("测"), DEFAULT_SPEECH_VOICE, signal);
+}
 //#endregion
 //#region lib/types/index.js
 /**
@@ -191,12 +212,24 @@ const name = "draco-speech-gen";
 const inject = ["tools"];
 /** Settings namespace owned by this plugin. */
 const SPEECH_GEN_SETTINGS_NAMESPACE = settingsNamespace("draco-speech-gen");
+const ProbeStatus = z.union([
+	z.const("idle"),
+	z.const("checking"),
+	z.const("ok"),
+	z.const("fail")
+]);
 /** Schemastery configuration for the speech-generation plugin. */
-const Config = z.object({ provider: z.union([
-	z.const("none"),
-	z.const("doubao-tts"),
-	z.const("seed-audio")
-]).default("none") });
+const Config = z.object({
+	provider: z.union([
+		z.const("none"),
+		z.const("doubao-tts"),
+		z.const("seed-audio")
+	]).default("none"),
+	doubaoProbe: ProbeStatus.default("idle"),
+	seedProbe: ProbeStatus.default("idle"),
+	doubaoProbeError: z.string().default(""),
+	seedProbeError: z.string().default("")
+});
 /**
 * Format a speech generation as the model-facing envelope.
 * @param value - the canonical generation outcome.
@@ -214,6 +247,14 @@ function speechGenerateContent(value) {
 		type: "text",
 		text: formatSpeechGenerateOutput(value)
 	}];
+}
+function probeFailureMessage(error) {
+	if (error instanceof LlmError) return error.message.slice(0, 180);
+	if (error instanceof Error) {
+		if (error.name === "AbortError") return "probe timed out";
+		return error.message.slice(0, 180);
+	}
+	return String(error).slice(0, 180);
 }
 const SEED_AUDIO_API_KEY = credentialRef("SEED_AUDIO_API_KEY");
 const VOLCENGINE_TTS_APP_ID = credentialRef("VOLCENGINE_TTS_APP_ID");
@@ -249,9 +290,63 @@ function apply(ctx, config) {
 	ctx.inject(["settings"], (sctx) => {
 		const scope = sctx.settings.register(SPEECH_GEN_SETTINGS_NAMESPACE, Config, { base: config });
 		current = scope.get();
+		const runProbe = async (backend) => {
+			const controller = new AbortController();
+			const timer = setTimeout(() => controller.abort(), SPEECH_PROBE_TIMEOUT_MS);
+			try {
+				if (backend === "doubao-tts") {
+					const appId = await resolveSecret(ctx, VOLCENGINE_TTS_APP_ID);
+					const token = await resolveSecret(ctx, VOLCENGINE_TTS_ACCESS_TOKEN);
+					if (appId === void 0 || token === void 0) {
+						await scope.update({
+							doubaoProbe: "fail",
+							doubaoProbeError: "missing VOLCENGINE_TTS_APP_ID or VOLCENGINE_TTS_ACCESS_TOKEN"
+						});
+						return;
+					}
+					await probeDoubaoTts(appId, token, controller.signal);
+					await scope.update({
+						doubaoProbe: "ok",
+						doubaoProbeError: ""
+					});
+					return;
+				}
+				const apiKey = await resolveSecret(ctx, SEED_AUDIO_API_KEY);
+				if (apiKey === void 0) {
+					await scope.update({
+						seedProbe: "fail",
+						seedProbeError: "missing SEED_AUDIO_API_KEY"
+					});
+					return;
+				}
+				await probeSeedAudio(apiKey, controller.signal);
+				await scope.update({
+					seedProbe: "ok",
+					seedProbeError: ""
+				});
+			} catch (error) {
+				const message = probeFailureMessage(error);
+				if (backend === "doubao-tts") await scope.update({
+					doubaoProbe: "fail",
+					doubaoProbeError: message
+				});
+				else await scope.update({
+					seedProbe: "fail",
+					seedProbeError: message
+				});
+			} finally {
+				clearTimeout(timer);
+			}
+		};
+		const considerProbe = (next) => {
+			if (next.provider === "doubao-tts" && next.doubaoProbe === "checking") runProbe("doubao-tts");
+			if (next.provider === "seed-audio" && next.seedProbe === "checking") runProbe("seed-audio");
+		};
 		scope.watch((next) => {
 			current = next;
+			considerProbe(next);
 		});
+		considerProbe(current);
 	});
 	ctx.tools.register(defineTool({
 		name: "speech_generate",

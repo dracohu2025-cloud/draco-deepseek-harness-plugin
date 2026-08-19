@@ -1,6 +1,6 @@
 {
   "name": "draco-speech-gen",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "DeepSeek Harness plugin: speech_generate via Volcengine Doubao TTS and Seed-Audio 1.0",
   "license": "MIT",
   "type": "module",
