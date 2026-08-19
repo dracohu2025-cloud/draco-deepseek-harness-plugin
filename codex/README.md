@@ -32,9 +32,9 @@ Open **Settings → Draco-suite**, click **Sign in with Codex**, approve `https:
 
 Chat and image-generation requests send `store: false`. The ChatGPT Codex backend refuses to persist Responses and returns HTTP 400 `Store must be set to false` without that field.
 
-Settings → Draco-suite has one **Image generation** dropdown (`Off`, `gpt-image-2-low/medium/high`, and `grok-imagine-image-2.0 (1K/2K)` when the SuperGrok plugin is also installed) and a **Speech synthesis** dropdown (`Off`, `doubao-tts`, `seed-audio-1.0`). The closed control shows the full model id. A Codex-only login defaults an unset image backend to medium. When SuperGrok is also signed in, the image backend stays unset until you pick a row here. An explicit user choice is left alone. Speech is never defaulted from OAuth.
+Settings → Draco-suite has one **Image generation** dropdown (`Off`, `gpt-image-2-low/medium/high`, and `grok-imagine-image-2.0 (1K/2K)` when the SuperGrok plugin is also installed). The closed control shows the full model id. A Codex-only login defaults an unset image backend to medium. When SuperGrok is also signed in, the image backend stays unset until you pick a row here. An explicit user choice is left alone.
 
-A successful `image_generate` commits the PNG through the session attachment store and returns a text envelope plus an `ImageBlock`. A DeepSeek Harness Web build that renders tool-result images shows the picture on the tool row. A convenience copy also lands under `$DSH_HOME/draco/images/`. `speech_generate` writes an MP3 under `$DSH_HOME/draco/audio/`. `doubao-tts` needs `VOLCENGINE_TTS_APP_ID` and `VOLCENGINE_TTS_ACCESS_TOKEN`; `seed-audio-1.0` needs `SEED_AUDIO_API_KEY`. Paste them on the speech card. The chat shows the file path; there is no audio attachment type yet.
+A successful `image_generate` commits the PNG through the session attachment store and returns a text envelope plus an `ImageBlock`. A DeepSeek Harness Web build that renders tool-result images shows the picture on the tool row. A convenience copy also lands under `$DSH_HOME/draco/images/`. Speech is a separate plugin: [../speech/README.md](../speech/README.md).
 
 CLI fallbacks: `/codex-login`, `/codex-status`.
 
@@ -45,7 +45,7 @@ CLI fallbacks: `/codex-login`, `/codex-status`.
 | `draco-codex-oauth` | `draco-codex-oauth/oauth` | ChatGPT device-auth session, token file, `/codex-login` |
 | `draco-codex-oauth-ui` | `draco-codex-oauth` | Settings → Draco-suite Codex card |
 | `draco-codex-llm-responses` | `draco-codex-oauth/responses` | GPT-5.6 Sol/Terra/Luna Responses adapter (1.05M window, Cloudflare originator headers, `store: false`) |
-| `draco-codex-image-gen` | `draco-codex-oauth/image-gen` | `image_generate` (defaults to `gpt-image-2` after first login) and `speech_generate` (doubao-tts / seed-audio-1.0) |
+| `draco-codex-image-gen` | `draco-codex-oauth/image-gen` | `image_generate` (defaults to `gpt-image-2` after first login) |
 
 Tokens are stored at `$DSH_HOME/draco/codex-oauth.json` (`0600`). Generated images are durable session attachments; a convenience PNG also lands under `$DSH_HOME/draco/images/`. This plugin does not read or write `~/.codex/auth.json`.
 

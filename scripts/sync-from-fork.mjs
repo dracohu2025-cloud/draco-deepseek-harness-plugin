@@ -39,6 +39,11 @@ const LAYERS = [
     packageName: 'draco-grok-oauth',
     scopedIds: ['@deepseek-ai/dsh-draco-oauth-xai-ui', '@deepseek-ai/dsh-draco-oauth-xai'],
   },
+  {
+    dir: 'speech',
+    packageName: 'draco-speech-gen',
+    scopedIds: ['@deepseek-ai/dsh-draco-speech-gen-ui', '@deepseek-ai/dsh-draco-speech-gen'],
+  },
 ]
 
 /** [forkPackage, forkFile, layerDir, publishFile] — plain copies. */
@@ -62,6 +67,11 @@ const COPIES = [
   ['draco-llm-responses', 'lib/invariant.js', '', 'lib/responses/invariant.js'],
   ['draco-image-gen', 'lib/index.js', '', 'lib/imagine/index.js'],
   ['draco-image-gen', 'lib/invariant.js', '', 'lib/imagine/invariant.js'],
+  // speech layer (publishes as draco-speech-gen under speech/)
+  ['draco-speech-gen-ui', 'lib/index.js', 'speech', 'lib/index.js'],
+  ['draco-speech-gen-ui', 'lib/invariant.js', 'speech', 'lib/invariant.js'],
+  ['draco-speech-gen', 'lib/index.js', 'speech', 'lib/speech/index.js'],
+  ['draco-speech-gen', 'lib/invariant.js', 'speech', 'lib/speech/invariant.js'],
 ]
 
 /** [forkPackage, forkFile, publishFile] — copied with id rewrite per layer. */
@@ -72,6 +82,7 @@ const REWRITTEN = [
   ['draco-oauth-xai-ui', 'lib/client.js', 'lib/client.js'],
   ['draco-oauth-xai', 'lib/typert.host.js', 'lib/typert.host.js'],
   ['draco-oauth-xai', 'lib/typert.remote-client.js', 'lib/typert.remote-client.js'],
+  ['draco-speech-gen-ui', 'lib/client.js', 'lib/client.js'],
 ]
 
 function layerFor(dir) {
@@ -90,7 +101,11 @@ function copyPlain(forkPackage, forkFile, layerDir, publishFile) {
 }
 
 function copyRewritten(forkPackage, forkFile, publishFile) {
-  const layerDir = forkPackage.includes('codex') ? 'codex' : ''
+  const layerDir = forkPackage.includes('codex')
+    ? 'codex'
+    : forkPackage.includes('speech')
+      ? 'speech'
+      : ''
   const layer = layerFor(layerDir)
   const source = join(dracoRoot, forkPackage, forkFile)
   const target = join(publishRoot, layerDir, publishFile)

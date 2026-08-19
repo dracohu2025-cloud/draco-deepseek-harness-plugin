@@ -1,14 +1,14 @@
 {
-  "name": "draco-codex-oauth",
-  "version": "0.1.4",
-  "description": "DeepSeek Harness plugin: OpenAI Codex / ChatGPT OAuth login, GPT-5.4 Responses, and gpt-image-2 generation after login",
+  "name": "draco-speech-gen",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness plugin: speech_generate via Volcengine Doubao TTS and Seed-Audio 1.0",
   "license": "MIT",
   "type": "module",
   "private": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dracohu2025-cloud/draco-deepseek-harness-plugin.git",
-    "directory": "codex"
+    "directory": "speech"
   },
   "homepage": "https://github.com/dracohu2025-cloud/draco-deepseek-harness-plugin",
   "bugs": {
@@ -17,12 +17,7 @@
   "main": "lib/index.js",
   "exports": {
     ".": "./lib/index.js",
-    "./oauth": "./lib/oauth/index.js",
-    "./responses": "./lib/responses.js",
-    "./image-gen": "./lib/image-gen/index.js",
-    "./types": "./lib/types.js",
-    "./typert": "./lib/typert.host.js",
-    "./remote": "./lib/typert.remote-client.js",
+    "./speech": "./lib/speech/index.js",
     "./client": "./lib/client.js",
     "./invariant": "./lib/invariant.js",
     "./cordis.patch.yml": "./cordis.patch.yml",
@@ -41,26 +36,22 @@
     "client": {
       "inject": [
         "@deepseek-ai/dsh-client-locale",
-        "@deepseek-ai/dsh-client-ui-settings-models"
+        "@deepseek-ai/dsh-client-ui-settings"
       ],
       "platform": "web"
     }
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": ">=3.0.0",
-    "@deepseek-ai/dsh-attachment": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-client-locale": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-client-runtime": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-client-ui-settings": ">=0.0.1-rc.1",
-    "@deepseek-ai/dsh-client-ui-settings-models": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-client-ui-slots": ">=0.0.1-rc.1",
-    "@deepseek-ai/dsh-commands": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-credentials": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-home-paths": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-llm": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-settings": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-tools": ">=0.0.1-rc.1",
-    "@deepseek-ai/dsh-typert-protocol": ">=0.0.1-rc.1",
     "react": "^18.2.0"
   },
   "peerDependenciesMeta": {
@@ -73,9 +64,6 @@
     "@deepseek-ai/dsh-client-ui-settings": {
       "optional": true
     },
-    "@deepseek-ai/dsh-client-ui-settings-models": {
-      "optional": true
-    },
     "@deepseek-ai/dsh-client-ui-slots": {
       "optional": true
     },
@@ -84,9 +72,7 @@
     }
   },
   "dependencies": {
-    "@deepseek-ai/schemastery": "^3.18.1",
-    "eventsource-parser": "^3.0.1",
-    "zod": "^4.4.3"
+    "@deepseek-ai/schemastery": "^3.18.1"
   },
   "engines": {
     "node": "^22.19.0 || >=24.0.0"
