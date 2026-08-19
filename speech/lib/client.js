@@ -19,9 +19,9 @@ window.__ModuleLoader__.load({
 		}
 		var DracoSuiteSection_module_css_default = {
 			"title": "aOg8EW_title",
-			"cards": "aOg8EW_cards",
+			"section": "aOg8EW_section",
 			"intro": "aOg8EW_intro",
-			"section": "aOg8EW_section"
+			"cards": "aOg8EW_cards"
 		};
 		//#endregion
 		//#region lib/types/client/DracoSuiteSection.js
@@ -227,21 +227,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SpeechPicker_module_css_default = {
-			"secondary": "o2ba6G_secondary",
-			"ready": "o2ba6G_ready",
 			"name": "o2ba6G_name",
-			"fieldLabel": "o2ba6G_fieldLabel",
-			"muted": "o2ba6G_muted",
-			"fields": "o2ba6G_fields",
-			"primary": "o2ba6G_primary",
-			"identity": "o2ba6G_identity",
-			"card": "o2ba6G_card",
-			"select": "o2ba6G_select",
-			"dotReady": "o2ba6G_dotReady",
 			"input": "o2ba6G_input",
-			"head": "o2ba6G_head",
 			"error": "o2ba6G_error",
-			"hint": "o2ba6G_hint"
+			"head": "o2ba6G_head",
+			"card": "o2ba6G_card",
+			"muted": "o2ba6G_muted",
+			"fieldLabel": "o2ba6G_fieldLabel",
+			"fields": "o2ba6G_fields",
+			"secondary": "o2ba6G_secondary",
+			"identity": "o2ba6G_identity",
+			"hint": "o2ba6G_hint",
+			"dotReady": "o2ba6G_dotReady",
+			"primary": "o2ba6G_primary",
+			"select": "o2ba6G_select",
+			"ready": "o2ba6G_ready"
 		};
 		//#endregion
 		//#region lib/types/client/SpeechGenPickerCard.js
@@ -563,6 +563,7 @@ window.__ModuleLoader__.load({
 				name: DRACO_ITEM_SLOT,
 				id: SPEECH_GEN_SEAT_ID,
 				order: 27,
+				priority: -1,
 				locale: NS,
 				store,
 				inject: (actions) => {
