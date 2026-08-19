@@ -28,7 +28,7 @@ dsh --profile web
 
 Open **Settings → Draco-suite**. If SuperGrok or Codex is also installed, the speech card joins their tab. If this is the only Draco plugin, it mounts the Draco-suite tab itself.
 
-Pick **doubao-tts** (exact wording) or **seed-audio-1.0** (expressive; may add atmosphere). Paste keys on the card, or export them in the environment. **Save and verify** sends a one-character probe to Volcengine. A green **ready** status hides the fields; a failure keeps them and shows the HTTP error. **Replace keys** reveals the fields again.
+Pick **doubao-tts** (exact wording) or **seed-audio-1.0** (expressive; may add atmosphere). Paste keys on the card, or export them in the environment. **Save and verify** sends a one-character probe to Volcengine. Seed-Audio is a generative model: the check often takes 30 seconds or more (the host waits up to 120s). Doubao TTS usually returns in a few seconds. A green **ready** status hides the fields; a failure keeps them and shows the HTTP error. **Replace keys** reveals the fields again.
 
 | Backend | Credentials |
 |---|---|

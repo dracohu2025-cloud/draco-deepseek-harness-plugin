@@ -19,29 +19,29 @@ window.__ModuleLoader__.load({
 		}
 		var DracoSuiteSection_module_css_default = {
 			"section": "aOg8EW_section",
-			"cards": "aOg8EW_cards",
 			"intro": "aOg8EW_intro",
-			"title": "aOg8EW_title"
+			"title": "aOg8EW_title",
+			"cards": "aOg8EW_cards"
 		};
 		//#endregion
-		//#region lib/types/client/DracoSuiteSection.js
+		//#region src/client/DracoSuiteSection.tsx
 		/**
 		* Settings page that hosts Draco login and media cards. Cards arrive through
 		* `settings.draco.item`. SuperGrok / Codex UI plugins share this section id.
 		*/
 		function DracoSuiteSection({ t, renderSlot }) {
-			return (0, react_jsx_runtime.jsxs)("div", {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 				className: DracoSuiteSection_module_css_default.section,
 				children: [
-					(0, react_jsx_runtime.jsx)("h2", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("h2", {
 						className: DracoSuiteSection_module_css_default.title,
 						children: t("suite.title")
 					}),
-					(0, react_jsx_runtime.jsx)("p", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 						className: DracoSuiteSection_module_css_default.intro,
 						children: t("suite.intro")
 					}),
-					(0, react_jsx_runtime.jsx)("div", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 						className: DracoSuiteSection_module_css_default.cards,
 						children: renderSlot("settings.draco.item", {})
 					})
@@ -49,7 +49,7 @@ window.__ModuleLoader__.load({
 			});
 		}
 		//#endregion
-		//#region lib/types/client/locales.js
+		//#region src/client/locales.ts
 		/** `draco-speech` namespace dictionaries. */
 		/** Simplified Chinese dictionary (the key-set source of truth). */
 		const zh = {
@@ -69,6 +69,7 @@ window.__ModuleLoader__.load({
 			"speech.save": "保存并验证",
 			"speech.replace": "更换密钥",
 			"speech.checking": "正在向火山验证密钥…",
+			"speech.checkingSeed": "正在向火山验证 seed-audio（生成式模型，通常需要半分钟以上）…",
 			"speech.seedReady": "Seed-Audio 已就绪",
 			"speech.seedMissing": "需要 SEED_AUDIO_API_KEY",
 			"speech.doubaoReady": "Doubao TTS 已就绪",
@@ -93,6 +94,7 @@ window.__ModuleLoader__.load({
 			"speech.save": "Save and verify",
 			"speech.replace": "Replace keys",
 			"speech.checking": "Checking the key against Volcengine…",
+			"speech.checkingSeed": "Checking Seed-Audio against Volcengine. This generative model often takes 30 seconds or more…",
 			"speech.seedReady": "Seed-Audio ready",
 			"speech.seedMissing": "SEED_AUDIO_API_KEY is required",
 			"speech.doubaoReady": "Doubao TTS ready",
@@ -102,7 +104,7 @@ window.__ModuleLoader__.load({
 		/** The namespace key used for locale registration and seat props. */
 		const NS = "draco-speech";
 		//#endregion
-		//#region lib/types/client/draco-suite.js
+		//#region src/client/draco-suite.ts
 		const HUB$1 = Symbol.for("dsh.draco-suite.section");
 		/** Settings nav / section id. */
 		const DRACO_SUITE_SECTION_ID = "draco-suite";
@@ -154,16 +156,13 @@ window.__ModuleLoader__.load({
 			};
 		}
 		//#endregion
-		//#region lib/types/client/speech-gen-value.js
-		/**
-		* `draco-speech-gen.provider` picker values.
-		*/
+		//#region src/client/speech-gen-value.ts
 		/** Host settings section owned by `draco-speech-gen`. */
 		const SPEECH_GEN_NS = "draco-speech-gen";
 		/**
-		* Slot id for the dedicated speech card. SuperGrok/Codex bundles from before
-		* the split still register `draco-speech-gen` at priority 0; a different id
-		* lets both load.
+		* Slot id for the dedicated speech card. SuperGrok and Codex must not register
+		* this id; see
+		* `.agents/notes/implemented/architecture/2026-08-19-draco-independent-plugin-identities.md`.
 		*/
 		const SPEECH_GEN_SEAT_ID = "draco-speech-card";
 		/**
@@ -231,24 +230,24 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SpeechPicker_module_css_default = {
-			"card": "o2ba6G_card",
-			"head": "o2ba6G_head",
-			"secondary": "o2ba6G_secondary",
-			"ready": "o2ba6G_ready",
-			"dotReady": "o2ba6G_dotReady",
-			"input": "o2ba6G_input",
-			"muted": "o2ba6G_muted",
-			"select": "o2ba6G_select",
 			"error": "o2ba6G_error",
+			"select": "o2ba6G_select",
+			"dotReady": "o2ba6G_dotReady",
+			"muted": "o2ba6G_muted",
+			"card": "o2ba6G_card",
 			"identity": "o2ba6G_identity",
+			"secondary": "o2ba6G_secondary",
 			"primary": "o2ba6G_primary",
-			"hint": "o2ba6G_hint",
 			"fieldLabel": "o2ba6G_fieldLabel",
+			"name": "o2ba6G_name",
+			"hint": "o2ba6G_hint",
 			"fields": "o2ba6G_fields",
-			"name": "o2ba6G_name"
+			"input": "o2ba6G_input",
+			"ready": "o2ba6G_ready",
+			"head": "o2ba6G_head"
 		};
 		//#endregion
-		//#region lib/types/client/SpeechGenPickerCard.js
+		//#region src/client/SpeechGenPickerCard.tsx
 		const LABELS = {
 			none: "speech.off",
 			"doubao-tts": "speech.doubao",
@@ -295,26 +294,26 @@ window.__ModuleLoader__.load({
 					setBusy(false);
 				});
 			};
-			return (0, react_jsx_runtime.jsxs)("article", {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("article", {
 				className: SpeechPicker_module_css_default.card,
 				children: [
-					(0, react_jsx_runtime.jsxs)("div", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 						className: SpeechPicker_module_css_default.head,
 						children: [
-							(0, react_jsx_runtime.jsx)("div", {
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 								className: SpeechPicker_module_css_default.identity,
-								children: (0, react_jsx_runtime.jsx)("span", {
+								children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 									className: SpeechPicker_module_css_default.name,
 									children: t("speech.title")
 								})
 							}),
-							ready && showDoubao && verified ? (0, react_jsx_runtime.jsx)("span", {
+							ready && showDoubao && verified ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 								className: SpeechPicker_module_css_default.dotReady,
 								role: "img",
 								"aria-label": t("speech.doubaoReady"),
 								title: t("speech.doubaoReady")
 							}) : null,
-							ready && showSeed && verified ? (0, react_jsx_runtime.jsx)("span", {
+							ready && showSeed && verified ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 								className: SpeechPicker_module_css_default.dotReady,
 								role: "img",
 								"aria-label": t("speech.seedReady"),
@@ -322,26 +321,26 @@ window.__ModuleLoader__.load({
 							}) : null
 						]
 					}),
-					(0, react_jsx_runtime.jsx)("p", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 						className: SpeechPicker_module_css_default.hint,
 						children: t("speech.hint")
 					}),
-					ready ? (0, react_jsx_runtime.jsx)("select", {
+					ready ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("select", {
 						className: SpeechPicker_module_css_default.select,
 						"aria-label": t("speech.title"),
 						value,
 						onChange: (event) => {
 							setValue(event.target.value);
 						},
-						children: speechOptions().map((row) => (0, react_jsx_runtime.jsx)("option", {
+						children: speechOptions().map((row) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
 							value: row,
 							children: t(LABELS[row])
 						}, row))
-					}) : (0, react_jsx_runtime.jsx)("p", {
+					}) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 						className: SpeechPicker_module_css_default.muted,
 						children: t("speech.unavailable")
 					}),
-					ready && showDoubao ? (0, react_jsx_runtime.jsx)(ProbeStatusLine, {
+					ready && showDoubao ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)(ProbeStatusLine, {
 						t,
 						probe: doubaoProbe,
 						error: doubaoProbeError,
@@ -349,15 +348,16 @@ window.__ModuleLoader__.load({
 						missingKey: "speech.doubaoMissing",
 						configured: doubaoConfigured
 					}) : null,
-					ready && showSeed ? (0, react_jsx_runtime.jsx)(ProbeStatusLine, {
+					ready && showSeed ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)(ProbeStatusLine, {
 						t,
 						probe: seedProbe,
 						error: seedProbeError,
 						readyKey: "speech.seedReady",
 						missingKey: "speech.seedMissing",
-						configured: seedConfigured
+						configured: seedConfigured,
+						checkingKey: "speech.checkingSeed"
 					}) : null,
-					ready && verified && saveKeys !== void 0 && value !== "none" && !editing ? (0, react_jsx_runtime.jsx)("button", {
+					ready && verified && saveKeys !== void 0 && value !== "none" && !editing ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
 						className: SpeechPicker_module_css_default.secondary,
 						type: "button",
 						onClick: () => {
@@ -365,13 +365,13 @@ window.__ModuleLoader__.load({
 						},
 						children: t("speech.replace")
 					}) : null,
-					showForm ? (0, react_jsx_runtime.jsxs)("form", {
+					showForm ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("form", {
 						className: SpeechPicker_module_css_default.fields,
 						onSubmit: onSave(saveKeys),
 						children: [
-							showSeed ? (0, react_jsx_runtime.jsxs)("label", {
+							showSeed ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
 								className: SpeechPicker_module_css_default.fieldLabel,
-								children: [t("speech.seedKey"), (0, react_jsx_runtime.jsx)("input", {
+								children: [t("speech.seedKey"), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
 									className: SpeechPicker_module_css_default.input,
 									type: "password",
 									autoComplete: "off",
@@ -384,9 +384,9 @@ window.__ModuleLoader__.load({
 									}
 								})]
 							}) : null,
-							showDoubao ? (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsxs)("label", {
+							showDoubao ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
 								className: SpeechPicker_module_css_default.fieldLabel,
-								children: [t("speech.appId"), (0, react_jsx_runtime.jsx)("input", {
+								children: [t("speech.appId"), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
 									className: SpeechPicker_module_css_default.input,
 									type: "password",
 									autoComplete: "off",
@@ -398,9 +398,9 @@ window.__ModuleLoader__.load({
 										setAppId(event.target.value);
 									}
 								})]
-							}), (0, react_jsx_runtime.jsxs)("label", {
+							}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
 								className: SpeechPicker_module_css_default.fieldLabel,
-								children: [t("speech.token"), (0, react_jsx_runtime.jsx)("input", {
+								children: [t("speech.token"), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
 									className: SpeechPicker_module_css_default.input,
 									type: "password",
 									autoComplete: "off",
@@ -413,7 +413,7 @@ window.__ModuleLoader__.load({
 									}
 								})]
 							})] }) : null,
-							(0, react_jsx_runtime.jsx)("button", {
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
 								className: SpeechPicker_module_css_default.primary,
 								type: "submit",
 								disabled: busy || checking,
@@ -424,26 +424,26 @@ window.__ModuleLoader__.load({
 				]
 			});
 		}
-		function ProbeStatusLine({ t, probe, error, readyKey, missingKey, configured }) {
-			if (probe === "ok") return (0, react_jsx_runtime.jsx)("p", {
+		function ProbeStatusLine({ t, probe, error, readyKey, missingKey, configured, checkingKey = "speech.checking" }) {
+			if (probe === "ok") return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 				className: SpeechPicker_module_css_default.ready,
 				children: t(readyKey)
 			});
-			if (probe === "checking") return (0, react_jsx_runtime.jsx)("p", {
+			if (probe === "checking") return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 				className: SpeechPicker_module_css_default.muted,
-				children: t("speech.checking")
+				children: t(checkingKey)
 			});
-			if (probe === "fail") return (0, react_jsx_runtime.jsxs)("p", {
+			if (probe === "fail") return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("p", {
 				className: SpeechPicker_module_css_default.error,
 				children: [t("speech.failPrefix"), error]
 			});
-			return (0, react_jsx_runtime.jsx)("p", {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 				className: SpeechPicker_module_css_default.muted,
-				children: configured ? t("speech.checking") : t(missingKey)
+				children: configured ? t(checkingKey) : t(missingKey)
 			});
 		}
 		//#endregion
-		//#region lib/types/client/speech-gen-store.js
+		//#region src/client/speech-gen-store.ts
 		/**
 		* Speech-generation dropdown store: a mirror of `draco-speech-gen.provider`
 		* plus whether the Volcengine credentials are configured.
@@ -477,7 +477,7 @@ window.__ModuleLoader__.load({
 			});
 		}
 		//#endregion
-		//#region lib/types/client/speech-gen-picker.js
+		//#region src/client/speech-gen-picker.ts
 		const HUB = Symbol.for("dsh.draco-speech-card.picker");
 		function hub() {
 			const global = globalThis;
@@ -597,7 +597,7 @@ window.__ModuleLoader__.load({
 			};
 		}
 		//#endregion
-		//#region lib/types/client/index.js
+		//#region src/client/index.ts
 		/** Services required by the browser half. */
 		const inject = [
 			"slots",

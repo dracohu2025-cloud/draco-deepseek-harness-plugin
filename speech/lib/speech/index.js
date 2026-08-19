@@ -178,8 +178,17 @@ async function collectSeedAudio(apiKey, prompt, voice, signal) {
 		...extracted.durationSeconds === void 0 ? {} : { durationSeconds: extracted.durationSeconds }
 	};
 }
-/** Host aborts a Settings probe after this many milliseconds. */
+/**
+* Doubao TTS Settings probe abort in milliseconds. Classic v1 typically
+* returns in a few seconds.
+*/
 const SPEECH_PROBE_TIMEOUT_MS = 2e4;
+/**
+* Seed-Audio Settings probe abort in milliseconds. Seed-Audio 1.0 is a
+* generative model: a one-character create is commonly 20–40s and can exceed
+* 60s under load. 20s aborts a valid key.
+*/
+const SEED_AUDIO_PROBE_TIMEOUT_MS = 12e4;
 /**
 * Verify Doubao TTS credentials with a one-character synthesis. The bytes are
 * discarded — Settings only cares whether the HTTP call succeeds.
@@ -292,7 +301,7 @@ function apply(ctx, config) {
 		current = scope.get();
 		const runProbe = async (backend) => {
 			const controller = new AbortController();
-			const timer = setTimeout(() => controller.abort(), SPEECH_PROBE_TIMEOUT_MS);
+			const timer = setTimeout(() => controller.abort(), backend === "seed-audio" ? SEED_AUDIO_PROBE_TIMEOUT_MS : SPEECH_PROBE_TIMEOUT_MS);
 			try {
 				if (backend === "doubao-tts") {
 					const appId = await resolveSecret(ctx, VOLCENGINE_TTS_APP_ID);

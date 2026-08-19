@@ -58,7 +58,7 @@ dsh plugin --profile web remove draco-grok-oauth
 
 ## Speech / TTS
 
-The subdirectory package is `draco-speech-gen`. See [speech/README.md](./speech/README.md).
+The subdirectory package is `draco-speech-gen`. See [speech/README.md](./speech/README.md). Seed-Audio **Save and verify** often takes 30 seconds or more (the host waits up to 120s); Doubao TTS usually returns in a few seconds.
 
 ```sh
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:speech
