@@ -18,30 +18,30 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DracoSuiteSection_module_css_default = {
-			"section": "aOg8EW_section",
 			"intro": "aOg8EW_intro",
 			"title": "aOg8EW_title",
-			"cards": "aOg8EW_cards"
+			"cards": "aOg8EW_cards",
+			"section": "aOg8EW_section"
 		};
 		//#endregion
-		//#region src/client/DracoSuiteSection.tsx
+		//#region lib/types/client/DracoSuiteSection.js
 		/**
 		* Settings page that hosts Draco login and media cards. Cards arrive through
 		* `settings.draco.item`. SuperGrok / Codex UI plugins share this section id.
 		*/
 		function DracoSuiteSection({ t, renderSlot }) {
-			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+			return (0, react_jsx_runtime.jsxs)("div", {
 				className: DracoSuiteSection_module_css_default.section,
 				children: [
-					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("h2", {
+					(0, react_jsx_runtime.jsx)("h2", {
 						className: DracoSuiteSection_module_css_default.title,
 						children: t("suite.title")
 					}),
-					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+					(0, react_jsx_runtime.jsx)("p", {
 						className: DracoSuiteSection_module_css_default.intro,
 						children: t("suite.intro")
 					}),
-					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+					(0, react_jsx_runtime.jsx)("div", {
 						className: DracoSuiteSection_module_css_default.cards,
 						children: renderSlot("settings.draco.item", {})
 					})
@@ -49,7 +49,7 @@ window.__ModuleLoader__.load({
 			});
 		}
 		//#endregion
-		//#region src/client/locales.ts
+		//#region lib/types/client/locales.js
 		/** `draco-speech` namespace dictionaries. */
 		/** Simplified Chinese dictionary (the key-set source of truth). */
 		const zh = {
@@ -104,7 +104,7 @@ window.__ModuleLoader__.load({
 		/** The namespace key used for locale registration and seat props. */
 		const NS = "draco-speech";
 		//#endregion
-		//#region src/client/draco-suite.ts
+		//#region lib/types/client/draco-suite.js
 		const HUB$1 = Symbol.for("dsh.draco-suite.section");
 		/** Settings nav / section id. */
 		const DRACO_SUITE_SECTION_ID = "draco-suite";
@@ -156,7 +156,10 @@ window.__ModuleLoader__.load({
 			};
 		}
 		//#endregion
-		//#region src/client/speech-gen-value.ts
+		//#region lib/types/client/speech-gen-value.js
+		/**
+		* `draco-speech-gen.provider` picker values.
+		*/
 		/** Host settings section owned by `draco-speech-gen`. */
 		const SPEECH_GEN_NS = "draco-speech-gen";
 		/**
@@ -220,7 +223,7 @@ window.__ModuleLoader__.load({
 		const SPEECH_DOUBAO_TOKEN_REF = "VOLCENGINE_TTS_ACCESS_TOKEN";
 		//#endregion
 		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-speech-gen-ui/src/client/SpeechPicker.module.css.mjs
-		const css = ".o2ba6G_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.o2ba6G_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.o2ba6G_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.o2ba6G_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.o2ba6G_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.o2ba6G_primary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;align-self:flex-start;padding:4px 10px;font-size:13px;line-height:20px}.o2ba6G_primary:disabled{opacity:.6;cursor:default}.o2ba6G_secondary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;align-self:flex-start;padding:4px 10px;font-size:13px;line-height:20px}.o2ba6G_ready{color:var(--dsw-alias-state-success-primary);align-items:center;gap:6px;margin:0;font-size:13px;line-height:20px;display:inline-flex}.o2ba6G_error{color:var(--dsw-alias-state-error-primary);margin:0;font-size:12px;line-height:18px}.o2ba6G_dotReady{background:var(--dsw-alias-state-success-primary);border-radius:50%;flex:none;width:8px;height:8px}.o2ba6G_input{box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);border-radius:8px;padding:0 10px;font-size:13px;line-height:20px}.o2ba6G_input:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.o2ba6G_input:disabled{opacity:.6}.o2ba6G_select{appearance:none;box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);cursor:pointer;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:12px 12px;border-radius:8px;padding:0 32px 0 10px;font-size:13px;line-height:20px}.o2ba6G_select:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.o2ba6G_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.o2ba6G_fields{flex-direction:column;gap:8px;display:flex}.o2ba6G_fieldLabel{flex-direction:column;gap:4px;margin:0;display:flex}";
+		const css = ".o2ba6G_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.o2ba6G_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.o2ba6G_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.o2ba6G_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.o2ba6G_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.o2ba6G_primary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;align-self:flex-start;padding:4px 10px;font-size:13px;line-height:20px}.o2ba6G_primary:disabled{opacity:.6;cursor:default}.o2ba6G_secondary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;align-self:flex-start;padding:4px 10px;font-size:13px;line-height:20px}.o2ba6G_ready{color:var(--dsw-alias-state-success-primary);align-items:center;gap:6px;margin:0;font-size:13px;line-height:20px;display:inline-flex}.o2ba6G_error{color:var(--dsw-alias-state-error-primary);margin:0;font-size:12px;line-height:18px}.o2ba6G_dotReady{background:var(--dsw-alias-state-success-primary);border-radius:50%;flex:none;width:8px;height:8px}.o2ba6G_input{box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);border-radius:8px;padding:0 10px;font-size:13px;line-height:20px}.o2ba6G_input:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.o2ba6G_input:disabled{opacity:.6}.o2ba6G_select{appearance:none;box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);cursor:pointer;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:12px 12px;border-radius:8px;padding:0 32px 0 10px;font-size:13px;line-height:20px}.o2ba6G_select:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.o2ba6G_select:disabled{opacity:.6;cursor:default}.o2ba6G_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.o2ba6G_fields{flex-direction:column;gap:8px;display:flex}.o2ba6G_fieldLabel{flex-direction:column;gap:4px;margin:0;display:flex}";
 		const tagId = "draco-speech-gen/SpeechPicker.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
 			const tag = document.createElement("style");
@@ -230,24 +233,24 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SpeechPicker_module_css_default = {
-			"error": "o2ba6G_error",
-			"select": "o2ba6G_select",
-			"dotReady": "o2ba6G_dotReady",
-			"muted": "o2ba6G_muted",
-			"card": "o2ba6G_card",
-			"identity": "o2ba6G_identity",
-			"secondary": "o2ba6G_secondary",
-			"primary": "o2ba6G_primary",
 			"fieldLabel": "o2ba6G_fieldLabel",
-			"name": "o2ba6G_name",
-			"hint": "o2ba6G_hint",
-			"fields": "o2ba6G_fields",
-			"input": "o2ba6G_input",
 			"ready": "o2ba6G_ready",
-			"head": "o2ba6G_head"
+			"select": "o2ba6G_select",
+			"head": "o2ba6G_head",
+			"primary": "o2ba6G_primary",
+			"muted": "o2ba6G_muted",
+			"error": "o2ba6G_error",
+			"secondary": "o2ba6G_secondary",
+			"card": "o2ba6G_card",
+			"hint": "o2ba6G_hint",
+			"identity": "o2ba6G_identity",
+			"input": "o2ba6G_input",
+			"fields": "o2ba6G_fields",
+			"name": "o2ba6G_name",
+			"dotReady": "o2ba6G_dotReady"
 		};
 		//#endregion
-		//#region src/client/SpeechGenPickerCard.tsx
+		//#region lib/types/client/SpeechGenPickerCard.js
 		const LABELS = {
 			none: "speech.off",
 			"doubao-tts": "speech.doubao",
@@ -276,7 +279,7 @@ window.__ModuleLoader__.load({
 			const probe = showDoubao ? doubaoProbe : showSeed ? seedProbe : "idle";
 			const verified = probe === "ok";
 			const checking = probe === "checking";
-			const showForm = ready && saveKeys !== void 0 && value !== "none" && (editing || !verified);
+			const showForm = ready && saveKeys !== void 0 && value !== "none" && !checking && (editing || !verified);
 			(0, react.useEffect)(() => {
 				if (verified) setEditing(false);
 			}, [verified]);
@@ -294,26 +297,26 @@ window.__ModuleLoader__.load({
 					setBusy(false);
 				});
 			};
-			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("article", {
+			return (0, react_jsx_runtime.jsxs)("article", {
 				className: SpeechPicker_module_css_default.card,
 				children: [
-					/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+					(0, react_jsx_runtime.jsxs)("div", {
 						className: SpeechPicker_module_css_default.head,
 						children: [
-							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							(0, react_jsx_runtime.jsx)("div", {
 								className: SpeechPicker_module_css_default.identity,
-								children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+								children: (0, react_jsx_runtime.jsx)("span", {
 									className: SpeechPicker_module_css_default.name,
 									children: t("speech.title")
 								})
 							}),
-							ready && showDoubao && verified ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+							ready && showDoubao && verified ? (0, react_jsx_runtime.jsx)("span", {
 								className: SpeechPicker_module_css_default.dotReady,
 								role: "img",
 								"aria-label": t("speech.doubaoReady"),
 								title: t("speech.doubaoReady")
 							}) : null,
-							ready && showSeed && verified ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+							ready && showSeed && verified ? (0, react_jsx_runtime.jsx)("span", {
 								className: SpeechPicker_module_css_default.dotReady,
 								role: "img",
 								"aria-label": t("speech.seedReady"),
@@ -321,26 +324,27 @@ window.__ModuleLoader__.load({
 							}) : null
 						]
 					}),
-					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+					(0, react_jsx_runtime.jsx)("p", {
 						className: SpeechPicker_module_css_default.hint,
 						children: t("speech.hint")
 					}),
-					ready ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("select", {
+					ready ? (0, react_jsx_runtime.jsx)("select", {
 						className: SpeechPicker_module_css_default.select,
 						"aria-label": t("speech.title"),
 						value,
+						disabled: checking,
 						onChange: (event) => {
 							setValue(event.target.value);
 						},
-						children: speechOptions().map((row) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
+						children: speechOptions().map((row) => (0, react_jsx_runtime.jsx)("option", {
 							value: row,
 							children: t(LABELS[row])
 						}, row))
-					}) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+					}) : (0, react_jsx_runtime.jsx)("p", {
 						className: SpeechPicker_module_css_default.muted,
 						children: t("speech.unavailable")
 					}),
-					ready && showDoubao ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)(ProbeStatusLine, {
+					ready && showDoubao ? (0, react_jsx_runtime.jsx)(ProbeStatusLine, {
 						t,
 						probe: doubaoProbe,
 						error: doubaoProbeError,
@@ -348,7 +352,7 @@ window.__ModuleLoader__.load({
 						missingKey: "speech.doubaoMissing",
 						configured: doubaoConfigured
 					}) : null,
-					ready && showSeed ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)(ProbeStatusLine, {
+					ready && showSeed ? (0, react_jsx_runtime.jsx)(ProbeStatusLine, {
 						t,
 						probe: seedProbe,
 						error: seedProbeError,
@@ -357,7 +361,7 @@ window.__ModuleLoader__.load({
 						configured: seedConfigured,
 						checkingKey: "speech.checkingSeed"
 					}) : null,
-					ready && verified && saveKeys !== void 0 && value !== "none" && !editing ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+					ready && verified && saveKeys !== void 0 && value !== "none" && !editing ? (0, react_jsx_runtime.jsx)("button", {
 						className: SpeechPicker_module_css_default.secondary,
 						type: "button",
 						onClick: () => {
@@ -365,13 +369,13 @@ window.__ModuleLoader__.load({
 						},
 						children: t("speech.replace")
 					}) : null,
-					showForm ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("form", {
+					showForm ? (0, react_jsx_runtime.jsxs)("form", {
 						className: SpeechPicker_module_css_default.fields,
 						onSubmit: onSave(saveKeys),
 						children: [
-							showSeed ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
+							showSeed ? (0, react_jsx_runtime.jsxs)("label", {
 								className: SpeechPicker_module_css_default.fieldLabel,
-								children: [t("speech.seedKey"), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+								children: [t("speech.seedKey"), (0, react_jsx_runtime.jsx)("input", {
 									className: SpeechPicker_module_css_default.input,
 									type: "password",
 									autoComplete: "off",
@@ -384,9 +388,9 @@ window.__ModuleLoader__.load({
 									}
 								})]
 							}) : null,
-							showDoubao ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
+							showDoubao ? (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsxs)("label", {
 								className: SpeechPicker_module_css_default.fieldLabel,
-								children: [t("speech.appId"), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+								children: [t("speech.appId"), (0, react_jsx_runtime.jsx)("input", {
 									className: SpeechPicker_module_css_default.input,
 									type: "password",
 									autoComplete: "off",
@@ -398,9 +402,9 @@ window.__ModuleLoader__.load({
 										setAppId(event.target.value);
 									}
 								})]
-							}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
+							}), (0, react_jsx_runtime.jsxs)("label", {
 								className: SpeechPicker_module_css_default.fieldLabel,
-								children: [t("speech.token"), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+								children: [t("speech.token"), (0, react_jsx_runtime.jsx)("input", {
 									className: SpeechPicker_module_css_default.input,
 									type: "password",
 									autoComplete: "off",
@@ -413,7 +417,7 @@ window.__ModuleLoader__.load({
 									}
 								})]
 							})] }) : null,
-							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+							(0, react_jsx_runtime.jsx)("button", {
 								className: SpeechPicker_module_css_default.primary,
 								type: "submit",
 								disabled: busy || checking,
@@ -425,25 +429,25 @@ window.__ModuleLoader__.load({
 			});
 		}
 		function ProbeStatusLine({ t, probe, error, readyKey, missingKey, configured, checkingKey = "speech.checking" }) {
-			if (probe === "ok") return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+			if (probe === "ok") return (0, react_jsx_runtime.jsx)("p", {
 				className: SpeechPicker_module_css_default.ready,
 				children: t(readyKey)
 			});
-			if (probe === "checking") return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+			if (probe === "checking") return (0, react_jsx_runtime.jsx)("p", {
 				className: SpeechPicker_module_css_default.muted,
 				children: t(checkingKey)
 			});
-			if (probe === "fail") return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("p", {
+			if (probe === "fail") return (0, react_jsx_runtime.jsxs)("p", {
 				className: SpeechPicker_module_css_default.error,
 				children: [t("speech.failPrefix"), error]
 			});
-			return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+			return (0, react_jsx_runtime.jsx)("p", {
 				className: SpeechPicker_module_css_default.muted,
 				children: configured ? t(checkingKey) : t(missingKey)
 			});
 		}
 		//#endregion
-		//#region src/client/speech-gen-store.ts
+		//#region lib/types/client/speech-gen-store.js
 		/**
 		* Speech-generation dropdown store: a mirror of `draco-speech-gen.provider`
 		* plus whether the Volcengine credentials are configured.
@@ -477,7 +481,7 @@ window.__ModuleLoader__.load({
 			});
 		}
 		//#endregion
-		//#region src/client/speech-gen-picker.ts
+		//#region lib/types/client/speech-gen-picker.js
 		const HUB = Symbol.for("dsh.draco-speech-card.picker");
 		function hub() {
 			const global = globalThis;
@@ -597,7 +601,7 @@ window.__ModuleLoader__.load({
 			};
 		}
 		//#endregion
-		//#region src/client/index.ts
+		//#region lib/types/client/index.js
 		/** Services required by the browser half. */
 		const inject = [
 			"slots",
