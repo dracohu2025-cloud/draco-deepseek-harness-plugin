@@ -1,11 +1,12 @@
-import { mkdirSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { basename, dirname, join } from "node:path";
 import z from "@deepseek-ai/schemastery";
 import { settingsNamespace } from "@deepseek-ai/dsh-settings";
 import { dshHomePath } from "@deepseek-ai/dsh-home-paths";
 import { defineTool } from "@deepseek-ai/dsh-tools";
 import { LlmError, normalizeApiKey } from "@deepseek-ai/dsh-llm";
 import { credentialRef } from "@deepseek-ai/dsh-credentials";
+import { AttachmentId } from "@deepseek-ai/dsh-attachment";
 //#region lib/types/volc-tts.js
 /**
 * Volcengine speech HTTP clients used by `speech_generate`.
@@ -276,15 +277,46 @@ function formatSpeechGenerateOutput(value) {
 	return `Generated${value.durationSeconds === void 0 ? "" : ` ${value.durationSeconds}s`} speech via ${value.provider} (${value.model}, ${value.voice}) → ${value.path}`;
 }
 /**
-* Project one speech generation into its model-facing envelope.
-* There is no durable audio attachment type yet, so the path is the identity.
+* Re-brand a canonical generated-audio outcome into the attachment reference
+* an `AudioBlock` carries.
+* @param audio - the canonical audio metadata from the output schema.
+*/
+function audioRefFromValue(audio) {
+	return {
+		attachmentId: AttachmentId(audio.attachmentId),
+		mediaType: audio.mediaType,
+		bytes: audio.bytes,
+		...audio.name === void 0 ? {} : { name: audio.name }
+	};
+}
+/**
+* Project one speech generation into its envelope and durable audio.
 * @param value - the canonical generation outcome.
 */
 function speechGenerateContent(value) {
-	return [{
+	const blocks = [{
 		type: "text",
 		text: formatSpeechGenerateOutput(value)
 	}];
+	if (value.audio !== void 0) blocks.push({
+		type: "audio",
+		attachment: audioRefFromValue(value.audio)
+	});
+	return blocks;
+}
+/**
+* Persist the MP3 on `tool/result` so the speech toolview can play it on a
+* host that has no `saveAudio`. Reads the convenience copy written by execute.
+* @param value - the canonical generation outcome.
+*/
+function speechGenerateMeta(value) {
+	const data = readFileSync(value.path);
+	return { clip: {
+		name: basename(value.path),
+		mediaType: "audio/mpeg",
+		bytes: data.byteLength,
+		data: data.toString("base64")
+	} };
 }
 function probeFailureMessage(error) {
 	if (error instanceof LlmError) return error.message.slice(0, 180);
@@ -438,10 +470,31 @@ function apply(ctx, config) {
 						type: "integer",
 						required: true
 					},
-					durationSeconds: { type: "number" }
+					durationSeconds: { type: "number" },
+					audio: {
+						type: "object",
+						additionalProperties: false,
+						properties: {
+							attachmentId: {
+								type: "string",
+								required: true
+							},
+							mediaType: {
+								type: "string",
+								enum: ["audio/mpeg"],
+								required: true
+							},
+							bytes: {
+								type: "integer",
+								required: true
+							},
+							name: { type: "string" }
+						}
+					}
 				}
 			},
-			render: (_args, value) => speechGenerateContent(value)
+			render: (_args, value) => speechGenerateContent(value),
+			presentationMeta: (_args, value) => speechGenerateMeta(value)
 		},
 		async execute(args, exec) {
 			const text = args.text.trim();
@@ -464,9 +517,17 @@ function apply(ctx, config) {
 				collected = await collectSeedAudio(apiKey, buildSeedAudioPrompt(text, args.style), voice, exec.signal);
 				model = SEED_AUDIO_MODEL;
 			}
-			const path = dshHomePath(join("draco", "audio", `${backend}-${Date.now()}.mp3`));
+			const fileName = `${backend}-${Date.now()}.mp3`;
+			const path = dshHomePath(join("draco", "audio", fileName));
 			mkdirSync(dirname(path), { recursive: true });
 			writeFileSync(path, collected.bytes);
+			const attachments = ctx.get("attachments");
+			const saveAudio = attachments !== void 0 && typeof attachments.saveAudio === "function" ? attachments.saveAudio.bind(attachments) : void 0;
+			const ref = saveAudio === void 0 ? void 0 : await saveAudio({
+				data: new Uint8Array(collected.bytes),
+				mediaType: "audio/mpeg",
+				name: fileName
+			});
 			return {
 				path,
 				provider: backend,
@@ -474,7 +535,13 @@ function apply(ctx, config) {
 				voice,
 				text,
 				bytes: collected.bytes.length,
-				...collected.durationSeconds === void 0 ? {} : { durationSeconds: collected.durationSeconds }
+				...collected.durationSeconds === void 0 ? {} : { durationSeconds: collected.durationSeconds },
+				...ref === void 0 ? {} : { audio: {
+					attachmentId: ref.attachmentId,
+					mediaType: "audio/mpeg",
+					bytes: ref.bytes,
+					...ref.name === void 0 ? {} : { name: ref.name }
+				} }
 			};
 		},
 		presentCall(args) {
@@ -487,4 +554,4 @@ function apply(ctx, config) {
 	}));
 }
 //#endregion
-export { Config, SPEECH_GEN_SETTINGS_NAMESPACE, apply, formatSpeechGenerateOutput, inject, name, speechGenerateContent };
+export { Config, SPEECH_GEN_SETTINGS_NAMESPACE, apply, audioRefFromValue, formatSpeechGenerateOutput, inject, name, speechGenerateContent, speechGenerateMeta };

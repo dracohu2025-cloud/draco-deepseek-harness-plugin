@@ -8,18 +8,18 @@ window.__ModuleLoader__.load({
 		let react = require("react");
 		let _deepseek_ai_dsh_client_runtime_client = require("@deepseek-ai/dsh-client-runtime/client");
 		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-speech-gen-ui/src/client/DracoSuiteSection.module.css.mjs
-		const css$1 = ".aOg8EW_section{max-width:720px;color:var(--dsw-alias-label-primary);flex-direction:column;gap:12px;display:flex}.aOg8EW_title{color:var(--dsw-alias-label-primary);margin:0;font-size:16px;font-weight:500;line-height:24px}.aOg8EW_intro{color:var(--dsw-alias-label-tertiary);margin:0;font-size:14px;line-height:22px}.aOg8EW_cards{flex-direction:column;gap:8px;margin-top:4px;display:flex}";
-		const tagId$1 = "draco-speech-gen/DracoSuiteSection.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$1) + "]") === null) {
+		const css$2 = ".aOg8EW_section{max-width:720px;color:var(--dsw-alias-label-primary);flex-direction:column;gap:12px;display:flex}.aOg8EW_title{color:var(--dsw-alias-label-primary);margin:0;font-size:16px;font-weight:500;line-height:24px}.aOg8EW_intro{color:var(--dsw-alias-label-tertiary);margin:0;font-size:14px;line-height:22px}.aOg8EW_cards{flex-direction:column;gap:8px;margin-top:4px;display:flex}";
+		const tagId$2 = "draco-speech-gen/DracoSuiteSection.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$2) + "]") === null) {
 			const tag = document.createElement("style");
 			tag.dataset.plugin = "draco-speech-gen";
-			tag.dataset.pluginCss = tagId$1;
-			tag.textContent = css$1;
+			tag.dataset.pluginCss = tagId$2;
+			tag.textContent = css$2;
 			document.head.appendChild(tag);
 		}
 		var DracoSuiteSection_module_css_default = {
-			"cards": "aOg8EW_cards",
 			"section": "aOg8EW_section",
+			"cards": "aOg8EW_cards",
 			"title": "aOg8EW_title",
 			"intro": "aOg8EW_intro"
 		};
@@ -74,7 +74,10 @@ window.__ModuleLoader__.load({
 			"speech.seedMissing": "需要 SEED_AUDIO_API_KEY",
 			"speech.doubaoReady": "Doubao TTS 已就绪",
 			"speech.doubaoMissing": "需要 VOLCENGINE_TTS_APP_ID 与 VOLCENGINE_TTS_ACCESS_TOKEN",
-			"speech.failPrefix": "验证失败："
+			"speech.failPrefix": "验证失败：",
+			"row.title": "语音合成",
+			"row.loading": "音频加载中…",
+			"row.loadFailed": "音频加载失败，点击重试"
 		};
 		/** English dictionary, checked complete against the zh key set. */
 		const en = {
@@ -99,20 +102,23 @@ window.__ModuleLoader__.load({
 			"speech.seedMissing": "SEED_AUDIO_API_KEY is required",
 			"speech.doubaoReady": "Doubao TTS ready",
 			"speech.doubaoMissing": "VOLCENGINE_TTS_APP_ID and VOLCENGINE_TTS_ACCESS_TOKEN are required",
-			"speech.failPrefix": "Check failed: "
+			"speech.failPrefix": "Check failed: ",
+			"row.title": "Speech",
+			"row.loading": "Loading audio…",
+			"row.loadFailed": "Audio failed to load; click to retry"
 		};
 		/** The namespace key used for locale registration and seat props. */
 		const NS = "draco-speech";
 		//#endregion
 		//#region lib/types/client/draco-suite.js
-		const HUB$1 = Symbol.for("dsh.draco-suite.section");
+		const HUB$2 = Symbol.for("dsh.draco-suite.section");
 		/** Settings nav / section id. */
 		const DRACO_SUITE_SECTION_ID = "draco-suite";
 		/** Card slot owned by the Draco-suite section. */
 		const DRACO_ITEM_SLOT = "settings.draco.item";
-		function hub$1() {
+		function hub$2() {
 			const global = globalThis;
-			return global[HUB$1] ??= { mounts: /* @__PURE__ */ new Map() };
+			return global[HUB$2] ??= { mounts: /* @__PURE__ */ new Map() };
 		}
 		/**
 		* Mount the Draco-suite settings section if it is absent.
@@ -121,7 +127,7 @@ window.__ModuleLoader__.load({
 		* @returns disposer that re-mounts from a leftover plugin when this one unloads.
 		*/
 		function installDracoSuite(ctx, owner) {
-			const h = hub$1();
+			const h = hub$2();
 			const mount = () => {
 				if (h.dispose !== void 0) return;
 				const t = ctx.locale.bind(NS);
@@ -151,7 +157,7 @@ window.__ModuleLoader__.load({
 				}
 				if (h.mounts.size === 0) {
 					const global = globalThis;
-					delete global[HUB$1];
+					delete global[HUB$2];
 				}
 			};
 		}
@@ -223,33 +229,33 @@ window.__ModuleLoader__.load({
 		const SPEECH_DOUBAO_TOKEN_REF = "VOLCENGINE_TTS_ACCESS_TOKEN";
 		//#endregion
 		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-speech-gen-ui/src/client/SpeechPicker.module.css.mjs
-		const css = ".o2ba6G_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.o2ba6G_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.o2ba6G_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.o2ba6G_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.o2ba6G_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.o2ba6G_primary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;align-self:flex-start;padding:4px 10px;font-size:13px;line-height:20px}.o2ba6G_primary:disabled{opacity:.6;cursor:default}.o2ba6G_selectRow{align-items:center;gap:8px;display:flex}.o2ba6G_selectWrap{flex:auto;min-width:0;max-width:420px;position:relative}.o2ba6G_selectWrap .o2ba6G_select{width:100%;max-width:none}.o2ba6G_selectReady{padding-right:44px}.o2ba6G_selectWrap .o2ba6G_dotReady{pointer-events:none;position:absolute;top:50%;right:28px;transform:translateY(-50%)}.o2ba6G_iconBtn{box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);width:32px;height:32px;color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;flex:none;justify-content:center;align-items:center;padding:0;display:inline-flex}.o2ba6G_iconBtn:hover{background:var(--dsw-alias-interactive-bg-hover)}.o2ba6G_error{color:var(--dsw-alias-state-error-primary);margin:0;font-size:12px;line-height:18px}.o2ba6G_dotReady{background:var(--dsw-alias-state-success-primary);border-radius:50%;flex:none;width:8px;height:8px}.o2ba6G_input{box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);border-radius:8px;padding:0 10px;font-size:13px;line-height:20px}.o2ba6G_input:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.o2ba6G_input:disabled{opacity:.6}.o2ba6G_select{appearance:none;box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);cursor:pointer;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:12px 12px;border-radius:8px;padding:0 32px 0 10px;font-size:13px;line-height:20px}.o2ba6G_select:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.o2ba6G_select:disabled{opacity:.6;cursor:default}.o2ba6G_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.o2ba6G_fields{flex-direction:column;gap:8px;display:flex}.o2ba6G_fieldLabel{flex-direction:column;gap:4px;margin:0;display:flex}";
-		const tagId = "draco-speech-gen/SpeechPicker.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
+		const css$1 = ".o2ba6G_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.o2ba6G_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.o2ba6G_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.o2ba6G_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.o2ba6G_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.o2ba6G_primary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;align-self:flex-start;padding:4px 10px;font-size:13px;line-height:20px}.o2ba6G_primary:disabled{opacity:.6;cursor:default}.o2ba6G_selectRow{align-items:center;gap:8px;display:flex}.o2ba6G_selectWrap{flex:auto;min-width:0;max-width:420px;position:relative}.o2ba6G_selectWrap .o2ba6G_select{width:100%;max-width:none}.o2ba6G_selectReady{padding-right:44px}.o2ba6G_selectWrap .o2ba6G_dotReady{pointer-events:none;position:absolute;top:50%;right:28px;transform:translateY(-50%)}.o2ba6G_iconBtn{box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);width:32px;height:32px;color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;flex:none;justify-content:center;align-items:center;padding:0;display:inline-flex}.o2ba6G_iconBtn:hover{background:var(--dsw-alias-interactive-bg-hover)}.o2ba6G_error{color:var(--dsw-alias-state-error-primary);margin:0;font-size:12px;line-height:18px}.o2ba6G_dotReady{background:var(--dsw-alias-state-success-primary);border-radius:50%;flex:none;width:8px;height:8px}.o2ba6G_input{box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);border-radius:8px;padding:0 10px;font-size:13px;line-height:20px}.o2ba6G_input:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.o2ba6G_input:disabled{opacity:.6}.o2ba6G_select{appearance:none;box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);cursor:pointer;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:12px 12px;border-radius:8px;padding:0 32px 0 10px;font-size:13px;line-height:20px}.o2ba6G_select:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.o2ba6G_select:disabled{opacity:.6;cursor:default}.o2ba6G_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.o2ba6G_fields{flex-direction:column;gap:8px;display:flex}.o2ba6G_fieldLabel{flex-direction:column;gap:4px;margin:0;display:flex}";
+		const tagId$1 = "draco-speech-gen/SpeechPicker.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$1) + "]") === null) {
 			const tag = document.createElement("style");
 			tag.dataset.plugin = "draco-speech-gen";
-			tag.dataset.pluginCss = tagId;
-			tag.textContent = css;
+			tag.dataset.pluginCss = tagId$1;
+			tag.textContent = css$1;
 			document.head.appendChild(tag);
 		}
 		var SpeechPicker_module_css_default = {
-			"selectRow": "o2ba6G_selectRow",
-			"hint": "o2ba6G_hint",
-			"head": "o2ba6G_head",
-			"fieldLabel": "o2ba6G_fieldLabel",
 			"error": "o2ba6G_error",
-			"dotReady": "o2ba6G_dotReady",
-			"selectReady": "o2ba6G_selectReady",
+			"fieldLabel": "o2ba6G_fieldLabel",
 			"iconBtn": "o2ba6G_iconBtn",
-			"name": "o2ba6G_name",
-			"input": "o2ba6G_input",
-			"fields": "o2ba6G_fields",
 			"select": "o2ba6G_select",
-			"primary": "o2ba6G_primary",
+			"card": "o2ba6G_card",
+			"head": "o2ba6G_head",
+			"selectReady": "o2ba6G_selectReady",
+			"name": "o2ba6G_name",
 			"identity": "o2ba6G_identity",
+			"fields": "o2ba6G_fields",
+			"primary": "o2ba6G_primary",
+			"selectRow": "o2ba6G_selectRow",
 			"selectWrap": "o2ba6G_selectWrap",
-			"muted": "o2ba6G_muted",
-			"card": "o2ba6G_card"
+			"dotReady": "o2ba6G_dotReady",
+			"input": "o2ba6G_input",
+			"hint": "o2ba6G_hint",
+			"muted": "o2ba6G_muted"
 		};
 		//#endregion
 		//#region lib/types/client/SpeechGenPickerCard.js
@@ -499,10 +505,10 @@ window.__ModuleLoader__.load({
 		}
 		//#endregion
 		//#region lib/types/client/speech-gen-picker.js
-		const HUB = Symbol.for("dsh.draco-speech-card.picker");
-		function hub() {
+		const HUB$1 = Symbol.for("dsh.draco-speech-card.picker");
+		function hub$1() {
 			const global = globalThis;
-			return global[HUB] ??= {};
+			return global[HUB$1] ??= {};
 		}
 		function credentialsOf(ctx) {
 			const getter = ctx.get;
@@ -528,7 +534,7 @@ window.__ModuleLoader__.load({
 		* @returns disposer that withdraws the seat.
 		*/
 		function installSpeechGenPicker(ctx) {
-			const h = hub();
+			const h = hub$1();
 			if (h.disposeSeat !== void 0) return () => {};
 			const scope = ctx.settingsScope.bind({ namespace: SPEECH_GEN_NS });
 			const seat = {
@@ -614,6 +620,180 @@ window.__ModuleLoader__.load({
 				unsub();
 				injected();
 				delete h.disposeSeat;
+				delete globalThis[HUB$1];
+			};
+		}
+		//#endregion
+		//#region lib/types/client/speech-clip.js
+		/**
+		* Speech tool-result clip carried in `output.presentationMeta`.
+		* The bytes live on the settled call so the official Web shell can play
+		* them without `saveAudio`.
+		*/
+		/**
+		* Read a clip from a settled tool result's presentation meta.
+		* @param meta - `tool/result` meta, or undefined while the call is running.
+		* @returns the clip, or undefined when meta is absent or malformed.
+		*/
+		function clipFromMeta(meta) {
+			if (typeof meta !== "object" || meta === null) return void 0;
+			const clip = meta.clip;
+			if (typeof clip !== "object" || clip === null) return void 0;
+			const record = clip;
+			if (typeof record.data !== "string" || record.data.length === 0) return void 0;
+			if (typeof record.mediaType !== "string" || record.mediaType.length === 0) return void 0;
+			return {
+				name: typeof record.name === "string" && record.name.length > 0 ? record.name : "audio.mp3",
+				mediaType: record.mediaType,
+				data: record.data
+			};
+		}
+		/**
+		* Build a browser object URL for one clip.
+		* @param clip - persisted MP3.
+		* @returns a `blob:` URL the caller must revoke.
+		*/
+		function blobUrlFromClip(clip) {
+			const binary = atob(clip.data);
+			const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+			return URL.createObjectURL(new Blob([bytes], { type: clip.mediaType }));
+		}
+		//#endregion
+		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-speech-gen-ui/src/client/SpeechGenerateRow.module.css.mjs
+		const css = ".lDBxDa_root{flex-direction:column;gap:8px;min-width:0;display:flex}.lDBxDa_head{align-items:baseline;gap:8px;min-width:0;display:flex}.lDBxDa_title{color:var(--dsw-alias-label-primary);flex:none;font-size:13px;font-weight:500;line-height:20px}.lDBxDa_summary{text-overflow:ellipsis;white-space:nowrap;min-width:0;color:var(--dsw-alias-label-secondary);font-size:13px;line-height:20px;overflow:hidden}.lDBxDa_player{flex-direction:column;align-items:flex-start;gap:6px;width:100%;max-width:360px;display:flex}.lDBxDa_audio{width:100%;display:block}.lDBxDa_download{color:var(--dsw-alias-label-secondary);text-underline-offset:2px;font-size:12px;line-height:18px;text-decoration:underline}.lDBxDa_loading,.lDBxDa_error{background:var(--dsw-alias-bg-subtle);min-height:40px;color:var(--dsw-alias-label-secondary);font:inherit;border:none;border-radius:8px;align-items:center;padding:0 12px;display:inline-flex}.lDBxDa_error{cursor:pointer;color:var(--dsw-alias-state-danger)}";
+		const tagId = "draco-speech-gen/SpeechGenerateRow.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
+			const tag = document.createElement("style");
+			tag.dataset.plugin = "draco-speech-gen";
+			tag.dataset.pluginCss = tagId;
+			tag.textContent = css;
+			document.head.appendChild(tag);
+		}
+		var SpeechGenerateRow_module_css_default = {
+			"loading": "lDBxDa_loading",
+			"download": "lDBxDa_download",
+			"title": "lDBxDa_title",
+			"head": "lDBxDa_head",
+			"audio": "lDBxDa_audio",
+			"summary": "lDBxDa_summary",
+			"player": "lDBxDa_player",
+			"error": "lDBxDa_error",
+			"root": "lDBxDa_root"
+		};
+		//#endregion
+		//#region lib/types/client/SpeechGenerateRow.js
+		/**
+		* `speech_generate` toolview: plays the MP3 from presentation meta so the
+		* official Web tool row does not need `saveAudio` / `AudioBlock`.
+		*/
+		function spokenText(argsRaw) {
+			try {
+				const parsed = JSON.parse(argsRaw);
+				if (typeof parsed === "object" && parsed !== null) {
+					const text = parsed.text;
+					if (typeof text === "string" && text.trim().length > 0) return text.trim();
+				}
+			} catch {}
+			return argsRaw;
+		}
+		function SpeechClipPlayer({ clip, t }) {
+			const [src, setSrc] = (0, react.useState)(null);
+			const [error, setError] = (0, react.useState)(false);
+			const [attempt, setAttempt] = (0, react.useState)(0);
+			(0, react.useEffect)(() => {
+				setError(false);
+				setSrc(null);
+				try {
+					const url = blobUrlFromClip(clip);
+					setSrc(url);
+					return () => {
+						URL.revokeObjectURL(url);
+					};
+				} catch {
+					setError(true);
+					return () => {};
+				}
+			}, [
+				clip.data,
+				clip.mediaType,
+				clip.name,
+				attempt
+			]);
+			if (error) return (0, react_jsx_runtime.jsx)("button", {
+				type: "button",
+				className: SpeechGenerateRow_module_css_default.error,
+				onClick: () => {
+					setAttempt((n) => n + 1);
+				},
+				children: t("row.loadFailed")
+			});
+			if (src === null) return (0, react_jsx_runtime.jsx)("span", {
+				className: SpeechGenerateRow_module_css_default.loading,
+				children: t("row.loading")
+			});
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: SpeechGenerateRow_module_css_default.player,
+				children: [(0, react_jsx_runtime.jsx)("audio", {
+					className: SpeechGenerateRow_module_css_default.audio,
+					src,
+					controls: true,
+					preload: "metadata",
+					"aria-label": clip.name
+				}), (0, react_jsx_runtime.jsx)("a", {
+					className: SpeechGenerateRow_module_css_default.download,
+					href: src,
+					download: clip.name,
+					children: clip.name
+				})]
+			});
+		}
+		/** Compact speech row: title, spoken preview, and an always-visible player. */
+		function SpeechGenerateRow({ block, t }) {
+			const settled = "kind" in block;
+			const preview = spokenText((settled ? block.call?.argsRaw : block.argsRaw) ?? "");
+			const clip = settled ? clipFromMeta(block.meta) : void 0;
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: SpeechGenerateRow_module_css_default.root,
+				"data-state": settled ? block.isError ? "error" : "ok" : "running",
+				children: [(0, react_jsx_runtime.jsxs)("div", {
+					className: SpeechGenerateRow_module_css_default.head,
+					children: [(0, react_jsx_runtime.jsx)("span", {
+						className: SpeechGenerateRow_module_css_default.title,
+						children: t("row.title")
+					}), preview.length > 0 && (0, react_jsx_runtime.jsx)("span", {
+						className: SpeechGenerateRow_module_css_default.summary,
+						children: preview
+					})]
+				}), clip !== void 0 && (0, react_jsx_runtime.jsx)(SpeechClipPlayer, {
+					clip,
+					t
+				})]
+			});
+		}
+		//#endregion
+		//#region lib/types/client/speech-generate-toolview.js
+		const HUB = Symbol.for("dsh.draco-speech-card.toolview");
+		function hub() {
+			const global = globalThis;
+			return global[HUB] ??= {};
+		}
+		/**
+		* Mount the speech toolview once per browser runtime.
+		* @param ctx - client root context.
+		* @returns disposer that withdraws the keyed row.
+		*/
+		function installSpeechGenerateToolview(ctx) {
+			const h = hub();
+			if (h.dispose !== void 0) return () => {};
+			const injected = ctx.slots.inject("tool.call.toolview", () => ctx.slots.register({
+				name: "tool.call.toolview",
+				key: "speech_generate",
+				locale: NS
+			}, SpeechGenerateRow));
+			h.dispose = injected;
+			return () => {
+				injected();
+				delete h.dispose;
 				delete globalThis[HUB];
 			};
 		}
@@ -638,7 +818,9 @@ window.__ModuleLoader__.load({
 			}), "draco-speech-gen-ui: dictionaries");
 			const suite = installDracoSuite(ctx, "speech");
 			const picker = installSpeechGenPicker(ctx);
+			const toolview = installSpeechGenerateToolview(ctx);
 			return () => {
+				toolview();
 				picker();
 				suite();
 			};

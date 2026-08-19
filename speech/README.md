@@ -43,7 +43,7 @@ Pick **doubao-tts** (exact wording) or **seed-audio-1.0** (expressive; may add a
 | `doubao-tts` | `VOLCENGINE_TTS_APP_ID` + `VOLCENGINE_TTS_ACCESS_TOKEN` |
 | `seed-audio-1.0` | `SEED_AUDIO_API_KEY` |
 
-`speech_generate` writes an MP3 under `$DSH_HOME/draco/audio/`. There is no audio attachment type yet, so the chat shows the file path rather than an inline player. Speech is never defaulted from OAuth.
+`speech_generate` writes an MP3 under `$DSH_HOME/draco/audio/` and plays it in the chat tool row. The clip is stored on the tool result so official `dsh --profile web` can play it without a host `saveAudio`. When the host does have `saveAudio`, the result also carries a durable `AudioBlock`. Speech is never defaulted from OAuth.
 
 If an older SuperGrok or Codex plugin still registered `speech_generate` or a speech Settings card, `update` those bundles (or `remove` then `add` only if their lockfile is stuck). TTS no longer ships inside the image/video bundles.
 

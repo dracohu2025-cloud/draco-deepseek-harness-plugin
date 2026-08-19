@@ -1,6 +1,6 @@
 {
   "name": "draco-speech-gen",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "DeepSeek Harness plugin: speech_generate via Volcengine Doubao TTS and Seed-Audio 1.0",
   "license": "MIT",
   "type": "module",
@@ -36,7 +36,8 @@
     "client": {
       "inject": [
         "@deepseek-ai/dsh-client-locale",
-        "@deepseek-ai/dsh-client-ui-settings"
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-tool"
       ],
       "platform": "web"
     }
@@ -47,6 +48,7 @@
     "@deepseek-ai/dsh-client-runtime": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-client-ui-settings": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-client-ui-slots": ">=0.0.1-rc.1",
+    "@deepseek-ai/dsh-client-ui-tool": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-credentials": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-home-paths": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-llm": ">=0.0.1-rc.1",
@@ -65,6 +67,9 @@
       "optional": true
     },
     "@deepseek-ai/dsh-client-ui-slots": {
+      "optional": true
+    },
+    "@deepseek-ai/dsh-client-ui-tool": {
       "optional": true
     },
     "react": {
