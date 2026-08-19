@@ -131,53 +131,82 @@ async function collectDoubaoTts(appId, token, text, voice, speed, signal) {
 	if (bytes === void 0) throw new LlmError(`draco-speech-gen: Doubao TTS returned no audio${raw.length > 0 ? `: ${raw.slice(0, 300)}` : ""}`, "SERVER");
 	return { bytes };
 }
+function isSeedAudioEmptyAudio(status, raw) {
+	if (status !== 500) return false;
+	return raw.includes(String(55001309)) || raw.includes("empty audio data");
+}
 /**
 * Synthesize expressive speech through Seed-Audio 1.0.
 * @param apiKey - `X-Api-Key` from the speech console (`SEED_AUDIO_API_KEY`).
-* @param prompt - `text_prompt` already wrapped by {@link buildSeedAudioPrompt}.
+* @param prompt - `text_prompt` posted to v3 create.
 * @param voice - `references[0].speaker`.
 * @param signal - abort for the in-flight fetch and optional URL download.
 */
 async function collectSeedAudio(apiKey, prompt, voice, signal) {
 	if (prompt.length > 3e3) throw new Error(`seed-audio text_prompt exceeds ${SEED_AUDIO_PROMPT_MAX_CHARS} characters`);
-	const response = await fetch(SEED_AUDIO_URL, {
-		method: "POST",
-		headers: {
-			"content-type": "application/json",
-			"x-api-key": apiKey
-		},
-		body: JSON.stringify({
-			model: SEED_AUDIO_MODEL,
-			text_prompt: prompt,
-			references: [{ speaker: voice }],
-			audio_config: {
-				format: "mp3",
-				sample_rate: 48e3,
-				enable_subtitle: true
+	let attempt = 0;
+	while (true) {
+		if (signal?.aborted === true) {
+			const aborted = /* @__PURE__ */ new Error("aborted");
+			aborted.name = "AbortError";
+			throw aborted;
+		}
+		const response = await fetch(SEED_AUDIO_URL, {
+			method: "POST",
+			headers: {
+				"content-type": "application/json",
+				"x-api-key": apiKey
 			},
-			watermark: {}
-		}),
-		signal: signal ?? null
-	});
-	const raw = await readBody(response);
-	if (!response.ok) throw new LlmError(`draco-speech-gen: Seed-Audio returned HTTP ${response.status}${raw.length > 0 ? `: ${raw.slice(0, 300)}` : ""}`, speechFailureCode(response.status));
-	const extracted = extractSeedAudio(parseJson(raw));
-	let bytes;
-	if (extracted.audioB64 !== void 0) {
-		const decoded = Buffer.from(extracted.audioB64, "base64");
-		if (decoded.length > 0) bytes = decoded;
+			body: JSON.stringify({
+				model: SEED_AUDIO_MODEL,
+				text_prompt: prompt,
+				references: [{ speaker: voice }],
+				audio_config: {
+					format: "mp3",
+					sample_rate: 48e3,
+					enable_subtitle: true
+				},
+				watermark: {}
+			}),
+			signal: signal ?? null
+		});
+		const raw = await readBody(response);
+		if (!response.ok) {
+			if (isSeedAudioEmptyAudio(response.status, raw) && attempt < 2) {
+				attempt += 1;
+				continue;
+			}
+			throw new LlmError(`draco-speech-gen: Seed-Audio returned HTTP ${response.status}${raw.length > 0 ? `: ${raw.slice(0, 300)}` : ""}`, speechFailureCode(response.status));
+		}
+		const extracted = extractSeedAudio(parseJson(raw));
+		let bytes;
+		if (extracted.audioB64 !== void 0) {
+			const decoded = Buffer.from(extracted.audioB64, "base64");
+			if (decoded.length > 0) bytes = decoded;
+		}
+		if (bytes === void 0 && extracted.url !== void 0) {
+			const download = await fetch(extracted.url, { signal: signal ?? null });
+			if (!download.ok) throw new LlmError(`draco-speech-gen: Seed-Audio audio URL returned HTTP ${download.status}`, speechFailureCode(download.status));
+			bytes = Buffer.from(await download.arrayBuffer());
+		}
+		if (bytes === void 0 || bytes.length === 0) {
+			if (attempt < 2) {
+				attempt += 1;
+				continue;
+			}
+			throw new LlmError(`draco-speech-gen: Seed-Audio returned no audio${raw.length > 0 ? `: ${raw.slice(0, 300)}` : ""}`, "SERVER");
+		}
+		return {
+			bytes,
+			...extracted.durationSeconds === void 0 ? {} : { durationSeconds: extracted.durationSeconds }
+		};
 	}
-	if (bytes === void 0 && extracted.url !== void 0) {
-		const download = await fetch(extracted.url, { signal: signal ?? null });
-		if (!download.ok) throw new LlmError(`draco-speech-gen: Seed-Audio audio URL returned HTTP ${download.status}`, speechFailureCode(download.status));
-		bytes = Buffer.from(await download.arrayBuffer());
-	}
-	if (bytes === void 0 || bytes.length === 0) throw new LlmError(`draco-speech-gen: Seed-Audio returned no audio${raw.length > 0 ? `: ${raw.slice(0, 300)}` : ""}`, "SERVER");
-	return {
-		bytes,
-		...extracted.durationSeconds === void 0 ? {} : { durationSeconds: extracted.durationSeconds }
-	};
 }
+/**
+* Seed-Audio Settings probe `text_prompt`. A wrapped single character often
+* returns Volcengine `55001309` (empty audio); this is a short spoken line.
+*/
+const SEED_AUDIO_PROBE_PROMPT = "请用自然清晰的普通话朗读：「你好。」朗读完毕后自然结束。";
 /**
 * Doubao TTS Settings probe abort in milliseconds. Classic v1 typically
 * returns in a few seconds.
@@ -200,13 +229,13 @@ async function probeDoubaoTts(appId, token, signal) {
 	await collectDoubaoTts(appId, token, "测", DEFAULT_SPEECH_VOICE, 1, signal);
 }
 /**
-* Verify a Seed-Audio API key with a one-character synthesis. The bytes are
-* discarded — Settings only cares whether the HTTP call succeeds.
+* Verify a Seed-Audio API key with a short spoken-line synthesis. The bytes
+* are discarded — Settings only cares whether the HTTP call succeeds.
 * @param apiKey - `X-Api-Key` from the speech console.
 * @param signal - abort for the in-flight fetch.
 */
 async function probeSeedAudio(apiKey, signal) {
-	await collectSeedAudio(apiKey, buildSeedAudioPrompt("测"), DEFAULT_SPEECH_VOICE, signal);
+	await collectSeedAudio(apiKey, SEED_AUDIO_PROBE_PROMPT, DEFAULT_SPEECH_VOICE, signal);
 }
 //#endregion
 //#region lib/types/index.js
