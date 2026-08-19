@@ -37,7 +37,16 @@ Pick **doubao-tts** (exact wording) or **seed-audio-1.0** (expressive; may add a
 
 `speech_generate` writes an MP3 under `$DSH_HOME/draco/audio/`. There is no audio attachment type yet, so the chat shows the file path rather than an inline player. Speech is never defaulted from OAuth.
 
-If an older SuperGrok or Codex plugin still registered `speech_generate`, update those plugins first, then add this one. TTS no longer ships inside the image/video bundles.
+If an older SuperGrok or Codex plugin still registered `speech_generate` or a speech Settings card, remove and re-add those plugins as well. TTS no longer ships inside the image/video bundles. Pin the commit if `add` keeps an old lockfile:
+
+```sh
+dsh plugin --profile web remove draco-speech-gen
+dsh plugin --profile web remove draco-grok-oauth
+dsh plugin --profile web remove draco-codex-oauth
+dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin
+dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex
+dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:speech
+```
 
 ## What this bundle inserts
 

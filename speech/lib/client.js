@@ -18,10 +18,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DracoSuiteSection_module_css_default = {
-			"title": "aOg8EW_title",
 			"section": "aOg8EW_section",
+			"cards": "aOg8EW_cards",
 			"intro": "aOg8EW_intro",
-			"cards": "aOg8EW_cards"
+			"title": "aOg8EW_title"
 		};
 		//#endregion
 		//#region lib/types/client/DracoSuiteSection.js
@@ -103,14 +103,14 @@ window.__ModuleLoader__.load({
 		const NS = "draco-speech";
 		//#endregion
 		//#region lib/types/client/draco-suite.js
-		const HUB = Symbol.for("dsh.draco-suite.section");
+		const HUB$1 = Symbol.for("dsh.draco-suite.section");
 		/** Settings nav / section id. */
 		const DRACO_SUITE_SECTION_ID = "draco-suite";
 		/** Card slot owned by the Draco-suite section. */
 		const DRACO_ITEM_SLOT = "settings.draco.item";
-		function hub() {
+		function hub$1() {
 			const global = globalThis;
-			return global[HUB] ??= { mounts: /* @__PURE__ */ new Map() };
+			return global[HUB$1] ??= { mounts: /* @__PURE__ */ new Map() };
 		}
 		/**
 		* Mount the Draco-suite settings section if it is absent.
@@ -119,7 +119,7 @@ window.__ModuleLoader__.load({
 		* @returns disposer that re-mounts from a leftover plugin when this one unloads.
 		*/
 		function installDracoSuite(ctx, owner) {
-			const h = hub();
+			const h = hub$1();
 			const mount = () => {
 				if (h.dispose !== void 0) return;
 				const t = ctx.locale.bind(NS);
@@ -149,7 +149,7 @@ window.__ModuleLoader__.load({
 				}
 				if (h.mounts.size === 0) {
 					const global = globalThis;
-					delete global[HUB];
+					delete global[HUB$1];
 				}
 			};
 		}
@@ -160,8 +160,12 @@ window.__ModuleLoader__.load({
 		*/
 		/** Host settings section owned by `draco-speech-gen`. */
 		const SPEECH_GEN_NS = "draco-speech-gen";
-		/** Slot id for the speech-generation card (duplicate ids throw). */
-		const SPEECH_GEN_SEAT_ID = "draco-speech-gen";
+		/**
+		* Slot id for the dedicated speech card. SuperGrok/Codex bundles from before
+		* the split still register `draco-speech-gen` at priority 0; a different id
+		* lets both load.
+		*/
+		const SPEECH_GEN_SEAT_ID = "draco-speech-card";
 		/**
 		* Normalize a Host probe field.
 		* @param value - stored probe status, if any.
@@ -227,21 +231,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SpeechPicker_module_css_default = {
-			"name": "o2ba6G_name",
-			"input": "o2ba6G_input",
-			"error": "o2ba6G_error",
-			"head": "o2ba6G_head",
 			"card": "o2ba6G_card",
+			"head": "o2ba6G_head",
+			"secondary": "o2ba6G_secondary",
+			"ready": "o2ba6G_ready",
+			"dotReady": "o2ba6G_dotReady",
+			"input": "o2ba6G_input",
 			"muted": "o2ba6G_muted",
+			"select": "o2ba6G_select",
+			"error": "o2ba6G_error",
+			"identity": "o2ba6G_identity",
+			"primary": "o2ba6G_primary",
+			"hint": "o2ba6G_hint",
 			"fieldLabel": "o2ba6G_fieldLabel",
 			"fields": "o2ba6G_fields",
-			"secondary": "o2ba6G_secondary",
-			"identity": "o2ba6G_identity",
-			"hint": "o2ba6G_hint",
-			"dotReady": "o2ba6G_dotReady",
-			"primary": "o2ba6G_primary",
-			"select": "o2ba6G_select",
-			"ready": "o2ba6G_ready"
+			"name": "o2ba6G_name"
 		};
 		//#endregion
 		//#region lib/types/client/SpeechGenPickerCard.js
@@ -474,6 +478,11 @@ window.__ModuleLoader__.load({
 		}
 		//#endregion
 		//#region lib/types/client/speech-gen-picker.js
+		const HUB = Symbol.for("dsh.draco-speech-card.picker");
+		function hub() {
+			const global = globalThis;
+			return global[HUB] ??= {};
+		}
 		function credentialsOf(ctx) {
 			const getter = ctx.get;
 			if (typeof getter !== "function") return void 0;
@@ -498,6 +507,8 @@ window.__ModuleLoader__.load({
 		* @returns disposer that withdraws the seat.
 		*/
 		function installSpeechGenPicker(ctx) {
+			const h = hub();
+			if (h.disposeSeat !== void 0) return () => {};
 			const scope = ctx.settingsScope.bind({ namespace: SPEECH_GEN_NS });
 			const seat = {
 				seedConfigured: false,
@@ -563,7 +574,6 @@ window.__ModuleLoader__.load({
 				name: DRACO_ITEM_SLOT,
 				id: SPEECH_GEN_SEAT_ID,
 				order: 27,
-				priority: -1,
 				locale: NS,
 				store,
 				inject: (actions) => {
@@ -576,11 +586,14 @@ window.__ModuleLoader__.load({
 					};
 				}
 			}, SpeechGenPickerCard));
+			h.disposeSeat = injected;
 			push();
 			refreshKeys();
 			return () => {
 				unsub();
 				injected();
+				delete h.disposeSeat;
+				delete globalThis[HUB];
 			};
 		}
 		//#endregion
