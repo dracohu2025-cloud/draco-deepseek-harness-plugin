@@ -62,7 +62,7 @@ dsh plugin --profile web remove draco-speech-gen
 
 ## Develop
 
-Source lives in the Draco fork of DeepSeek Harness (`packages/draco/draco-speech-gen`, `draco-speech-gen-ui`). This directory is the **publish face**: built artifacts plus the bundle patch. Rebuild there, then run `node scripts/sync-from-fork.mjs` from the repository root before tagging a release.
+Source lives in the Draco fork of DeepSeek Harness (`packages/draco/draco-speech-gen`, `draco-speech-gen-ui`). This directory is the **publish face**: built artifacts plus the bundle patch. Rebuild there, then run `node scripts/sync-from-fork.mjs` from the repository root before tagging a release. Default the install docs to the floating `#path:speech` spec and `dsh plugin update draco-speech-gen`.
 
 `lib/client.js` must register as `draco-speech-gen` (the package name / patch `name`). Do not leave `@deepseek-ai/dsh-draco-speech-gen-ui`.
 

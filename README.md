@@ -30,6 +30,7 @@ The repository root package is `draco-grok-oauth`.
 
 ```sh
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin
+dsh plugin --profile web update draco-grok-oauth
 dsh --profile web
 ```
 
@@ -74,12 +75,15 @@ Codex chat and image-generation requests send `store: false`. The ChatGPT Codex 
 
 ```sh
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex
+dsh plugin --profile web update draco-codex-oauth
 dsh plugin --profile web remove draco-codex-oauth
 ```
 
 ## Develop
 
 Source lives in the Draco fork of DeepSeek Harness (`packages/draco/…`). This repository is the **publish face**: built artifacts plus bundle patches. After a user-visible plugin change: rebuild in the fork, run `node scripts/sync-from-fork.mjs` (it copies `lib/` and then runs `scripts/verify-plugin-ids.mjs` so SuperGrok, Codex, and speech do not share Loader row ids, exclusive tool names, or Settings seat ids), update this README (and `codex/README.md` or `speech/README.md` when those layers change), then commit and push `main`. A new modality gets its own `#path:` bundle and new ids on first landing; do not park it inside SuperGrok or Codex.
+
+Prefer whatever makes an official `dsh --profile web` install easier for people who did not clone this repo: floating `#path:` specs, `dsh plugin update <package>`, no `remove` then `add` for ordinary upgrades, and pin a commit only when someone needs a freeze.
 
 When rewriting a client bundle, `__ModuleLoader__.load({ id })` must be the **npm package name** (`draco-grok-oauth`, `draco-codex-oauth`), not the workspace package or the cordis row id. The web host looks up the bundle by `cordis.patch.yml` `name`. A mismatch boots the host and then fails in the browser as `plugin "…" is not registered`.
 
