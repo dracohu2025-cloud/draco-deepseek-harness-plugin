@@ -16,10 +16,10 @@ dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plu
 
 This repository ships **built** `lib/` artifacts, so no `prepare` script runs.
 
-Pin a commit if you want a frozen install:
+Pin a commit if you want a frozen install. pnpm takes the commit and the subdirectory as `#<sha>&path:codex` (quote the spec so the shell does not split on `&`):
 
 ```sh
-dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#<sha>:path:codex
+dsh plugin --profile web add 'github:dracohu2025-cloud/draco-deepseek-harness-plugin#<sha>&path:codex'
 ```
 
 Then start the official Web profile:
