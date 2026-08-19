@@ -13,6 +13,7 @@
  * Usage: node scripts/sync-from-fork.mjs [forkRoot]
  *   forkRoot defaults to ~/REPO/deepseek-harness
  */
+import { spawnSync } from 'node:child_process'
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { homedir } from 'node:os'
@@ -138,3 +139,11 @@ for (const layer of LAYERS) {
   }
 }
 console.log('ok: client bundles register the published package names')
+
+const identity = spawnSync(process.execPath, [join(here, 'verify-plugin-ids.mjs')], {
+  cwd: publishRoot,
+  stdio: 'inherit',
+})
+if (identity.status !== 0) {
+  throw new Error('verify-plugin-ids failed; independently installed plugins must not share Loader, tool, or Settings seat ids')
+}
