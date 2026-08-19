@@ -4133,7 +4133,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			]
 		};
 		//#endregion
-		//#region lib/types/client/bridge.js
+		//#region src/client/bridge.ts
 		let bridge;
 		/** Install or clear the bridge (plugin activation/teardown; effect-bound). */
 		function installBridge(next) {
@@ -4155,30 +4155,30 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var DracoSuiteSection_module_css_default = {
-			"cards": "SwbIYa_cards",
 			"title": "SwbIYa_title",
-			"intro": "SwbIYa_intro",
-			"section": "SwbIYa_section"
+			"section": "SwbIYa_section",
+			"cards": "SwbIYa_cards",
+			"intro": "SwbIYa_intro"
 		};
 		//#endregion
-		//#region lib/types/client/DracoSuiteSection.js
+		//#region src/client/DracoSuiteSection.tsx
 		/**
 		* Settings page for SuperGrok / Codex login and the shared image-generation
 		* dropdown. Cards arrive through `settings.draco.item`.
 		*/
 		function DracoSuiteSection({ t, renderSlot }) {
-			return (0, react_jsx_runtime.jsxs)("div", {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 				className: DracoSuiteSection_module_css_default.section,
 				children: [
-					(0, react_jsx_runtime.jsx)("h2", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("h2", {
 						className: DracoSuiteSection_module_css_default.title,
 						children: t("suite.title")
 					}),
-					(0, react_jsx_runtime.jsx)("p", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 						className: DracoSuiteSection_module_css_default.intro,
 						children: t("suite.intro")
 					}),
-					(0, react_jsx_runtime.jsx)("div", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 						className: DracoSuiteSection_module_css_default.cards,
 						children: renderSlot("settings.draco.item", {})
 					})
@@ -4186,7 +4186,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			});
 		}
 		//#endregion
-		//#region lib/types/client/locales.js
+		//#region src/client/locales.ts
 		/** `draco-codex` namespace dictionaries (the Codex wizard chip's copy). */
 		/** Simplified Chinese dictionary (the key-set source of truth). */
 		const zh = {
@@ -4204,7 +4204,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"error.fallback": "登录失败",
 			"suite.nav": "Draco-suite",
 			"suite.title": "Draco-suite",
-			"suite.intro": "SuperGrok 与 Codex 订阅登录，以及生图 / 生视频后端。不使用 API Key。",
+			"suite.intro": "SuperGrok 与 Codex 订阅登录，生图 / 生视频后端，以及火山语音 TTS。语音需要 API Key。",
 			"image.title": "生图模型",
 			"image.hint": "对话模型选择器不管生图。仅登录 SuperGrok 时默认 Imagine Image 2.0（1K）。仅登录 Codex 时默认 GPT Image 2（中）。两侧都已登录时请在此选择后端。",
 			"image.off": "关闭",
@@ -4213,7 +4213,22 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"image.codexLow": "gpt-image-2-low",
 			"image.codexMedium": "gpt-image-2-medium",
 			"image.codexHigh": "gpt-image-2-high",
-			"image.unavailable": "设置尚未就绪"
+			"image.unavailable": "设置尚未就绪",
+			"speech.title": "语音合成",
+			"speech.hint": "对话模型选择器不管 TTS。doubao-tts 按原文朗读；seed-audio-1.0 可带语气，但可能添气氛。密钥写入凭据库，也可放环境变量。",
+			"speech.off": "关闭",
+			"speech.doubao": "doubao-tts",
+			"speech.seed": "seed-audio-1.0",
+			"speech.unavailable": "设置尚未就绪",
+			"speech.seedKey": "SEED_AUDIO_API_KEY",
+			"speech.appId": "VOLCENGINE_TTS_APP_ID",
+			"speech.token": "VOLCENGINE_TTS_ACCESS_TOKEN",
+			"speech.keyPlaceholder": "输入新值以替换已保存的密钥",
+			"speech.save": "保存密钥",
+			"speech.seedReady": "Seed-Audio 密钥已配置",
+			"speech.seedMissing": "需要 SEED_AUDIO_API_KEY",
+			"speech.doubaoReady": "Doubao TTS 密钥已配置",
+			"speech.doubaoMissing": "需要 VOLCENGINE_TTS_APP_ID 与 VOLCENGINE_TTS_ACCESS_TOKEN"
 		};
 		/** English dictionary, checked complete against the zh key set. */
 		const en = {
@@ -4231,7 +4246,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"error.fallback": "Login failed",
 			"suite.nav": "Draco-suite",
 			"suite.title": "Draco-suite",
-			"suite.intro": "SuperGrok and Codex subscription login, plus the image and video backends. These do not use an API key.",
+			"suite.intro": "SuperGrok and Codex subscription login, image and video backends, and Volcengine speech TTS. Speech uses API keys.",
 			"image.title": "Image generation",
 			"image.hint": "The chat model selector does not control image generation. A SuperGrok-only login defaults to Imagine Image 2.0 (1K). A Codex-only login defaults to GPT Image 2 (medium). When both are signed in, pick a backend here.",
 			"image.off": "Off",
@@ -4240,20 +4255,35 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"image.codexLow": "gpt-image-2-low",
 			"image.codexMedium": "gpt-image-2-medium",
 			"image.codexHigh": "gpt-image-2-high",
-			"image.unavailable": "Settings are not ready yet"
+			"image.unavailable": "Settings are not ready yet",
+			"speech.title": "Speech synthesis",
+			"speech.hint": "The chat model selector does not control TTS. doubao-tts reads the text verbatim. seed-audio-1.0 can add delivery, and may add atmosphere. Keys go in the credential store or the environment.",
+			"speech.off": "Off",
+			"speech.doubao": "doubao-tts",
+			"speech.seed": "seed-audio-1.0",
+			"speech.unavailable": "Settings are not ready yet",
+			"speech.seedKey": "SEED_AUDIO_API_KEY",
+			"speech.appId": "VOLCENGINE_TTS_APP_ID",
+			"speech.token": "VOLCENGINE_TTS_ACCESS_TOKEN",
+			"speech.keyPlaceholder": "Enter a new value to replace the stored key",
+			"speech.save": "Save keys",
+			"speech.seedReady": "Seed-Audio key configured",
+			"speech.seedMissing": "SEED_AUDIO_API_KEY is required",
+			"speech.doubaoReady": "Doubao TTS keys configured",
+			"speech.doubaoMissing": "VOLCENGINE_TTS_APP_ID and VOLCENGINE_TTS_ACCESS_TOKEN are required"
 		};
 		/** The namespace key used for locale registration and seat props. */
 		const NS = "draco-codex";
 		//#endregion
-		//#region lib/types/client/draco-suite.js
-		const HUB$1 = Symbol.for("dsh.draco-suite.section");
+		//#region src/client/draco-suite.ts
+		const HUB$2 = Symbol.for("dsh.draco-suite.section");
 		/** Settings nav / section id. */
 		const DRACO_SUITE_SECTION_ID = "draco-suite";
 		/** Card slot owned by the Draco-suite section. */
 		const DRACO_ITEM_SLOT = "settings.draco.item";
-		function hub$1() {
+		function hub$2() {
 			const global = globalThis;
-			return global[HUB$1] ??= { mounts: /* @__PURE__ */ new Map() };
+			return global[HUB$2] ??= { mounts: /* @__PURE__ */ new Map() };
 		}
 		/**
 		* Mount the Draco-suite settings section if it is absent.
@@ -4262,7 +4292,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		* @returns disposer that remounts from a leftover plugin when this one unloads.
 		*/
 		function installDracoSuite(ctx, owner) {
-			const h = hub$1();
+			const h = hub$2();
 			const mount = () => {
 				if (h.dispose !== void 0) return;
 				const t = ctx.locale.bind(NS);
@@ -4292,13 +4322,13 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 				}
 				if (h.mounts.size === 0) {
 					const global = globalThis;
-					delete global[HUB$1];
+					delete global[HUB$2];
 				}
 			};
 		}
 		//#endregion
 		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-oauth-codex-ui/src/client/HermesCompatCard.module.css.mjs
-		const css = ".uuGEca_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.uuGEca_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.uuGEca_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.uuGEca_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.uuGEca_tag{color:var(--dsw-alias-label-secondary);background:var(--dsw-alias-bg-layer-2);border-radius:999px;padding:1px 6px;font-size:11px;line-height:16px}.uuGEca_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.uuGEca_row,.uuGEca_awaiting{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uuGEca_primary,.uuGEca_secondary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;padding:4px 10px;font-size:13px;line-height:20px}.uuGEca_primary:disabled{opacity:.6;cursor:default}.uuGEca_selected{background:var(--dsw-alias-bg-module-platform);border-color:var(--dsw-static-neutral-bluish-400);font-weight:500}.uuGEca_ready{color:var(--dsw-alias-state-success-primary);align-items:center;gap:6px;font-size:13px;display:inline-flex}.uuGEca_link{color:var(--dsw-alias-label-primary);text-decoration:underline}.uuGEca_code{font-family:var(--ds-font-family-code);background:var(--dsw-alias-bg-layer-2);border-radius:4px;padding:0 4px}.uuGEca_select{appearance:none;box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);cursor:pointer;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:12px 12px;border-radius:8px;padding:0 32px 0 10px;font-size:13px;line-height:20px}.uuGEca_select:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.uuGEca_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.uuGEca_error{color:var(--dsw-alias-state-error-primary);font-size:12px}.uuGEca_dotReady,.uuGEca_dotWait,.uuGEca_dotIdle{border-radius:50%;flex:none;width:8px;height:8px}.uuGEca_dotReady{background:var(--dsw-alias-state-success-primary)}.uuGEca_dotWait{background:var(--dsw-alias-state-warn-primary)}.uuGEca_dotIdle{background:var(--dsw-alias-border-l3)}";
+		const css = ".uuGEca_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.uuGEca_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.uuGEca_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.uuGEca_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.uuGEca_tag{color:var(--dsw-alias-label-secondary);background:var(--dsw-alias-bg-layer-2);border-radius:999px;padding:1px 6px;font-size:11px;line-height:16px}.uuGEca_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.uuGEca_row,.uuGEca_awaiting{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uuGEca_primary,.uuGEca_secondary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;padding:4px 10px;font-size:13px;line-height:20px}.uuGEca_primary:disabled{opacity:.6;cursor:default}.uuGEca_selected{background:var(--dsw-alias-bg-module-platform);border-color:var(--dsw-static-neutral-bluish-400);font-weight:500}.uuGEca_ready{color:var(--dsw-alias-state-success-primary);align-items:center;gap:6px;font-size:13px;display:inline-flex}.uuGEca_link{color:var(--dsw-alias-label-primary);text-decoration:underline}.uuGEca_code{font-family:var(--ds-font-family-code);background:var(--dsw-alias-bg-layer-2);border-radius:4px;padding:0 4px}.uuGEca_select{appearance:none;box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);cursor:pointer;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:12px 12px;border-radius:8px;padding:0 32px 0 10px;font-size:13px;line-height:20px}.uuGEca_select:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.uuGEca_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.uuGEca_fields{flex-direction:column;gap:8px;display:flex}.uuGEca_fieldLabel{flex-direction:column;gap:4px;margin:0;display:flex}.uuGEca_error{color:var(--dsw-alias-state-error-primary);font-size:12px}.uuGEca_dotReady,.uuGEca_dotWait,.uuGEca_dotIdle{border-radius:50%;flex:none;width:8px;height:8px}.uuGEca_dotReady{background:var(--dsw-alias-state-success-primary)}.uuGEca_dotWait{background:var(--dsw-alias-state-warn-primary)}.uuGEca_dotIdle{background:var(--dsw-alias-border-l3)}";
 		const tagId = "draco-codex-oauth/HermesCompatCard.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
 			const tag = document.createElement("style");
@@ -4308,29 +4338,31 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var HermesCompatCard_module_css_default = {
+			"ready": "uuGEca_ready",
 			"primary": "uuGEca_primary",
-			"awaiting": "uuGEca_awaiting",
+			"name": "uuGEca_name",
+			"fields": "uuGEca_fields",
+			"tag": "uuGEca_tag",
 			"row": "uuGEca_row",
 			"head": "uuGEca_head",
-			"selected": "uuGEca_selected",
-			"card": "uuGEca_card",
-			"select": "uuGEca_select",
 			"identity": "uuGEca_identity",
-			"error": "uuGEca_error",
-			"dotReady": "uuGEca_dotReady",
-			"tag": "uuGEca_tag",
-			"muted": "uuGEca_muted",
-			"ready": "uuGEca_ready",
-			"code": "uuGEca_code",
-			"name": "uuGEca_name",
+			"card": "uuGEca_card",
+			"selected": "uuGEca_selected",
 			"link": "uuGEca_link",
-			"dotIdle": "uuGEca_dotIdle",
+			"awaiting": "uuGEca_awaiting",
+			"error": "uuGEca_error",
 			"hint": "uuGEca_hint",
+			"dotReady": "uuGEca_dotReady",
 			"secondary": "uuGEca_secondary",
-			"dotWait": "uuGEca_dotWait"
+			"dotIdle": "uuGEca_dotIdle",
+			"select": "uuGEca_select",
+			"dotWait": "uuGEca_dotWait",
+			"code": "uuGEca_code",
+			"fieldLabel": "uuGEca_fieldLabel",
+			"muted": "uuGEca_muted"
 		};
 		//#endregion
-		//#region lib/types/client/HermesCompatCard.js
+		//#region src/client/HermesCompatCard.tsx
 		/** Poll interval while a login awaits approval. */
 		const POLL_MS = 3e3;
 		/**
@@ -4381,44 +4413,44 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 				bridge.logout();
 				setView({ kind: "idle" });
 			};
-			return (0, react_jsx_runtime.jsxs)("article", {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("article", {
 				className: HermesCompatCard_module_css_default.card,
 				children: [
-					(0, react_jsx_runtime.jsxs)("div", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 						className: HermesCompatCard_module_css_default.head,
-						children: [(0, react_jsx_runtime.jsx)("div", {
+						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 							className: HermesCompatCard_module_css_default.identity,
-							children: (0, react_jsx_runtime.jsx)("span", {
+							children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 								className: HermesCompatCard_module_css_default.name,
 								children: t("compat.provider")
 							})
-						}), view.kind === "active" ? (0, react_jsx_runtime.jsx)("span", {
+						}), view.kind === "active" ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 							className: HermesCompatCard_module_css_default.dotReady,
 							role: "img",
 							"aria-label": t("active.ready"),
 							title: t("active.ready")
-						}) : view.kind === "awaiting-approval" ? (0, react_jsx_runtime.jsx)("span", {
+						}) : view.kind === "awaiting-approval" ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 							className: HermesCompatCard_module_css_default.dotWait,
 							role: "img",
 							"aria-label": t("awaiting.title"),
 							title: t("awaiting.title")
-						}) : (0, react_jsx_runtime.jsx)("span", {
+						}) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 							className: HermesCompatCard_module_css_default.dotIdle,
 							role: "img",
 							"aria-label": t("idle.hint"),
 							title: t("idle.hint")
 						})]
 					}),
-					(0, react_jsx_runtime.jsx)("p", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 						className: HermesCompatCard_module_css_default.hint,
 						children: t("idle.hint")
 					}),
-					view.kind === "active" ? (0, react_jsx_runtime.jsxs)("div", {
+					view.kind === "active" ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 						className: HermesCompatCard_module_css_default.row,
-						children: [(0, react_jsx_runtime.jsxs)("span", {
+						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", {
 							className: HermesCompatCard_module_css_default.ready,
 							role: "status",
-							children: [t("active.ready"), (0, react_jsx_runtime.jsxs)("span", {
+							children: [t("active.ready"), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", {
 								className: HermesCompatCard_module_css_default.muted,
 								children: [
 									t("active.expires"),
@@ -4426,43 +4458,43 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 									new Date(view.expiresAt).toLocaleTimeString()
 								]
 							})]
-						}), (0, react_jsx_runtime.jsx)("button", {
+						}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
 							type: "button",
 							className: HermesCompatCard_module_css_default.secondary,
 							onClick: signOut,
 							children: t("active.logout")
 						})]
-					}) : view.kind === "awaiting-approval" ? (0, react_jsx_runtime.jsxs)("div", {
+					}) : view.kind === "awaiting-approval" ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 						className: HermesCompatCard_module_css_default.awaiting,
 						role: "status",
 						children: [
-							(0, react_jsx_runtime.jsx)("span", { children: t("awaiting.title") }),
-							(0, react_jsx_runtime.jsx)("a", {
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { children: t("awaiting.title") }),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("a", {
 								className: HermesCompatCard_module_css_default.link,
 								href: view.verificationUri,
 								target: "_blank",
 								rel: "noreferrer",
 								children: t("awaiting.link")
 							}),
-							(0, react_jsx_runtime.jsx)("span", {
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 								className: HermesCompatCard_module_css_default.code,
 								title: `${t("awaiting.code")}: ${view.userCode}`,
 								children: view.userCode
 							}),
-							(0, react_jsx_runtime.jsx)("span", {
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 								className: HermesCompatCard_module_css_default.muted,
 								children: t("awaiting.pending")
 							})
 						]
-					}) : (0, react_jsx_runtime.jsxs)("div", {
+					}) : /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 						className: HermesCompatCard_module_css_default.row,
-						children: [(0, react_jsx_runtime.jsx)("button", {
+						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
 							type: "button",
 							className: HermesCompatCard_module_css_default.primary,
 							disabled: busy,
 							onClick: login,
 							children: t("idle.login")
-						}), loginError !== null && (0, react_jsx_runtime.jsx)("span", {
+						}), loginError !== null && /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 							className: HermesCompatCard_module_css_default.error,
 							role: "status",
 							title: loginError,
@@ -4473,11 +4505,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			});
 		}
 		//#endregion
-		//#region lib/types/client/image-gen-value.js
-		/**
-		* Shared `draco-image-gen` picker values. SuperGrok and Codex both write this
-		* namespace; the dropdown lists only the backends whose UI plugin is loaded.
-		*/
+		//#region src/client/image-gen-value.ts
 		/** Host settings section owned by `@deepseek-ai/dsh-draco-image-gen`. */
 		const IMAGE_GEN_NS = "draco-image-gen";
 		/** Slot id for the single image-generation card (duplicate ids throw). */
@@ -4525,8 +4553,8 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			return rows;
 		}
 		//#endregion
-		//#region lib/types/client/ImageGenPickerCard.js
-		const LABELS = {
+		//#region src/client/ImageGenPickerCard.tsx
+		const LABELS$1 = {
 			none: "image.off",
 			"imagine-1k": "image.imagine1k",
 			"imagine-2k": "image.imagine2k",
@@ -4543,35 +4571,35 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			const ready = useStore((s) => s.ready);
 			const available = useStore((s) => s.available);
 			const value = useStore((s) => s.value);
-			return (0, react_jsx_runtime.jsxs)("article", {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("article", {
 				className: HermesCompatCard_module_css_default.card,
 				children: [
-					(0, react_jsx_runtime.jsx)("div", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 						className: HermesCompatCard_module_css_default.head,
-						children: (0, react_jsx_runtime.jsx)("div", {
+						children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 							className: HermesCompatCard_module_css_default.identity,
-							children: (0, react_jsx_runtime.jsx)("span", {
+							children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 								className: HermesCompatCard_module_css_default.name,
 								children: t("image.title")
 							})
 						})
 					}),
-					(0, react_jsx_runtime.jsx)("p", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 						className: HermesCompatCard_module_css_default.hint,
 						children: t("image.hint")
 					}),
-					ready ? (0, react_jsx_runtime.jsx)("select", {
+					ready ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("select", {
 						className: HermesCompatCard_module_css_default.select,
 						"aria-label": t("image.title"),
 						value,
 						onChange: (event) => {
 							setValue(event.target.value);
 						},
-						children: optionsFor(available, value).map((row) => (0, react_jsx_runtime.jsx)("option", {
+						children: optionsFor(available, value).map((row) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
 							value: row,
-							children: t(LABELS[row])
+							children: t(LABELS$1[row])
 						}, row))
-					}) : (0, react_jsx_runtime.jsx)("p", {
+					}) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 						className: HermesCompatCard_module_css_default.muted,
 						children: t("image.unavailable")
 					})
@@ -4579,7 +4607,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			});
 		}
 		//#endregion
-		//#region lib/types/client/image-gen-store.js
+		//#region src/client/image-gen-store.ts
 		/**
 		* Image-generation dropdown store: a mirror of the `draco-image-gen` settings
 		* section plus which OAuth UI plugins have advertised a backend.
@@ -4606,18 +4634,18 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			});
 		}
 		//#endregion
-		//#region lib/types/client/image-gen-picker.js
-		const HUB = Symbol.for("dsh.draco-image-gen.picker");
-		function hub() {
+		//#region src/client/image-gen-picker.ts
+		const HUB$1 = Symbol.for("dsh.draco-image-gen.picker");
+		function hub$1() {
 			const global = globalThis;
-			return global[HUB] ??= {
+			return global[HUB$1] ??= {
 				backends: /* @__PURE__ */ new Set(),
 				writers: /* @__PURE__ */ new Map(),
 				mounts: /* @__PURE__ */ new Map()
 			};
 		}
-		function snapshotOf(scope) {
-			const h = hub();
+		function snapshotOf$1(scope) {
+			const h = hub$1();
 			const snap = scope.getSnapshot();
 			return {
 				ready: snap.status === "ready",
@@ -4628,8 +4656,8 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 				value: valueOf(snap.value)
 			};
 		}
-		function push(scope) {
-			hub().bound?.sync(snapshotOf(scope));
+		function push$1(scope) {
+			hub$1().bound?.sync(snapshotOf$1(scope));
 		}
 		function ownerOf(value) {
 			if (value === "imagine-1k" || value === "imagine-2k") return "imagine";
@@ -4642,10 +4670,10 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		* @returns disposer that withdraws this backend and remounts if another remains.
 		*/
 		function installImageGenPicker(ctx, backend) {
-			const h = hub();
+			const h = hub$1();
 			const scope = ctx.settingsScope.bind({ namespace: IMAGE_GEN_NS });
 			const unsub = scope.subscribe(() => {
-				push(scope);
+				push$1(scope);
 			});
 			const write = (value) => {
 				for (const [field, next] of writesOf(value)) scope.set(field, next);
@@ -4661,7 +4689,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 					store,
 					inject: (actions) => {
 						h.bound = actions;
-						push(scope);
+						push$1(scope);
 						return { setValue: (value) => {
 							const owner = ownerOf(value);
 							((owner !== void 0 ? h.writers.get(owner) : void 0) ?? h.writers.values().next().value)?.(value);
@@ -4674,7 +4702,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			h.writers.set(backend, write);
 			h.mounts.set(backend, mount);
 			mount();
-			push(scope);
+			push$1(scope);
 			return () => {
 				unsub();
 				h.backends.delete(backend);
@@ -4687,15 +4715,339 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 					delete h.owner;
 					const leftover = h.backends.values().next().value;
 					if (leftover !== void 0) h.mounts.get(leftover)?.();
-				} else push(scope);
+				} else push$1(scope);
 				if (h.backends.size === 0) {
+					const global = globalThis;
+					delete global[HUB$1];
+				}
+			};
+		}
+		//#endregion
+		//#region src/client/speech-gen-value.ts
+		/** Slot id for the single speech-generation card (duplicate ids throw). */
+		const SPEECH_GEN_SEAT_ID = "draco-speech-gen";
+		/**
+		* Map a Host section onto one speech dropdown value.
+		* @param section - last accepted `draco-image-gen` section, if any.
+		* @returns `none` when speech is off or the section is empty.
+		*/
+		function speechValueOf(section) {
+			if (section === void 0) return "none";
+			if (section.speechProvider === "doubao-tts" || section.speechProvider === "seed-audio") return section.speechProvider;
+			return "none";
+		}
+		/**
+		* Host writes for one speech dropdown value.
+		* @param value - selected dropdown row.
+		* @returns field writes in mutation order.
+		*/
+		function speechWritesOf(value) {
+			return [["speechProvider", value]];
+		}
+		/**
+		* Dropdown rows. Both TTS backends are listed whenever the card is mounted.
+		* @returns rows in display order, Off first.
+		*/
+		function speechOptions() {
+			return [
+				"none",
+				"doubao-tts",
+				"seed-audio"
+			];
+		}
+		/** Credential references the speech card writes. */
+		const SPEECH_SEED_KEY_REF = "SEED_AUDIO_API_KEY";
+		/** Doubao TTS app id reference. */
+		const SPEECH_DOUBAO_APP_REF = "VOLCENGINE_TTS_APP_ID";
+		/** Doubao TTS access token reference. */
+		const SPEECH_DOUBAO_TOKEN_REF = "VOLCENGINE_TTS_ACCESS_TOKEN";
+		//#endregion
+		//#region src/client/SpeechGenPickerCard.tsx
+		const LABELS = {
+			none: "speech.off",
+			"doubao-tts": "speech.doubao",
+			"seed-audio": "speech.seed"
+		};
+		/**
+		* One Settings → Draco-suite dropdown for Doubao TTS and Seed-Audio, plus
+		* optional credential fields. Option labels are the wire model ids.
+		*/
+		function SpeechGenPickerCard({ t, setValue, saveKeys, useStore }) {
+			const ready = useStore((s) => s.ready);
+			const value = useStore((s) => s.value);
+			const seedConfigured = useStore((s) => s.seedConfigured);
+			const doubaoConfigured = useStore((s) => s.doubaoConfigured);
+			const [seed, setSeed] = (0, react.useState)("");
+			const [appId, setAppId] = (0, react.useState)("");
+			const [token, setToken] = (0, react.useState)("");
+			const [busy, setBusy] = (0, react.useState)(false);
+			const showDoubao = value === "doubao-tts";
+			const showSeed = value === "seed-audio";
+			const onSave = (event) => {
+				event.preventDefault();
+				if (saveKeys === void 0) return;
+				setBusy(true);
+				saveKeys({
+					...seed.trim().length > 0 ? { seed: seed.trim() } : {},
+					...appId.trim().length > 0 ? { appId: appId.trim() } : {},
+					...token.trim().length > 0 ? { token: token.trim() } : {}
+				}).finally(() => {
+					setSeed("");
+					setAppId("");
+					setToken("");
+					setBusy(false);
+				});
+			};
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("article", {
+				className: HermesCompatCard_module_css_default.card,
+				children: [
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						className: HermesCompatCard_module_css_default.head,
+						children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							className: HermesCompatCard_module_css_default.identity,
+							children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+								className: HermesCompatCard_module_css_default.name,
+								children: t("speech.title")
+							})
+						})
+					}),
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+						className: HermesCompatCard_module_css_default.hint,
+						children: t("speech.hint")
+					}),
+					ready ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("select", {
+						className: HermesCompatCard_module_css_default.select,
+						"aria-label": t("speech.title"),
+						value,
+						onChange: (event) => {
+							setValue(event.target.value);
+						},
+						children: speechOptions().map((row) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
+							value: row,
+							children: t(LABELS[row])
+						}, row))
+					}) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+						className: HermesCompatCard_module_css_default.muted,
+						children: t("speech.unavailable")
+					}),
+					ready && showDoubao ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+						className: HermesCompatCard_module_css_default.muted,
+						children: doubaoConfigured ? t("speech.doubaoReady") : t("speech.doubaoMissing")
+					}) : null,
+					ready && showSeed ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+						className: HermesCompatCard_module_css_default.muted,
+						children: seedConfigured ? t("speech.seedReady") : t("speech.seedMissing")
+					}) : null,
+					ready && saveKeys !== void 0 && value !== "none" ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("form", {
+						className: HermesCompatCard_module_css_default.fields,
+						onSubmit: onSave,
+						children: [
+							showSeed ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
+								className: HermesCompatCard_module_css_default.fieldLabel,
+								children: [t("speech.seedKey"), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+									className: HermesCompatCard_module_css_default.select,
+									type: "password",
+									autoComplete: "off",
+									value: seed,
+									placeholder: t("speech.keyPlaceholder"),
+									"aria-label": t("speech.seedKey"),
+									disabled: busy,
+									onChange: (event) => {
+										setSeed(event.target.value);
+									}
+								})]
+							}) : null,
+							showDoubao ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
+								className: HermesCompatCard_module_css_default.fieldLabel,
+								children: [t("speech.appId"), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+									className: HermesCompatCard_module_css_default.select,
+									type: "password",
+									autoComplete: "off",
+									value: appId,
+									placeholder: t("speech.keyPlaceholder"),
+									"aria-label": t("speech.appId"),
+									disabled: busy,
+									onChange: (event) => {
+										setAppId(event.target.value);
+									}
+								})]
+							}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
+								className: HermesCompatCard_module_css_default.fieldLabel,
+								children: [t("speech.token"), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+									className: HermesCompatCard_module_css_default.select,
+									type: "password",
+									autoComplete: "off",
+									value: token,
+									placeholder: t("speech.keyPlaceholder"),
+									"aria-label": t("speech.token"),
+									disabled: busy,
+									onChange: (event) => {
+										setToken(event.target.value);
+									}
+								})]
+							})] }) : null,
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								className: HermesCompatCard_module_css_default.primary,
+								type: "submit",
+								disabled: busy,
+								children: t("speech.save")
+							})
+						]
+					}) : null
+				]
+			});
+		}
+		//#endregion
+		//#region src/client/speech-gen-store.ts
+		/**
+		* Speech-generation dropdown store: a mirror of `draco-image-gen.speechProvider`
+		* plus whether the Volcengine credentials are configured.
+		*/
+		/**
+		* Declares the speech-generation dropdown state.
+		* @returns the store handle.
+		*/
+		function createSpeechGenPickerStore() {
+			return (0, _deepseek_ai_dsh_client_runtime_client.defineStore)({
+				init: () => ({
+					ready: false,
+					value: "none",
+					seedConfigured: false,
+					doubaoConfigured: false
+				}),
+				actions: { sync: (draft, next) => {
+					draft.ready = next.ready;
+					draft.value = next.value;
+					draft.seedConfigured = next.seedConfigured;
+					draft.doubaoConfigured = next.doubaoConfigured;
+				} }
+			});
+		}
+		//#endregion
+		//#region src/client/speech-gen-picker.ts
+		const HUB = Symbol.for("dsh.draco-speech-gen.picker");
+		function hub() {
+			const global = globalThis;
+			return global[HUB] ??= {
+				writers: /* @__PURE__ */ new Map(),
+				mounts: /* @__PURE__ */ new Map(),
+				seedConfigured: false,
+				doubaoConfigured: false
+			};
+		}
+		function snapshotOf(scope) {
+			const h = hub();
+			const snap = scope.getSnapshot();
+			return {
+				ready: snap.status === "ready",
+				value: speechValueOf(snap.value),
+				seedConfigured: h.seedConfigured,
+				doubaoConfigured: h.doubaoConfigured
+			};
+		}
+		function push(scope) {
+			hub().bound?.sync(snapshotOf(scope));
+		}
+		function credentialsOf(ctx) {
+			const getter = ctx.get;
+			if (typeof getter !== "function") return void 0;
+			return getter.call(ctx, "connection")?.api?.credentials;
+		}
+		/**
+		* Advertise speech generation and mount the shared card if it is absent.
+		* @param ctx - client root context (settings scope + Draco-suite item slot).
+		* @param backend - which UI plugin is applying.
+		* @returns disposer that withdraws this mount and remounts if another remains.
+		*/
+		function installSpeechGenPicker(ctx, backend) {
+			const h = hub();
+			const scope = ctx.settingsScope.bind({ namespace: IMAGE_GEN_NS });
+			const unsub = scope.subscribe(() => {
+				push(scope);
+			});
+			const credentials = credentialsOf(ctx);
+			const refreshKeys = async () => {
+				if (credentials === void 0) return;
+				try {
+					const response = await credentials.describe({ refs: [
+						SPEECH_SEED_KEY_REF,
+						SPEECH_DOUBAO_APP_REF,
+						SPEECH_DOUBAO_TOKEN_REF
+					] });
+					if (!response.result.ok) return;
+					const bag = response.result.value.credentials;
+					h.seedConfigured = bag[SPEECH_SEED_KEY_REF]?.configured === true;
+					h.doubaoConfigured = bag["VOLCENGINE_TTS_APP_ID"]?.configured === true && bag["VOLCENGINE_TTS_ACCESS_TOKEN"]?.configured === true;
+					push(scope);
+				} catch {}
+			};
+			const write = (value) => {
+				for (const [field, next] of speechWritesOf(value)) scope.set(field, next);
+			};
+			const saveKeys = credentials === void 0 ? void 0 : async (keys) => {
+				if (keys.seed !== void 0) await credentials.set({
+					ref: SPEECH_SEED_KEY_REF,
+					value: keys.seed
+				});
+				if (keys.appId !== void 0) await credentials.set({
+					ref: SPEECH_DOUBAO_APP_REF,
+					value: keys.appId
+				});
+				if (keys.token !== void 0) await credentials.set({
+					ref: SPEECH_DOUBAO_TOKEN_REF,
+					value: keys.token
+				});
+				await refreshKeys();
+			};
+			const mount = () => {
+				if (h.disposeSeat !== void 0) return;
+				const store = createSpeechGenPickerStore();
+				h.disposeSeat = ctx.slots.inject(DRACO_ITEM_SLOT, () => ctx.slots.register({
+					name: DRACO_ITEM_SLOT,
+					id: SPEECH_GEN_SEAT_ID,
+					order: 27,
+					locale: NS,
+					store,
+					inject: (actions) => {
+						h.bound = actions;
+						push(scope);
+						refreshKeys();
+						return {
+							setValue: (value) => {
+								const chosen = h.writers.values().next().value;
+								chosen?.(value);
+							},
+							...saveKeys === void 0 ? {} : { saveKeys }
+						};
+					}
+				}, SpeechGenPickerCard));
+				h.owner = backend;
+			};
+			h.writers.set(backend, write);
+			h.mounts.set(backend, mount);
+			mount();
+			push(scope);
+			refreshKeys();
+			return () => {
+				unsub();
+				h.writers.delete(backend);
+				h.mounts.delete(backend);
+				if (h.owner === backend) {
+					h.disposeSeat?.();
+					delete h.disposeSeat;
+					delete h.bound;
+					delete h.owner;
+					const leftover = h.mounts.keys().next().value;
+					if (leftover !== void 0) h.mounts.get(leftover)?.();
+				} else push(scope);
+				if (h.writers.size === 0) {
 					const global = globalThis;
 					delete global[HUB];
 				}
 			};
 		}
 		//#endregion
-		//#region lib/types/client/index.js
+		//#region src/client/index.ts
 		/**
 		* Codex login wizard plugin, browser half: mounts the
 		* `draco-codex-oauth` Typert Remote contribution and injects a
@@ -4762,6 +5114,10 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			const picker = installImageGenPicker(ctx, "codex");
 			disposers.push(async () => {
 				picker();
+			});
+			const speech = installSpeechGenPicker(ctx, "codex");
+			disposers.push(async () => {
+				speech();
 			});
 			return async () => {
 				for (const dispose of disposers.reverse()) await dispose();
