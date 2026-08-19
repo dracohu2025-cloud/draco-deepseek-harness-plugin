@@ -18,10 +18,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DracoSuiteSection_module_css_default = {
-			"intro": "aOg8EW_intro",
-			"title": "aOg8EW_title",
 			"cards": "aOg8EW_cards",
-			"section": "aOg8EW_section"
+			"section": "aOg8EW_section",
+			"title": "aOg8EW_title",
+			"intro": "aOg8EW_intro"
 		};
 		//#endregion
 		//#region lib/types/client/DracoSuiteSection.js
@@ -223,7 +223,7 @@ window.__ModuleLoader__.load({
 		const SPEECH_DOUBAO_TOKEN_REF = "VOLCENGINE_TTS_ACCESS_TOKEN";
 		//#endregion
 		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-speech-gen-ui/src/client/SpeechPicker.module.css.mjs
-		const css = ".o2ba6G_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.o2ba6G_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.o2ba6G_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.o2ba6G_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.o2ba6G_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.o2ba6G_primary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;align-self:flex-start;padding:4px 10px;font-size:13px;line-height:20px}.o2ba6G_primary:disabled{opacity:.6;cursor:default}.o2ba6G_secondary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;align-self:flex-start;padding:4px 10px;font-size:13px;line-height:20px}.o2ba6G_ready{color:var(--dsw-alias-state-success-primary);align-items:center;gap:6px;margin:0;font-size:13px;line-height:20px;display:inline-flex}.o2ba6G_error{color:var(--dsw-alias-state-error-primary);margin:0;font-size:12px;line-height:18px}.o2ba6G_dotReady{background:var(--dsw-alias-state-success-primary);border-radius:50%;flex:none;width:8px;height:8px}.o2ba6G_input{box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);border-radius:8px;padding:0 10px;font-size:13px;line-height:20px}.o2ba6G_input:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.o2ba6G_input:disabled{opacity:.6}.o2ba6G_select{appearance:none;box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);cursor:pointer;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:12px 12px;border-radius:8px;padding:0 32px 0 10px;font-size:13px;line-height:20px}.o2ba6G_select:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.o2ba6G_select:disabled{opacity:.6;cursor:default}.o2ba6G_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.o2ba6G_fields{flex-direction:column;gap:8px;display:flex}.o2ba6G_fieldLabel{flex-direction:column;gap:4px;margin:0;display:flex}";
+		const css = ".o2ba6G_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.o2ba6G_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.o2ba6G_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.o2ba6G_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.o2ba6G_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.o2ba6G_primary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;align-self:flex-start;padding:4px 10px;font-size:13px;line-height:20px}.o2ba6G_primary:disabled{opacity:.6;cursor:default}.o2ba6G_selectRow{align-items:center;gap:8px;display:flex}.o2ba6G_selectWrap{flex:auto;min-width:0;max-width:420px;position:relative}.o2ba6G_selectWrap .o2ba6G_select{width:100%;max-width:none}.o2ba6G_selectReady{padding-right:44px}.o2ba6G_selectWrap .o2ba6G_dotReady{pointer-events:none;position:absolute;top:50%;right:28px;transform:translateY(-50%)}.o2ba6G_iconBtn{box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);width:32px;height:32px;color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;flex:none;justify-content:center;align-items:center;padding:0;display:inline-flex}.o2ba6G_iconBtn:hover{background:var(--dsw-alias-interactive-bg-hover)}.o2ba6G_error{color:var(--dsw-alias-state-error-primary);margin:0;font-size:12px;line-height:18px}.o2ba6G_dotReady{background:var(--dsw-alias-state-success-primary);border-radius:50%;flex:none;width:8px;height:8px}.o2ba6G_input{box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);border-radius:8px;padding:0 10px;font-size:13px;line-height:20px}.o2ba6G_input:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.o2ba6G_input:disabled{opacity:.6}.o2ba6G_select{appearance:none;box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);cursor:pointer;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:12px 12px;border-radius:8px;padding:0 32px 0 10px;font-size:13px;line-height:20px}.o2ba6G_select:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.o2ba6G_select:disabled{opacity:.6;cursor:default}.o2ba6G_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.o2ba6G_fields{flex-direction:column;gap:8px;display:flex}.o2ba6G_fieldLabel{flex-direction:column;gap:4px;margin:0;display:flex}";
 		const tagId = "draco-speech-gen/SpeechPicker.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
 			const tag = document.createElement("style");
@@ -233,21 +233,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SpeechPicker_module_css_default = {
-			"fieldLabel": "o2ba6G_fieldLabel",
-			"ready": "o2ba6G_ready",
-			"select": "o2ba6G_select",
-			"head": "o2ba6G_head",
-			"primary": "o2ba6G_primary",
-			"muted": "o2ba6G_muted",
-			"error": "o2ba6G_error",
-			"secondary": "o2ba6G_secondary",
-			"card": "o2ba6G_card",
+			"selectRow": "o2ba6G_selectRow",
 			"hint": "o2ba6G_hint",
-			"identity": "o2ba6G_identity",
+			"head": "o2ba6G_head",
+			"fieldLabel": "o2ba6G_fieldLabel",
+			"error": "o2ba6G_error",
+			"dotReady": "o2ba6G_dotReady",
+			"selectReady": "o2ba6G_selectReady",
+			"iconBtn": "o2ba6G_iconBtn",
+			"name": "o2ba6G_name",
 			"input": "o2ba6G_input",
 			"fields": "o2ba6G_fields",
-			"name": "o2ba6G_name",
-			"dotReady": "o2ba6G_dotReady"
+			"select": "o2ba6G_select",
+			"primary": "o2ba6G_primary",
+			"identity": "o2ba6G_identity",
+			"selectWrap": "o2ba6G_selectWrap",
+			"muted": "o2ba6G_muted",
+			"card": "o2ba6G_card"
 		};
 		//#endregion
 		//#region lib/types/client/SpeechGenPickerCard.js
@@ -297,49 +299,56 @@ window.__ModuleLoader__.load({
 					setBusy(false);
 				});
 			};
+			const readyLabel = showDoubao ? t("speech.doubaoReady") : showSeed ? t("speech.seedReady") : void 0;
 			return (0, react_jsx_runtime.jsxs)("article", {
 				className: SpeechPicker_module_css_default.card,
 				children: [
-					(0, react_jsx_runtime.jsxs)("div", {
+					(0, react_jsx_runtime.jsx)("div", {
 						className: SpeechPicker_module_css_default.head,
-						children: [
-							(0, react_jsx_runtime.jsx)("div", {
-								className: SpeechPicker_module_css_default.identity,
-								children: (0, react_jsx_runtime.jsx)("span", {
-									className: SpeechPicker_module_css_default.name,
-									children: t("speech.title")
-								})
-							}),
-							ready && showDoubao && verified ? (0, react_jsx_runtime.jsx)("span", {
-								className: SpeechPicker_module_css_default.dotReady,
-								role: "img",
-								"aria-label": t("speech.doubaoReady"),
-								title: t("speech.doubaoReady")
-							}) : null,
-							ready && showSeed && verified ? (0, react_jsx_runtime.jsx)("span", {
-								className: SpeechPicker_module_css_default.dotReady,
-								role: "img",
-								"aria-label": t("speech.seedReady"),
-								title: t("speech.seedReady")
-							}) : null
-						]
+						children: (0, react_jsx_runtime.jsx)("div", {
+							className: SpeechPicker_module_css_default.identity,
+							children: (0, react_jsx_runtime.jsx)("span", {
+								className: SpeechPicker_module_css_default.name,
+								children: t("speech.title")
+							})
+						})
 					}),
 					(0, react_jsx_runtime.jsx)("p", {
 						className: SpeechPicker_module_css_default.hint,
 						children: t("speech.hint")
 					}),
-					ready ? (0, react_jsx_runtime.jsx)("select", {
-						className: SpeechPicker_module_css_default.select,
-						"aria-label": t("speech.title"),
-						value,
-						disabled: checking,
-						onChange: (event) => {
-							setValue(event.target.value);
-						},
-						children: speechOptions().map((row) => (0, react_jsx_runtime.jsx)("option", {
-							value: row,
-							children: t(LABELS[row])
-						}, row))
+					ready ? (0, react_jsx_runtime.jsxs)("div", {
+						className: SpeechPicker_module_css_default.selectRow,
+						children: [(0, react_jsx_runtime.jsxs)("div", {
+							className: SpeechPicker_module_css_default.selectWrap,
+							children: [(0, react_jsx_runtime.jsx)("select", {
+								className: verified ? `${SpeechPicker_module_css_default.select} ${SpeechPicker_module_css_default.selectReady}` : SpeechPicker_module_css_default.select,
+								"aria-label": t("speech.title"),
+								value,
+								disabled: checking,
+								onChange: (event) => {
+									setValue(event.target.value);
+								},
+								children: speechOptions().map((row) => (0, react_jsx_runtime.jsx)("option", {
+									value: row,
+									children: t(LABELS[row])
+								}, row))
+							}), verified && readyLabel !== void 0 ? (0, react_jsx_runtime.jsx)("span", {
+								className: SpeechPicker_module_css_default.dotReady,
+								role: "img",
+								"aria-label": readyLabel,
+								title: readyLabel
+							}) : null]
+						}), verified && saveKeys !== void 0 && value !== "none" && !editing ? (0, react_jsx_runtime.jsx)("button", {
+							className: SpeechPicker_module_css_default.iconBtn,
+							type: "button",
+							"aria-label": t("speech.replace"),
+							title: t("speech.replace"),
+							onClick: () => {
+								setEditing(true);
+							},
+							children: (0, react_jsx_runtime.jsx)(KeyIcon, {})
+						}) : null]
 					}) : (0, react_jsx_runtime.jsx)("p", {
 						className: SpeechPicker_module_css_default.muted,
 						children: t("speech.unavailable")
@@ -348,7 +357,6 @@ window.__ModuleLoader__.load({
 						t,
 						probe: doubaoProbe,
 						error: doubaoProbeError,
-						readyKey: "speech.doubaoReady",
 						missingKey: "speech.doubaoMissing",
 						configured: doubaoConfigured
 					}) : null,
@@ -356,18 +364,9 @@ window.__ModuleLoader__.load({
 						t,
 						probe: seedProbe,
 						error: seedProbeError,
-						readyKey: "speech.seedReady",
 						missingKey: "speech.seedMissing",
 						configured: seedConfigured,
 						checkingKey: "speech.checkingSeed"
-					}) : null,
-					ready && verified && saveKeys !== void 0 && value !== "none" && !editing ? (0, react_jsx_runtime.jsx)("button", {
-						className: SpeechPicker_module_css_default.secondary,
-						type: "button",
-						onClick: () => {
-							setEditing(true);
-						},
-						children: t("speech.replace")
 					}) : null,
 					showForm ? (0, react_jsx_runtime.jsxs)("form", {
 						className: SpeechPicker_module_css_default.fields,
@@ -428,11 +427,8 @@ window.__ModuleLoader__.load({
 				]
 			});
 		}
-		function ProbeStatusLine({ t, probe, error, readyKey, missingKey, configured, checkingKey = "speech.checking" }) {
-			if (probe === "ok") return (0, react_jsx_runtime.jsx)("p", {
-				className: SpeechPicker_module_css_default.ready,
-				children: t(readyKey)
-			});
+		function ProbeStatusLine({ t, probe, error, missingKey, configured, checkingKey = "speech.checking" }) {
+			if (probe === "ok") return null;
 			if (probe === "checking") return (0, react_jsx_runtime.jsx)("p", {
 				className: SpeechPicker_module_css_default.muted,
 				children: t(checkingKey)
@@ -444,6 +440,27 @@ window.__ModuleLoader__.load({
 			return (0, react_jsx_runtime.jsx)("p", {
 				className: SpeechPicker_module_css_default.muted,
 				children: configured ? t(checkingKey) : t(missingKey)
+			});
+		}
+		function KeyIcon() {
+			return (0, react_jsx_runtime.jsxs)("svg", {
+				width: "16",
+				height: "16",
+				viewBox: "0 0 16 16",
+				fill: "none",
+				"aria-hidden": "true",
+				children: [(0, react_jsx_runtime.jsx)("circle", {
+					cx: "5.5",
+					cy: "5.5",
+					r: "3.1",
+					stroke: "currentColor",
+					strokeWidth: "1.5"
+				}), (0, react_jsx_runtime.jsx)("path", {
+					d: "M8.2 7.1 14 12.9v1.6h-2.2v-1.5h-1.6v-1.5H8.7L8.2 11",
+					stroke: "currentColor",
+					strokeWidth: "1.5",
+					strokeLinejoin: "round"
+				})]
 			});
 		}
 		//#endregion
