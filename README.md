@@ -62,6 +62,7 @@ The subdirectory package is `draco-speech-gen`. See [speech/README.md](./speech/
 
 ```sh
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:speech
+dsh plugin --profile web update draco-speech-gen
 dsh plugin --profile web remove draco-speech-gen
 ```
 

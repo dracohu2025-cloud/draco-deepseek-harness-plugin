@@ -14,11 +14,19 @@ dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plu
 
 This repository ships **built** `lib/` artifacts, so no `prepare` script runs.
 
-Pin a commit if you want a frozen install. pnpm takes the commit and the subdirectory as `#<sha>&path:speech` (quote the spec so the shell does not split on `&`):
+Day-to-day iteration uses this floating spec. After a new `main` lands, refresh with:
+
+```sh
+dsh plugin --profile web update draco-speech-gen
+```
+
+Pin a commit only when you want a frozen install. pnpm takes the commit and the subdirectory as `#<sha>&path:speech` (quote the spec so the shell does not split on `&`):
 
 ```sh
 dsh plugin --profile web add 'github:dracohu2025-cloud/draco-deepseek-harness-plugin#<sha>&path:speech'
 ```
+
+`add` of the same floating URL does not refresh the lockfile. `update` does. `remove` then `add` is only for a stuck lockfile or leftover SuperGrok / Codex speech rows.
 
 Then start the official Web profile:
 
@@ -37,16 +45,7 @@ Pick **doubao-tts** (exact wording) or **seed-audio-1.0** (expressive; may add a
 
 `speech_generate` writes an MP3 under `$DSH_HOME/draco/audio/`. There is no audio attachment type yet, so the chat shows the file path rather than an inline player. Speech is never defaulted from OAuth.
 
-If an older SuperGrok or Codex plugin still registered `speech_generate` or a speech Settings card, remove and re-add those plugins as well. TTS no longer ships inside the image/video bundles. Pin the commit if `add` keeps an old lockfile:
-
-```sh
-dsh plugin --profile web remove draco-speech-gen
-dsh plugin --profile web remove draco-grok-oauth
-dsh plugin --profile web remove draco-codex-oauth
-dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin
-dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex
-dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:speech
-```
+If an older SuperGrok or Codex plugin still registered `speech_generate` or a speech Settings card, `update` those bundles (or `remove` then `add` only if their lockfile is stuck). TTS no longer ships inside the image/video bundles.
 
 ## What this bundle inserts
 
