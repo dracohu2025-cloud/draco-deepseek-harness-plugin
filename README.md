@@ -10,7 +10,7 @@ Each plugin is independent. Install only the ones you want.
 |---|---|---|
 | SuperGrok / xAI | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin` | SuperGrok OAuth + **Grok 4.6** only (JPEG/PNG, 500k) + **Grok Imagine** Image 2.0 / Video 1.5 |
 | Codex / ChatGPT | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex` | Codex OAuth + **GPT-5.6 Sol / Terra / Luna** only (1.05M window, `store: false`) + `gpt-image-2` after first login (durable `ImageBlock` + `$DSH_HOME/draco/images/` copy) |
-| Speech / TTS | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:speech` | `speech_generate` via Volcengine `doubao-tts` / `seed-audio-1.0` (MP3 under `$DSH_HOME/draco/audio/`) |
+| Speech / TTS | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:speech` | `speech_generate` via Volcengine `doubao-tts` / `seed-audio-1.0`; the chat tool row plays the MP3 (copy under `$DSH_HOME/draco/audio/`) |
 
 Then start the official Web profile:
 
@@ -59,7 +59,7 @@ dsh plugin --profile web remove draco-grok-oauth
 
 ## Speech / TTS
 
-The subdirectory package is `draco-speech-gen`. See [speech/README.md](./speech/README.md). Seed-Audio **Save and verify** often takes 30 seconds or more (the host waits up to 120s); Doubao TTS usually returns in a few seconds.
+The subdirectory package is `draco-speech-gen`. See [speech/README.md](./speech/README.md). A successful `speech_generate` writes an MP3 under `$DSH_HOME/draco/audio/` and plays it in the Web tool row. Seed-Audio **Save and verify** often takes 30 seconds or more (the host waits up to 120s); Doubao TTS usually returns in a few seconds.
 
 ```sh
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:speech
