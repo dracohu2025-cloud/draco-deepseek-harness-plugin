@@ -4156,9 +4156,9 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		}
 		var DracoSuiteSection_module_css_default = {
 			"intro": "SwbIYa_intro",
+			"cards": "SwbIYa_cards",
 			"title": "SwbIYa_title",
-			"section": "SwbIYa_section",
-			"cards": "SwbIYa_cards"
+			"section": "SwbIYa_section"
 		};
 		//#endregion
 		//#region lib/types/client/DracoSuiteSection.js
@@ -4213,7 +4213,8 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"image.codexLow": "gpt-image-2-low",
 			"image.codexMedium": "gpt-image-2-medium",
 			"image.codexHigh": "gpt-image-2-high",
-			"image.unavailable": "设置尚未就绪"
+			"image.unavailable": "设置尚未就绪",
+			"image.ready": "生图已就绪"
 		};
 		/** English dictionary, checked complete against the zh key set. */
 		const en = {
@@ -4240,7 +4241,8 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			"image.codexLow": "gpt-image-2-low",
 			"image.codexMedium": "gpt-image-2-medium",
 			"image.codexHigh": "gpt-image-2-high",
-			"image.unavailable": "Settings are not ready yet"
+			"image.unavailable": "Settings are not ready yet",
+			"image.ready": "Image generation ready"
 		};
 		/** The namespace key used for locale registration and seat props. */
 		const NS = "draco-codex";
@@ -4298,7 +4300,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		}
 		//#endregion
 		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-oauth-codex-ui/src/client/HermesCompatCard.module.css.mjs
-		const css = ".uuGEca_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.uuGEca_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.uuGEca_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.uuGEca_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.uuGEca_tag{color:var(--dsw-alias-label-secondary);background:var(--dsw-alias-bg-layer-2);border-radius:999px;padding:1px 6px;font-size:11px;line-height:16px}.uuGEca_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.uuGEca_row,.uuGEca_awaiting{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uuGEca_primary,.uuGEca_secondary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;padding:4px 10px;font-size:13px;line-height:20px}.uuGEca_primary:disabled{opacity:.6;cursor:default}.uuGEca_selected{background:var(--dsw-alias-bg-module-platform);border-color:var(--dsw-static-neutral-bluish-400);font-weight:500}.uuGEca_ready{color:var(--dsw-alias-state-success-primary);align-items:center;gap:6px;font-size:13px;display:inline-flex}.uuGEca_link{color:var(--dsw-alias-label-primary);text-decoration:underline}.uuGEca_code{font-family:var(--ds-font-family-code);background:var(--dsw-alias-bg-layer-2);border-radius:4px;padding:0 4px}.uuGEca_select{appearance:none;box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);cursor:pointer;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:12px 12px;border-radius:8px;padding:0 32px 0 10px;font-size:13px;line-height:20px}.uuGEca_select:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.uuGEca_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.uuGEca_fields{flex-direction:column;gap:8px;display:flex}.uuGEca_fieldLabel{flex-direction:column;gap:4px;margin:0;display:flex}.uuGEca_error{color:var(--dsw-alias-state-error-primary);font-size:12px}.uuGEca_dotReady,.uuGEca_dotWait,.uuGEca_dotIdle{border-radius:50%;flex:none;width:8px;height:8px}.uuGEca_dotReady{background:var(--dsw-alias-state-success-primary)}.uuGEca_dotWait{background:var(--dsw-alias-state-warn-primary)}.uuGEca_dotIdle{background:var(--dsw-alias-border-l3)}";
+		const css = ".uuGEca_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.uuGEca_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.uuGEca_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.uuGEca_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.uuGEca_tag{color:var(--dsw-alias-label-secondary);background:var(--dsw-alias-bg-layer-2);border-radius:999px;padding:1px 6px;font-size:11px;line-height:16px}.uuGEca_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.uuGEca_row,.uuGEca_awaiting{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uuGEca_primary,.uuGEca_secondary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;padding:4px 10px;font-size:13px;line-height:20px}.uuGEca_primary:disabled{opacity:.6;cursor:default}.uuGEca_selected{background:var(--dsw-alias-bg-module-platform);border-color:var(--dsw-static-neutral-bluish-400);font-weight:500}.uuGEca_ready{color:var(--dsw-alias-state-success-primary);align-items:center;gap:6px;font-size:13px;display:inline-flex}.uuGEca_link{color:var(--dsw-alias-label-primary);text-decoration:underline}.uuGEca_code{font-family:var(--ds-font-family-code);background:var(--dsw-alias-bg-layer-2);border-radius:4px;padding:0 4px}.uuGEca_select{appearance:none;box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);cursor:pointer;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:12px 12px;border-radius:8px;padding:0 32px 0 10px;font-size:13px;line-height:20px}.uuGEca_select:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.uuGEca_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.uuGEca_fields{flex-direction:column;gap:8px;display:flex}.uuGEca_fieldLabel{flex-direction:column;gap:4px;margin:0;display:flex}.uuGEca_error{color:var(--dsw-alias-state-error-primary);font-size:12px}.uuGEca_dotReady,.uuGEca_dotWait,.uuGEca_dotIdle{border-radius:50%;flex:none;width:8px;height:8px}.uuGEca_dotReady{background:var(--dsw-alias-state-success-primary)}.uuGEca_dotWait{background:var(--dsw-alias-state-warn-primary)}.uuGEca_dotIdle{background:var(--dsw-alias-border-l3)}.uuGEca_selectRow{align-items:center;gap:8px;display:flex}.uuGEca_selectWrap{flex:auto;min-width:0;max-width:420px;position:relative}.uuGEca_selectWrap .uuGEca_select{width:100%;max-width:none}.uuGEca_selectReady{padding-right:44px}.uuGEca_selectWrap .uuGEca_dotReady{pointer-events:none;position:absolute;top:50%;right:28px;transform:translateY(-50%)}";
 		const tagId = "draco-codex-oauth/HermesCompatCard.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
 			const tag = document.createElement("style");
@@ -4308,28 +4310,31 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var HermesCompatCard_module_css_default = {
-			"identity": "uuGEca_identity",
-			"dotIdle": "uuGEca_dotIdle",
-			"link": "uuGEca_link",
-			"hint": "uuGEca_hint",
-			"fieldLabel": "uuGEca_fieldLabel",
-			"fields": "uuGEca_fields",
-			"error": "uuGEca_error",
-			"dotReady": "uuGEca_dotReady",
-			"awaiting": "uuGEca_awaiting",
-			"select": "uuGEca_select",
 			"selected": "uuGEca_selected",
-			"muted": "uuGEca_muted",
-			"name": "uuGEca_name",
-			"row": "uuGEca_row",
-			"tag": "uuGEca_tag",
-			"secondary": "uuGEca_secondary",
-			"ready": "uuGEca_ready",
-			"code": "uuGEca_code",
+			"hint": "uuGEca_hint",
 			"primary": "uuGEca_primary",
+			"code": "uuGEca_code",
+			"error": "uuGEca_error",
+			"dotWait": "uuGEca_dotWait",
+			"fieldLabel": "uuGEca_fieldLabel",
+			"dotIdle": "uuGEca_dotIdle",
+			"selectRow": "uuGEca_selectRow",
+			"identity": "uuGEca_identity",
+			"tag": "uuGEca_tag",
+			"selectWrap": "uuGEca_selectWrap",
+			"selectReady": "uuGEca_selectReady",
+			"select": "uuGEca_select",
+			"ready": "uuGEca_ready",
+			"muted": "uuGEca_muted",
+			"fields": "uuGEca_fields",
 			"head": "uuGEca_head",
+			"secondary": "uuGEca_secondary",
+			"dotReady": "uuGEca_dotReady",
+			"row": "uuGEca_row",
 			"card": "uuGEca_card",
-			"dotWait": "uuGEca_dotWait"
+			"link": "uuGEca_link",
+			"name": "uuGEca_name",
+			"awaiting": "uuGEca_awaiting"
 		};
 		//#endregion
 		//#region lib/types/client/HermesCompatCard.js
@@ -4526,6 +4531,17 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			if (available.codex || value === "codex-low" || value === "codex-medium" || value === "codex-high") rows.push("codex-low", "codex-medium", "codex-high");
 			return rows;
 		}
+		/**
+		* True when the selected image row can run (its UI plugin is loaded).
+		* Off never shows a ready dot.
+		* @param available - backends whose UI plugin is loaded.
+		* @param value - current dropdown value.
+		*/
+		function imageReadyOf(available, value) {
+			if (value === "imagine-1k" || value === "imagine-2k") return available.imagine;
+			if (value === "codex-low" || value === "codex-medium" || value === "codex-high") return available.codex;
+			return false;
+		}
 		//#endregion
 		//#region lib/types/client/ImageGenPickerCard.js
 		const LABELS = {
@@ -4545,6 +4561,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			const ready = useStore((s) => s.ready);
 			const available = useStore((s) => s.available);
 			const value = useStore((s) => s.value);
+			const verified = imageReadyOf(available, value);
 			return (0, react_jsx_runtime.jsxs)("article", {
 				className: HermesCompatCard_module_css_default.card,
 				children: [
@@ -4562,17 +4579,28 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 						className: HermesCompatCard_module_css_default.hint,
 						children: t("image.hint")
 					}),
-					ready ? (0, react_jsx_runtime.jsx)("select", {
-						className: HermesCompatCard_module_css_default.select,
-						"aria-label": t("image.title"),
-						value,
-						onChange: (event) => {
-							setValue(event.target.value);
-						},
-						children: optionsFor(available, value).map((row) => (0, react_jsx_runtime.jsx)("option", {
-							value: row,
-							children: t(LABELS[row])
-						}, row))
+					ready ? (0, react_jsx_runtime.jsx)("div", {
+						className: HermesCompatCard_module_css_default.selectRow,
+						children: (0, react_jsx_runtime.jsxs)("div", {
+							className: HermesCompatCard_module_css_default.selectWrap,
+							children: [(0, react_jsx_runtime.jsx)("select", {
+								className: verified ? `${HermesCompatCard_module_css_default.select} ${HermesCompatCard_module_css_default.selectReady}` : HermesCompatCard_module_css_default.select,
+								"aria-label": t("image.title"),
+								value,
+								onChange: (event) => {
+									setValue(event.target.value);
+								},
+								children: optionsFor(available, value).map((row) => (0, react_jsx_runtime.jsx)("option", {
+									value: row,
+									children: t(LABELS[row])
+								}, row))
+							}), verified ? (0, react_jsx_runtime.jsx)("span", {
+								className: HermesCompatCard_module_css_default.dotReady,
+								role: "img",
+								"aria-label": t("image.ready"),
+								title: t("image.ready")
+							}) : null]
+						})
 					}) : (0, react_jsx_runtime.jsx)("p", {
 						className: HermesCompatCard_module_css_default.muted,
 						children: t("image.unavailable")
