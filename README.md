@@ -11,7 +11,6 @@ Each plugin is independent. Install only the ones you want.
 | SuperGrok / xAI | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin` | SuperGrok OAuth + **Grok 4.6** only (JPEG/PNG, 500k) + **Grok Imagine** Image 2.0 / Video 1.5 |
 | Codex / ChatGPT | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex` | Codex OAuth + **GPT-5.6 Sol / Terra / Luna** only (1.05M window, `store: false`) + `gpt-image-2` after first login (durable `ImageBlock` + `$DSH_HOME/draco/images/` copy) |
 | Speech / TTS | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:speech` | `speech_generate` via Volcengine `doubao-tts` / `seed-audio-1.0`; the chat tool row plays the MP3 (copy under `$DSH_HOME/draco/audio/`) |
-| Music / MiniMax Music 3 | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:music` | `music_generate` via MiniMax `music-3.0` (Token Plan or prior paid music); the chat tool row plays the MP3 (copy under `$DSH_HOME/draco/music/`) |
 
 Then start the official Web profile:
 
@@ -19,12 +18,11 @@ Then start the official Web profile:
 dsh --profile web
 ```
 
-Open **Settings → Draco-suite**. Each installed plugin contributes its own cards there. Image and video pickers come with SuperGrok / Codex. Speech and music have their own installs.
+Open **Settings → Draco-suite**. Each installed plugin contributes its own cards there. Image and video pickers come with SuperGrok / Codex. Speech has its own install.
 
 - SuperGrok: [README](./README.md#supergrok--xai) below
 - Codex: [codex/README.md](./codex/README.md)
 - Speech: [speech/README.md](./speech/README.md)
-- Music: [music/README.md](./music/README.md)
 
 ## SuperGrok / xAI
 
@@ -69,13 +67,13 @@ dsh plugin --profile web update draco-speech-gen
 dsh plugin --profile web remove draco-speech-gen
 ```
 
-## Music / MiniMax Music 3
+## MiniMax Music 3 (withdrawn)
 
-The subdirectory package is `draco-music-gen`. See [music/README.md](./music/README.md). A successful `music_generate` writes an MP3 under `$DSH_HOME/draco/music/` and plays it in the Web tool row when the clip is at most 4 MiB. **Save and verify** is a short instrumental create and often takes one or two minutes (the host waits up to 180s). `music-3.0` needs a MiniMax Token Plan or prior paid music.
+MiniMax no longer serves hosted Music 3 (`POST /v1/music_generation`). Token Plan does not include it. This repository has no `#path:music` bundle.
+
+If an older install still loads `draco-music-gen`:
 
 ```sh
-dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:music
-dsh plugin --profile web update draco-music-gen
 dsh plugin --profile web remove draco-music-gen
 ```
 
@@ -93,11 +91,11 @@ dsh plugin --profile web remove draco-codex-oauth
 
 ## Develop
 
-Source lives in the Draco fork of DeepSeek Harness (`packages/draco/…`). This repository is the **publish face**: built artifacts plus bundle patches. After a user-visible plugin change: rebuild in the fork, run `node scripts/sync-from-fork.mjs` (it copies `lib/` and then runs `scripts/verify-plugin-ids.mjs` so SuperGrok, Codex, speech, and music do not share Loader row ids, exclusive tool names, or Settings seat ids), update this README (and `codex/README.md`, `speech/README.md`, or `music/README.md` when those layers change), then commit and push `main`. A new modality gets its own `#path:` bundle and new ids on first landing; do not park it inside SuperGrok or Codex.
+Source lives in the Draco fork of DeepSeek Harness (`packages/draco/…`). This repository is the **publish face**: built artifacts plus bundle patches. After a user-visible plugin change: rebuild in the fork, run `node scripts/sync-from-fork.mjs` (it copies `lib/` and then runs `scripts/verify-plugin-ids.mjs` so SuperGrok, Codex, and speech do not share Loader row ids, exclusive tool names, or Settings seat ids), update this README (and `codex/README.md` or `speech/README.md` when those layers change), then commit and push `main`. A new modality gets its own `#path:` bundle and new ids on first landing; do not park it inside SuperGrok or Codex.
 
 Prefer whatever makes an official `dsh --profile web` install easier for people who did not clone this repo: floating `#path:` specs, `dsh plugin update <package>`, no `remove` then `add` for ordinary upgrades, and pin a commit only when someone needs a freeze.
 
-When rewriting a client bundle, `__ModuleLoader__.load({ id })` must be the **npm package name** (`draco-grok-oauth`, `draco-codex-oauth`, `draco-speech-gen`, `draco-music-gen`), not the workspace package or the cordis row id. The web host looks up the bundle by `cordis.patch.yml` `name`. A mismatch boots the host and then fails in the browser as `plugin "…" is not registered`.
+When rewriting a client bundle, `__ModuleLoader__.load({ id })` must be the **npm package name** (`draco-grok-oauth`, `draco-codex-oauth`, `draco-speech-gen`), not the workspace package or the cordis row id. The web host looks up the bundle by `cordis.patch.yml` `name`. A mismatch boots the host and then fails in the browser as `plugin "…" is not registered`.
 
 Install problems (GitHub 429, `link:` local install, pnpm store mismatch): see [TROUBLESHOOTING.md](./TROUBLESHOOTING.md).
 
