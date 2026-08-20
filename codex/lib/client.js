@@ -4155,9 +4155,9 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var DracoSuiteSection_module_css_default = {
-			"section": "SwbIYa_section",
-			"title": "SwbIYa_title",
 			"intro": "SwbIYa_intro",
+			"title": "SwbIYa_title",
+			"section": "SwbIYa_section",
 			"cards": "SwbIYa_cards"
 		};
 		//#endregion
@@ -4308,28 +4308,28 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var HermesCompatCard_module_css_default = {
-			"fields": "uuGEca_fields",
-			"row": "uuGEca_row",
-			"muted": "uuGEca_muted",
-			"dotReady": "uuGEca_dotReady",
-			"error": "uuGEca_error",
-			"code": "uuGEca_code",
+			"identity": "uuGEca_identity",
+			"dotIdle": "uuGEca_dotIdle",
+			"link": "uuGEca_link",
+			"hint": "uuGEca_hint",
 			"fieldLabel": "uuGEca_fieldLabel",
-			"card": "uuGEca_card",
+			"fields": "uuGEca_fields",
+			"error": "uuGEca_error",
+			"dotReady": "uuGEca_dotReady",
 			"awaiting": "uuGEca_awaiting",
 			"select": "uuGEca_select",
-			"identity": "uuGEca_identity",
-			"link": "uuGEca_link",
-			"ready": "uuGEca_ready",
-			"secondary": "uuGEca_secondary",
-			"head": "uuGEca_head",
-			"dotWait": "uuGEca_dotWait",
-			"tag": "uuGEca_tag",
-			"hint": "uuGEca_hint",
-			"dotIdle": "uuGEca_dotIdle",
-			"primary": "uuGEca_primary",
 			"selected": "uuGEca_selected",
-			"name": "uuGEca_name"
+			"muted": "uuGEca_muted",
+			"name": "uuGEca_name",
+			"row": "uuGEca_row",
+			"tag": "uuGEca_tag",
+			"secondary": "uuGEca_secondary",
+			"ready": "uuGEca_ready",
+			"code": "uuGEca_code",
+			"primary": "uuGEca_primary",
+			"head": "uuGEca_head",
+			"card": "uuGEca_card",
+			"dotWait": "uuGEca_dotWait"
 		};
 		//#endregion
 		//#region lib/types/client/HermesCompatCard.js

@@ -13,6 +13,7 @@ const LAYERS = [
   { name: 'grok', dir: '', packageName: 'draco-grok-oauth' },
   { name: 'codex', dir: 'codex', packageName: 'draco-codex-oauth' },
   { name: 'speech', dir: 'speech', packageName: 'draco-speech-gen' },
+  { name: 'seedance', dir: 'seedance', packageName: 'draco-seedance-gen' },
 ]
 
 const SHARED_TOOLS = new Set(['image_generate', 'video_generate'])
@@ -23,6 +24,7 @@ const EXCLUSIVE_SEATS = {
   grok: new Set(['xai-oauth']),
   codex: new Set(['codex-oauth']),
   speech: new Set(['draco-speech-card']),
+  seedance: new Set(),
 }
 
 function listFiles(dir, out = []) {
@@ -89,6 +91,9 @@ for (const [layer, ids] of idsByLayer) {
 for (const [layer, tools] of toolsByLayer) {
   if (layer !== 'speech' && tools.has('speech_generate')) {
     failures.push(`${layer} host artifacts still register speech_generate`)
+  }
+  if (layer === 'seedance' && !tools.has('video_generate')) {
+    failures.push(`${layer} host artifacts do not register video_generate`)
   }
   if (tools.has('music_generate')) {
     failures.push(`${layer} host artifacts still register withdrawn music_generate`)
