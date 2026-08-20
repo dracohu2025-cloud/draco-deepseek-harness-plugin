@@ -13,6 +13,7 @@ const LAYERS = [
   { name: 'grok', dir: '', packageName: 'draco-grok-oauth' },
   { name: 'codex', dir: 'codex', packageName: 'draco-codex-oauth' },
   { name: 'speech', dir: 'speech', packageName: 'draco-speech-gen' },
+  { name: 'music', dir: 'music', packageName: 'draco-music-gen' },
 ]
 
 const SHARED_TOOLS = new Set(['image_generate', 'video_generate'])
@@ -23,6 +24,7 @@ const EXCLUSIVE_SEATS = {
   grok: new Set(['xai-oauth']),
   codex: new Set(['codex-oauth']),
   speech: new Set(['draco-speech-card']),
+  music: new Set(['draco-music-card']),
 }
 
 function listFiles(dir, out = []) {
@@ -39,7 +41,7 @@ function patchIds(text) {
 }
 
 function toolNames(text) {
-  return new Set([...text.matchAll(/\bname:\s*"(image_generate|video_generate|speech_generate)"/g)].map(match => match[1]))
+  return new Set([...text.matchAll(/\bname:\s*"(image_generate|video_generate|speech_generate|music_generate)"/g)].map(match => match[1]))
 }
 
 function seatIds(text, packageName) {
@@ -90,9 +92,12 @@ for (const [layer, tools] of toolsByLayer) {
   if (layer !== 'speech' && tools.has('speech_generate')) {
     failures.push(`${layer} host artifacts still register speech_generate`)
   }
-  if (layer === 'speech') {
+  if (layer !== 'music' && tools.has('music_generate')) {
+    failures.push(`${layer} host artifacts still register music_generate`)
+  }
+  if (layer === 'speech' || layer === 'music') {
     for (const name of SHARED_TOOLS) {
-      if (tools.has(name)) failures.push(`speech host artifacts register shared tool ${name}`)
+      if (tools.has(name)) failures.push(`${layer} host artifacts register shared tool ${name}`)
     }
   }
 }
@@ -100,6 +105,9 @@ for (const [layer, tools] of toolsByLayer) {
 for (const [layer, seats] of seatsByLayer) {
   if (layer !== 'speech' && (seats.has('draco-speech-gen') || seats.has('draco-speech-card'))) {
     failures.push(`${layer} client still registers a speech Settings seat (${[...seats].filter(id => id.startsWith('draco-speech')).join(', ')})`)
+  }
+  if (layer !== 'music' && (seats.has('draco-music-gen') || seats.has('draco-music-card'))) {
+    failures.push(`${layer} client still registers a music Settings seat (${[...seats].filter(id => id.startsWith('draco-music')).join(', ')})`)
   }
   const exclusive = EXCLUSIVE_SEATS[layer]
   for (const [other, otherSeats] of Object.entries(EXCLUSIVE_SEATS)) {
@@ -113,7 +121,7 @@ for (const [layer, seats] of seatsByLayer) {
   }
   for (const id of seats) {
     if (SHARED_SEATS.has(id) || exclusive.has(id)) continue
-    if (id.startsWith('draco-speech')) continue
+    if (id.startsWith('draco-speech') || id.startsWith('draco-music')) continue
     failures.push(`${layer} client registers undocumented Settings seat "${id}"`)
   }
 }
