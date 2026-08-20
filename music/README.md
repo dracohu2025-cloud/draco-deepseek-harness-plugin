@@ -2,7 +2,7 @@
 
 English | 中文
 
-A DeepSeek Harness **bundle** that adds `music_generate` through MiniMax Music 3.0 and Music 3.0-free. It is independent of SuperGrok (`draco-grok-oauth`), Codex (`draco-codex-oauth`), and speech (`draco-speech-gen`). Install only the plugins you want.
+A DeepSeek Harness **bundle** that adds `music_generate` through MiniMax Music 3.0. It is independent of SuperGrok (`draco-grok-oauth`), Codex (`draco-codex-oauth`), and speech (`draco-speech-gen`). Install only the plugins you want.
 
 ## Install
 
@@ -36,12 +36,11 @@ dsh --profile web
 
 Open **Settings → Draco-suite**. If SuperGrok, Codex, or speech is also installed, the music card joins their tab. If this is the only Draco plugin, it mounts the Draco-suite tab itself.
 
-Pick **music-3.0** if this MiniMax account has a Token Plan or prior paid music access. **music-3.0-free** is discontinued as of 2026-08-20. MiniMax also closed paid music APIs to new accounts (HTTP 410 / `2153`); the card explains that instead of dumping JSON. Pick the MiniMax region: China (`api.minimaxi.com`) or Global (`api.minimax.io`). Paste `MINIMAX_API_KEY` on the card, or export it in the environment (China also accepts `MINIMAX_CN_API_KEY`). **Save and verify** sends a short instrumental probe to MiniMax. Music 3 is slow: the check often takes one or two minutes (the host waits up to 180s). While it runs, the key field and Save are hidden and the backend dropdown is disabled. A green dot on the selected backend hides the field; a key-icon control beside the dropdown reveals it again.
+Pick **music-3.0**. Pick the MiniMax region: China (`api.minimaxi.com`) or Global (`api.minimax.io`). Paste `MINIMAX_API_KEY` on the card, or export it in the environment (China also accepts `MINIMAX_CN_API_KEY`). **Save and verify** sends a short instrumental probe to MiniMax. The MiniMax account needs a Token Plan or prior paid music; a regular API key is not enough. Music 3 is slow: the check often takes one or two minutes (the host waits up to 180s). While it runs, the key field and Save are hidden and the backend dropdown is disabled. A green dot on the selected backend hides the field; a key-icon control beside the dropdown reveals it again.
 
 | Backend | Credentials |
 |---|---|
 | `music-3.0` | `MINIMAX_API_KEY` (China also `MINIMAX_CN_API_KEY`) |
-| `music-3.0-free` | `MINIMAX_API_KEY` (China also `MINIMAX_CN_API_KEY`) |
 
 `music_generate` writes an MP3 under `$DSH_HOME/draco/music/` and plays it in the chat tool row when the clip is at most 4 MiB. The clip is stored on the tool result so official `dsh --profile web` can play it without a host `saveAudio`. When the host does have `saveAudio`, the result also carries a durable `AudioBlock`. Music is never defaulted from OAuth.
 
@@ -51,7 +50,7 @@ Ask the model for an instrumental (`instrumental=true`), a song with lyrics, or 
 
 | Row | Package export | Role |
 |---|---|---|
-| `draco-music-gen` | `draco-music-gen/music` | `music_generate` (Music 3.0 / Music 3.0-free) |
+| `draco-music-gen` | `draco-music-gen/music` | `music_generate` (Music 3.0) |
 | `draco-music-gen-ui` | `draco-music-gen` | Settings → Draco-suite music card |
 
 ## Uninstall

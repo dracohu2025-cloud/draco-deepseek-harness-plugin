@@ -1,7 +1,7 @@
 {
   "name": "draco-music-gen",
   "version": "0.1.0",
-  "description": "DeepSeek Harness plugin: music_generate via MiniMax Music 3.0 and Music 3.0-free",
+  "description": "DeepSeek Harness plugin: music_generate via MiniMax Music 3.0",
   "license": "MIT",
   "type": "module",
   "private": false,

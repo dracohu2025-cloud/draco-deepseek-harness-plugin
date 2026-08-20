@@ -25,7 +25,7 @@ const MUSIC_PROBE_PROMPT = "short ambient drone, no vocals, under ten seconds";
 * As of 2026-08-20, free music APIs are discontinued and paid music APIs refuse
 * new accounts; existing Token Plan / paying customers can still call `music-3.0`.
 */
-const MUSIC_API_CLOSED_MESSAGE = "MUSIC_API_CLOSED: MiniMax hosted music is closed for new accounts as of 2026-08-20. music-3.0-free is discontinued. Pick music-3.0 if this account has a Token Plan or prior paid music access.";
+const MUSIC_API_CLOSED_MESSAGE = "MUSIC_API_CLOSED: this MiniMax account has no hosted music access (Token Plan or prior paid music required)";
 /** China mainland OpenAPI host. */
 const MINIMAX_CN_HOST = "https://api.minimaxi.com";
 /** Global OpenAPI host. */
@@ -306,10 +306,10 @@ function apply(ctx, config) {
 			const timer = setTimeout(() => controller.abort(), MUSIC_PROBE_TIMEOUT_MS);
 			try {
 				const backend = current.provider;
-				if (backend !== "music-3.0" && backend !== "music-3.0-free") {
+				if (backend !== "music-3.0") {
 					await scope.update({
 						probe: "fail",
-						probeError: "pick music-3.0 or music-3.0-free"
+						probeError: "pick music-3.0"
 					});
 					return;
 				}
@@ -347,7 +347,7 @@ function apply(ctx, config) {
 	ctx.tools.register(defineTool({
 		name: "music_generate",
 		timeoutMs: 6e5,
-		description: "Generate a song or instrumental with MiniMax Music 3. Settings → Draco-suite chooses music-3.0 (paid/token plan) or music-3.0-free (API-key RPM 3) and the MiniMax region. Pass prompt plus lyrics, or instrumental=true with a prompt, or lyricsOptimizer=true to have MiniMax write lyrics from the prompt. The MP3 is written under $DSH_HOME/draco/music/. Credential: MINIMAX_API_KEY (China also accepts MINIMAX_CN_API_KEY).",
+		description: "Generate a song or instrumental with MiniMax Music 3. Settings → Draco-suite enables music-3.0 (Token Plan or prior paid music) and the MiniMax region. Pass prompt plus lyrics, or instrumental=true with a prompt, or lyricsOptimizer=true to have MiniMax write lyrics from the prompt. The MP3 is written under $DSH_HOME/draco/music/. Credential: MINIMAX_API_KEY (China also accepts MINIMAX_CN_API_KEY).",
 		parameters: {
 			prompt: {
 				type: "string",
@@ -431,8 +431,8 @@ function apply(ctx, config) {
 			const prompt = args.prompt.trim();
 			if (prompt.length === 0) throw new Error("prompt must be a non-empty string");
 			if (prompt.length > 2e3) throw new Error("prompt must be at most 2000 characters");
-			const backend = current.provider === "music-3.0" || current.provider === "music-3.0-free" ? current.provider : "none";
-			if (backend === "none") throw new Error("music generation is not configured; pick music-3.0 or music-3.0-free in Settings → Draco-suite");
+			const backend = current.provider === "music-3.0" ? "music-3.0" : "none";
+			if (backend === "none") throw new Error("music generation is not configured; pick music-3.0 in Settings → Draco-suite");
 			const instrumental = args.instrumental === true;
 			const lyricsOptimizer = !instrumental && args.lyricsOptimizer === true;
 			const lyrics = typeof args.lyrics === "string" ? args.lyrics.trim() : "";

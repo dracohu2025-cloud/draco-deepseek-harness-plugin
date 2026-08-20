@@ -18,9 +18,9 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DracoSuiteSection_module_css_default = {
-			"title": "Bhyigq_title",
 			"cards": "Bhyigq_cards",
 			"intro": "Bhyigq_intro",
+			"title": "Bhyigq_title",
 			"section": "Bhyigq_section"
 		};
 		//#endregion
@@ -58,10 +58,9 @@ window.__ModuleLoader__.load({
 			"suite.title": "Draco-suite",
 			"suite.intro": "MiniMax Music 3。需要 API Key。",
 			"music.title": "音乐生成",
-			"music.hint": "对话模型选择器不管生曲。2026-08-20 起 MiniMax 免费音乐接口已停服，新用户也进不了付费 Music API；有 Token Plan / 历史付费请选 music-3.0。中国大陆 api.minimaxi.com，全球 api.minimax.io。密钥写入凭据库或 MINIMAX_API_KEY（中国大陆还认 MINIMAX_CN_API_KEY）。",
+			"music.hint": "对话模型选择器不管生曲。选 music-3.0，填 MINIMAX_API_KEY（中国大陆还认 MINIMAX_CN_API_KEY），保存并验证。账号需要 MiniMax Token Plan 或历史付费音乐权限。中国大陆 api.minimaxi.com，全球 api.minimax.io。",
 			"music.off": "关闭",
 			"music.paid": "music-3.0",
-			"music.free": "music-3.0-free（已停服）",
 			"music.region": "MiniMax 区域",
 			"music.regionCn": "中国大陆 (api.minimaxi.com)",
 			"music.regionGlobal": "全球 (api.minimax.io)",
@@ -74,7 +73,7 @@ window.__ModuleLoader__.load({
 			"music.ready": "Music 3 已就绪",
 			"music.missing": "需要 MINIMAX_API_KEY",
 			"music.failPrefix": "验证失败：",
-			"music.closed": "MiniMax 已于 2026-08-20 停止向新用户提供音乐生成 API，music-3.0-free 已下线。若该账号有 Token Plan 或历史付费音乐权限，请改选 music-3.0 再验证。否则只能用 MiniMax Audio 网页或 Hugging Face 上的开源 Music 3 权重。",
+			"music.closed": "该 MiniMax 账号没有托管音乐权限。music-3.0 需要 Token Plan 或历史付费；普通 API Key 不够。",
 			"row.title": "音乐生成",
 			"row.loading": "音频加载中…",
 			"row.loadFailed": "音频加载失败，点击重试"
@@ -85,10 +84,9 @@ window.__ModuleLoader__.load({
 			"suite.title": "Draco-suite",
 			"suite.intro": "MiniMax Music 3. This uses an API key.",
 			"music.title": "Music generation",
-			"music.hint": "The chat model selector does not control music. As of 2026-08-20 MiniMax discontinued free music APIs and closed paid music APIs to new accounts; pick music-3.0 only if this account has a Token Plan or prior paid music access. China uses api.minimaxi.com; global uses api.minimax.io. Keys go in the credential store or MINIMAX_API_KEY (China also accepts MINIMAX_CN_API_KEY).",
+			"music.hint": "The chat model selector does not control music. Pick music-3.0, save MINIMAX_API_KEY (China also MINIMAX_CN_API_KEY), and verify. The MiniMax account needs a Token Plan or prior paid music. China uses api.minimaxi.com; global uses api.minimax.io.",
 			"music.off": "Off",
 			"music.paid": "music-3.0",
-			"music.free": "music-3.0-free (discontinued)",
 			"music.region": "MiniMax region",
 			"music.regionCn": "China (api.minimaxi.com)",
 			"music.regionGlobal": "Global (api.minimax.io)",
@@ -101,7 +99,7 @@ window.__ModuleLoader__.load({
 			"music.ready": "Music 3 ready",
 			"music.missing": "MINIMAX_API_KEY is required",
 			"music.failPrefix": "Check failed: ",
-			"music.closed": "MiniMax closed hosted music APIs to new accounts on 2026-08-20 and discontinued music-3.0-free. If this account has a Token Plan or prior paid music access, pick music-3.0 and verify again. Otherwise MiniMax only offers MiniMax Audio or the open-weight Music 3 model on Hugging Face.",
+			"music.closed": "This MiniMax account has no hosted music access. music-3.0 needs a Token Plan or prior paid music; a regular API key is not enough.",
 			"row.title": "Music",
 			"row.loading": "Loading audio…",
 			"row.loadFailed": "Audio failed to load; click to retry"
@@ -189,7 +187,7 @@ window.__ModuleLoader__.load({
 		*/
 		function musicValueOf(section) {
 			if (section === void 0) return "none";
-			if (section.provider === "music-3.0" || section.provider === "music-3.0-free") return section.provider;
+			if (section.provider === "music-3.0") return section.provider;
 			return "none";
 		}
 		/**
@@ -231,11 +229,7 @@ window.__ModuleLoader__.load({
 		* @returns rows in display order, Off first.
 		*/
 		function musicOptions() {
-			return [
-				"none",
-				"music-3.0",
-				"music-3.0-free"
-			];
+			return ["none", "music-3.0"];
 		}
 		/** Primary MiniMax API key reference. */
 		const MUSIC_API_KEY_REF = "MINIMAX_API_KEY";
@@ -253,30 +247,29 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var MusicPicker_module_css_default = {
-			"selectRow": "eQU_iq_selectRow",
-			"fields": "eQU_iq_fields",
-			"head": "eQU_iq_head",
-			"fieldLabel": "eQU_iq_fieldLabel",
-			"primary": "eQU_iq_primary",
-			"selectWrap": "eQU_iq_selectWrap",
-			"selectReady": "eQU_iq_selectReady",
-			"identity": "eQU_iq_identity",
-			"iconBtn": "eQU_iq_iconBtn",
-			"input": "eQU_iq_input",
+			"name": "eQU_iq_name",
 			"error": "eQU_iq_error",
+			"selectRow": "eQU_iq_selectRow",
 			"hint": "eQU_iq_hint",
-			"select": "eQU_iq_select",
+			"fields": "eQU_iq_fields",
+			"primary": "eQU_iq_primary",
+			"fieldLabel": "eQU_iq_fieldLabel",
 			"card": "eQU_iq_card",
 			"dotReady": "eQU_iq_dotReady",
-			"name": "eQU_iq_name",
-			"muted": "eQU_iq_muted"
+			"input": "eQU_iq_input",
+			"head": "eQU_iq_head",
+			"iconBtn": "eQU_iq_iconBtn",
+			"select": "eQU_iq_select",
+			"muted": "eQU_iq_muted",
+			"identity": "eQU_iq_identity",
+			"selectReady": "eQU_iq_selectReady",
+			"selectWrap": "eQU_iq_selectWrap"
 		};
 		//#endregion
 		//#region lib/types/client/MusicGenPickerCard.js
 		const LABELS = {
 			none: "music.off",
-			"music-3.0": "music.paid",
-			"music-3.0-free": "music.free"
+			"music-3.0": "music.paid"
 		};
 		/**
 		* One Settings → Draco-suite dropdown for MiniMax Music 3, plus region and
@@ -623,15 +616,15 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var MusicGenerateRow_module_css_default = {
+			"summary": "AXUVPW_summary",
 			"root": "AXUVPW_root",
+			"title": "AXUVPW_title",
+			"player": "AXUVPW_player",
+			"loading": "AXUVPW_loading",
 			"head": "AXUVPW_head",
 			"error": "AXUVPW_error",
-			"audio": "AXUVPW_audio",
 			"download": "AXUVPW_download",
-			"summary": "AXUVPW_summary",
-			"player": "AXUVPW_player",
-			"title": "AXUVPW_title",
-			"loading": "AXUVPW_loading"
+			"audio": "AXUVPW_audio"
 		};
 		//#endregion
 		//#region lib/types/client/MusicGenerateRow.js

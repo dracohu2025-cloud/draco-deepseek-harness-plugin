@@ -11,7 +11,7 @@ Each plugin is independent. Install only the ones you want.
 | SuperGrok / xAI | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin` | SuperGrok OAuth + **Grok 4.6** only (JPEG/PNG, 500k) + **Grok Imagine** Image 2.0 / Video 1.5 |
 | Codex / ChatGPT | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex` | Codex OAuth + **GPT-5.6 Sol / Terra / Luna** only (1.05M window, `store: false`) + `gpt-image-2` after first login (durable `ImageBlock` + `$DSH_HOME/draco/images/` copy) |
 | Speech / TTS | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:speech` | `speech_generate` via Volcengine `doubao-tts` / `seed-audio-1.0`; the chat tool row plays the MP3 (copy under `$DSH_HOME/draco/audio/`) |
-| Music / MiniMax Music 3 | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:music` | `music_generate` via MiniMax `music-3.0` (Token Plan / prior paid music; `music-3.0-free` discontinued 2026-08-20); the chat tool row plays the MP3 (copy under `$DSH_HOME/draco/music/`) |
+| Music / MiniMax Music 3 | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:music` | `music_generate` via MiniMax `music-3.0` (Token Plan or prior paid music); the chat tool row plays the MP3 (copy under `$DSH_HOME/draco/music/`) |
 
 Then start the official Web profile:
 
@@ -71,7 +71,7 @@ dsh plugin --profile web remove draco-speech-gen
 
 ## Music / MiniMax Music 3
 
-The subdirectory package is `draco-music-gen`. See [music/README.md](./music/README.md). A successful `music_generate` writes an MP3 under `$DSH_HOME/draco/music/` and plays it in the Web tool row when the clip is at most 4 MiB. **Save and verify** is a short instrumental create and often takes one or two minutes (the host waits up to 180s). As of 2026-08-20 MiniMax discontinued `music-3.0-free` and closed paid music APIs to new accounts; pick `music-3.0` only if the MiniMax account already has a Token Plan or paid music access.
+The subdirectory package is `draco-music-gen`. See [music/README.md](./music/README.md). A successful `music_generate` writes an MP3 under `$DSH_HOME/draco/music/` and plays it in the Web tool row when the clip is at most 4 MiB. **Save and verify** is a short instrumental create and often takes one or two minutes (the host waits up to 180s). `music-3.0` needs a MiniMax Token Plan or prior paid music.
 
 ```sh
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:music
