@@ -18,9 +18,9 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DracoSuiteSection_module_css_default = {
+			"cards": "zP3u-a_cards",
 			"section": "zP3u-a_section",
 			"title": "zP3u-a_title",
-			"cards": "zP3u-a_cards",
 			"intro": "zP3u-a_intro"
 		};
 		//#endregion
@@ -64,6 +64,7 @@ window.__ModuleLoader__.load({
 			"video.seedanceMini": "doubao-seedance-2.0-mini (720p)",
 			"video.seedanceFast": "doubao-seedance-2.0-fast (720p)",
 			"video.unavailable": "设置尚未就绪",
+			"video.ready": "生视频已就绪",
 			"video.arkKey": "ARK_API_KEY",
 			"video.keyPlaceholder": "输入新值以替换已保存的密钥",
 			"video.save": "保存并验证",
@@ -86,6 +87,7 @@ window.__ModuleLoader__.load({
 			"video.seedanceMini": "doubao-seedance-2.0-mini (720p)",
 			"video.seedanceFast": "doubao-seedance-2.0-fast (720p)",
 			"video.unavailable": "Settings are not ready yet",
+			"video.ready": "Video generation ready",
 			"video.arkKey": "ARK_API_KEY",
 			"video.keyPlaceholder": "Enter a new value to replace the stored key",
 			"video.save": "Save and verify",
@@ -231,6 +233,18 @@ window.__ModuleLoader__.load({
 			if (available.seedance || isSeedanceValue(value)) rows.push("seedance-2-0", "seedance-2-0-mini", "seedance-2-0-fast");
 			return rows;
 		}
+		/**
+		* True when the selected video row can run. Imagine uses SuperGrok OAuth
+		* (plugin loaded). Seedance needs a successful Ark probe. Off never lights.
+		* @param available - backends whose UI plugin is loaded.
+		* @param value - current dropdown value.
+		* @param seedanceProbe - last Ark probe for Seedance.
+		*/
+		function videoReadyOf(available, value, seedanceProbe) {
+			if (value === "imagine") return available.imagine;
+			if (isSeedanceValue(value)) return available.seedance && seedanceProbe === "ok";
+			return false;
+		}
 		//#endregion
 		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-seedance-gen-ui/src/client/VideoPicker.module.css.mjs
 		const css = ".gQucAW_card{border:1px solid var(--dsw-alias-border-l2);border-radius:12px;flex-direction:column;gap:10px;padding:12px 14px;display:flex}.gQucAW_head{justify-content:space-between;align-items:center;gap:10px;display:flex}.gQucAW_identity{align-items:center;gap:6px;min-width:0;display:inline-flex}.gQucAW_name{color:var(--dsw-alias-label-primary);font-size:14px;font-weight:500;line-height:22px}.gQucAW_hint{color:var(--dsw-alias-label-tertiary);margin:0;font-size:12px;line-height:18px}.gQucAW_primary{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;align-self:flex-start;padding:4px 10px;font-size:13px;line-height:20px}.gQucAW_primary:disabled{opacity:.6;cursor:default}.gQucAW_selectRow{align-items:center;gap:8px;display:flex}.gQucAW_selectWrap{flex:auto;min-width:0;max-width:420px;position:relative}.gQucAW_selectWrap .gQucAW_select{width:100%;max-width:none}.gQucAW_selectReady{padding-right:44px}.gQucAW_selectWrap .gQucAW_dotReady{pointer-events:none;position:absolute;top:50%;right:28px;transform:translateY(-50%)}.gQucAW_iconBtn{box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);width:32px;height:32px;color:var(--dsw-alias-label-primary);cursor:pointer;border-radius:8px;flex:none;justify-content:center;align-items:center;padding:0;display:inline-flex}.gQucAW_iconBtn:hover{background:var(--dsw-alias-interactive-bg-hover)}.gQucAW_error{color:var(--dsw-alias-state-error-primary);margin:0;font-size:12px;line-height:18px}.gQucAW_dotReady{background:var(--dsw-alias-state-success-primary);border-radius:50%;flex:none;width:8px;height:8px}.gQucAW_input{box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);border-radius:8px;padding:0 10px;font-size:13px;line-height:20px}.gQucAW_input:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.gQucAW_input:disabled{opacity:.6}.gQucAW_select{appearance:none;box-sizing:border-box;border:1px solid var(--dsw-alias-border-l2);width:100%;max-width:420px;height:32px;font:inherit;color:var(--dsw-alias-label-primary);background-color:var(--dsw-alias-bg-base);cursor:pointer;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:12px 12px;border-radius:8px;padding:0 32px 0 10px;font-size:13px;line-height:20px}.gQucAW_select:focus{border-color:var(--dsw-alias-brand-primary);outline:none}.gQucAW_select:disabled{opacity:.6;cursor:default}.gQucAW_muted{color:var(--dsw-alias-label-secondary);font-size:12px}.gQucAW_fields{flex-direction:column;gap:8px;display:flex}.gQucAW_fieldLabel{flex-direction:column;gap:4px;margin:0;display:flex}";
@@ -243,23 +257,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var VideoPicker_module_css_default = {
-			"hint": "gQucAW_hint",
-			"head": "gQucAW_head",
+			"card": "gQucAW_card",
 			"fields": "gQucAW_fields",
+			"identity": "gQucAW_identity",
+			"hint": "gQucAW_hint",
+			"error": "gQucAW_error",
+			"primary": "gQucAW_primary",
+			"selectReady": "gQucAW_selectReady",
+			"dotReady": "gQucAW_dotReady",
+			"head": "gQucAW_head",
 			"name": "gQucAW_name",
 			"selectWrap": "gQucAW_selectWrap",
-			"error": "gQucAW_error",
-			"selectReady": "gQucAW_selectReady",
-			"fieldLabel": "gQucAW_fieldLabel",
 			"select": "gQucAW_select",
-			"card": "gQucAW_card",
-			"dotReady": "gQucAW_dotReady",
 			"selectRow": "gQucAW_selectRow",
-			"primary": "gQucAW_primary",
 			"input": "gQucAW_input",
 			"iconBtn": "gQucAW_iconBtn",
 			"muted": "gQucAW_muted",
-			"identity": "gQucAW_identity"
+			"fieldLabel": "gQucAW_fieldLabel"
 		};
 		//#endregion
 		//#region lib/types/client/VideoGenPickerCard.js
@@ -286,12 +300,13 @@ window.__ModuleLoader__.load({
 			const [busy, setBusy] = (0, react.useState)(false);
 			const [editing, setEditing] = (0, react.useState)(false);
 			const showSeedance = isSeedanceValue(value);
-			const verified = showSeedance && seedanceProbe === "ok";
+			const seedanceVerified = showSeedance && seedanceProbe === "ok";
+			const verified = videoReadyOf(available, value, seedanceProbe);
 			const checking = showSeedance && seedanceProbe === "checking";
-			const showForm = ready && available.seedance && saveKeys !== void 0 && showSeedance && !checking && (editing || !verified);
+			const showForm = ready && available.seedance && saveKeys !== void 0 && showSeedance && !checking && (editing || !seedanceVerified);
 			(0, react.useEffect)(() => {
-				if (verified) setEditing(false);
-			}, [verified]);
+				if (seedanceVerified) setEditing(false);
+			}, [seedanceVerified]);
 			const onSave = (persist) => (event) => {
 				event.preventDefault();
 				setBusy(true);
@@ -336,10 +351,10 @@ window.__ModuleLoader__.load({
 							}), verified ? (0, react_jsx_runtime.jsx)("span", {
 								className: VideoPicker_module_css_default.dotReady,
 								role: "img",
-								"aria-label": t("video.seedanceReady"),
-								title: t("video.seedanceReady")
+								"aria-label": t("video.ready"),
+								title: t("video.ready")
 							}) : null]
-						}), verified && available.seedance && saveKeys !== void 0 && !editing ? (0, react_jsx_runtime.jsx)("button", {
+						}), seedanceVerified && available.seedance && saveKeys !== void 0 && !editing ? (0, react_jsx_runtime.jsx)("button", {
 							className: VideoPicker_module_css_default.iconBtn,
 							type: "button",
 							"aria-label": t("video.replace"),
