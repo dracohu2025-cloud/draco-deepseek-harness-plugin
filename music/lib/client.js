@@ -18,10 +18,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DracoSuiteSection_module_css_default = {
-			"section": "Bhyigq_section",
 			"title": "Bhyigq_title",
 			"cards": "Bhyigq_cards",
-			"intro": "Bhyigq_intro"
+			"intro": "Bhyigq_intro",
+			"section": "Bhyigq_section"
 		};
 		//#endregion
 		//#region lib/types/client/DracoSuiteSection.js
@@ -58,10 +58,10 @@ window.__ModuleLoader__.load({
 			"suite.title": "Draco-suite",
 			"suite.intro": "MiniMax Music 3。需要 API Key。",
 			"music.title": "音乐生成",
-			"music.hint": "对话模型选择器不管生曲。music-3.0 走付费/Token 套餐（RPM 120）；music-3.0-free 走 API Key（RPM 3）。中国大陆主机 api.minimaxi.com，全球 api.minimax.io。密钥写入凭据库，也可放环境变量 MINIMAX_API_KEY（中国大陆还认 MINIMAX_CN_API_KEY）。",
+			"music.hint": "对话模型选择器不管生曲。2026-08-20 起 MiniMax 免费音乐接口已停服，新用户也进不了付费 Music API；有 Token Plan / 历史付费请选 music-3.0。中国大陆 api.minimaxi.com，全球 api.minimax.io。密钥写入凭据库或 MINIMAX_API_KEY（中国大陆还认 MINIMAX_CN_API_KEY）。",
 			"music.off": "关闭",
 			"music.paid": "music-3.0",
-			"music.free": "music-3.0-free",
+			"music.free": "music-3.0-free（已停服）",
 			"music.region": "MiniMax 区域",
 			"music.regionCn": "中国大陆 (api.minimaxi.com)",
 			"music.regionGlobal": "全球 (api.minimax.io)",
@@ -74,6 +74,7 @@ window.__ModuleLoader__.load({
 			"music.ready": "Music 3 已就绪",
 			"music.missing": "需要 MINIMAX_API_KEY",
 			"music.failPrefix": "验证失败：",
+			"music.closed": "MiniMax 已于 2026-08-20 停止向新用户提供音乐生成 API，music-3.0-free 已下线。若该账号有 Token Plan 或历史付费音乐权限，请改选 music-3.0 再验证。否则只能用 MiniMax Audio 网页或 Hugging Face 上的开源 Music 3 权重。",
 			"row.title": "音乐生成",
 			"row.loading": "音频加载中…",
 			"row.loadFailed": "音频加载失败，点击重试"
@@ -84,10 +85,10 @@ window.__ModuleLoader__.load({
 			"suite.title": "Draco-suite",
 			"suite.intro": "MiniMax Music 3. This uses an API key.",
 			"music.title": "Music generation",
-			"music.hint": "The chat model selector does not control music. music-3.0 is the paid/token plan (RPM 120). music-3.0-free is the API-key plan (RPM 3). China uses api.minimaxi.com; global uses api.minimax.io. Keys go in the credential store or MINIMAX_API_KEY (China also accepts MINIMAX_CN_API_KEY).",
+			"music.hint": "The chat model selector does not control music. As of 2026-08-20 MiniMax discontinued free music APIs and closed paid music APIs to new accounts; pick music-3.0 only if this account has a Token Plan or prior paid music access. China uses api.minimaxi.com; global uses api.minimax.io. Keys go in the credential store or MINIMAX_API_KEY (China also accepts MINIMAX_CN_API_KEY).",
 			"music.off": "Off",
 			"music.paid": "music-3.0",
-			"music.free": "music-3.0-free",
+			"music.free": "music-3.0-free (discontinued)",
 			"music.region": "MiniMax region",
 			"music.regionCn": "China (api.minimaxi.com)",
 			"music.regionGlobal": "Global (api.minimax.io)",
@@ -100,6 +101,7 @@ window.__ModuleLoader__.load({
 			"music.ready": "Music 3 ready",
 			"music.missing": "MINIMAX_API_KEY is required",
 			"music.failPrefix": "Check failed: ",
+			"music.closed": "MiniMax closed hosted music APIs to new accounts on 2026-08-20 and discontinued music-3.0-free. If this account has a Token Plan or prior paid music access, pick music-3.0 and verify again. Otherwise MiniMax only offers MiniMax Audio or the open-weight Music 3 model on Hugging Face.",
 			"row.title": "Music",
 			"row.loading": "Loading audio…",
 			"row.loadFailed": "Audio failed to load; click to retry"
@@ -251,23 +253,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var MusicPicker_module_css_default = {
-			"fieldLabel": "eQU_iq_fieldLabel",
-			"fields": "eQU_iq_fields",
-			"hint": "eQU_iq_hint",
-			"dotReady": "eQU_iq_dotReady",
-			"identity": "eQU_iq_identity",
-			"primary": "eQU_iq_primary",
 			"selectRow": "eQU_iq_selectRow",
-			"input": "eQU_iq_input",
-			"selectReady": "eQU_iq_selectReady",
-			"iconBtn": "eQU_iq_iconBtn",
-			"name": "eQU_iq_name",
-			"error": "eQU_iq_error",
-			"select": "eQU_iq_select",
-			"muted": "eQU_iq_muted",
-			"card": "eQU_iq_card",
+			"fields": "eQU_iq_fields",
 			"head": "eQU_iq_head",
-			"selectWrap": "eQU_iq_selectWrap"
+			"fieldLabel": "eQU_iq_fieldLabel",
+			"primary": "eQU_iq_primary",
+			"selectWrap": "eQU_iq_selectWrap",
+			"selectReady": "eQU_iq_selectReady",
+			"identity": "eQU_iq_identity",
+			"iconBtn": "eQU_iq_iconBtn",
+			"input": "eQU_iq_input",
+			"error": "eQU_iq_error",
+			"hint": "eQU_iq_hint",
+			"select": "eQU_iq_select",
+			"card": "eQU_iq_card",
+			"dotReady": "eQU_iq_dotReady",
+			"name": "eQU_iq_name",
+			"muted": "eQU_iq_muted"
 		};
 		//#endregion
 		//#region lib/types/client/MusicGenPickerCard.js
@@ -414,7 +416,7 @@ window.__ModuleLoader__.load({
 			});
 			if (probe === "fail") return (0, react_jsx_runtime.jsxs)("p", {
 				className: MusicPicker_module_css_default.error,
-				children: [t("music.failPrefix"), error]
+				children: [t("music.failPrefix"), error.includes("MUSIC_API_CLOSED") ? t("music.closed") : error]
 			});
 			return (0, react_jsx_runtime.jsx)("p", {
 				className: MusicPicker_module_css_default.muted,
@@ -621,15 +623,15 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var MusicGenerateRow_module_css_default = {
-			"loading": "AXUVPW_loading",
-			"title": "AXUVPW_title",
+			"root": "AXUVPW_root",
+			"head": "AXUVPW_head",
 			"error": "AXUVPW_error",
-			"player": "AXUVPW_player",
 			"audio": "AXUVPW_audio",
 			"download": "AXUVPW_download",
-			"root": "AXUVPW_root",
 			"summary": "AXUVPW_summary",
-			"head": "AXUVPW_head"
+			"player": "AXUVPW_player",
+			"title": "AXUVPW_title",
+			"loading": "AXUVPW_loading"
 		};
 		//#endregion
 		//#region lib/types/client/MusicGenerateRow.js

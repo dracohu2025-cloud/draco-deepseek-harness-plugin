@@ -20,6 +20,12 @@ const MUSIC_3_FREE_MODEL = "music-3.0-free";
 const MUSIC_PROBE_TIMEOUT_MS = 18e4;
 /** Instrumental probe prompt: short, no vocals. */
 const MUSIC_PROBE_PROMPT = "short ambient drone, no vocals, under ten seconds";
+/**
+* Stable probe/tool error when MiniMax returns HTTP 410 or `base_resp` 2153.
+* As of 2026-08-20, free music APIs are discontinued and paid music APIs refuse
+* new accounts; existing Token Plan / paying customers can still call `music-3.0`.
+*/
+const MUSIC_API_CLOSED_MESSAGE = "MUSIC_API_CLOSED: MiniMax hosted music is closed for new accounts as of 2026-08-20. music-3.0-free is discontinued. Pick music-3.0 if this account has a Token Plan or prior paid music access.";
 /** China mainland OpenAPI host. */
 const MINIMAX_CN_HOST = "https://api.minimaxi.com";
 /** Global OpenAPI host. */
@@ -27,6 +33,7 @@ const MINIMAX_GLOBAL_HOST = "https://api.minimax.io";
 /**
 * OpenAPI host for one MiniMax region.
 * @param region - China mainland or global.
+* @returns the region host without a trailing slash.
 */
 function hostOf(region) {
 	return region === "global" ? MINIMAX_GLOBAL_HOST : MINIMAX_CN_HOST;
@@ -37,6 +44,7 @@ function hostOf(region) {
 * @param region - China mainland or global host.
 * @param request - generation fields.
 * @param signal - abort for the create and download fetches.
+* @returns MP3 bytes and an optional duration in seconds.
 */
 async function collectMinimaxMusic(apiKey, region, request, signal) {
 	const body = {
@@ -62,17 +70,20 @@ async function collectMinimaxMusic(apiKey, region, request, signal) {
 		signal
 	});
 	const raw = await response.text();
-	if (!response.ok) throw new LlmError(`draco-music-gen: MiniMax returned HTTP ${response.status}${raw.length > 0 ? `: ${raw.slice(0, 300)}` : ""}`, "INVALID_REQUEST");
-	let parsed;
-	try {
-		parsed = JSON.parse(raw);
-	} catch {
-		throw new LlmError("draco-music-gen: MiniMax returned non-JSON", "INVALID_REQUEST");
+	const parsed = parseJson(raw);
+	if (!response.ok) {
+		if (musicApiClosed(response.status, parsed, raw)) throw new LlmError(`draco-music-gen: ${MUSIC_API_CLOSED_MESSAGE}`, "INVALID_REQUEST");
+		const msg = minimaxStatusMsg(parsed);
+		throw new LlmError(`draco-music-gen: MiniMax returned HTTP ${response.status}${msg !== void 0 ? `: ${msg}` : raw.length > 0 ? `: ${raw.slice(0, 300)}` : ""}`, "INVALID_REQUEST");
 	}
+	if (parsed === void 0) throw new LlmError("draco-music-gen: MiniMax returned non-JSON", "INVALID_REQUEST");
 	const root = parsed !== null && typeof parsed === "object" ? parsed : {};
-	const base = root.base_resp !== null && typeof root.base_resp === "object" ? root.base_resp : {};
+	const base = baseResp(parsed);
 	const code = base.status_code;
-	if (code !== 0 && code !== void 0) throw new LlmError(`draco-music-gen: ${typeof base.status_msg === "string" ? base.status_msg : "MiniMax music failed"}`, "INVALID_REQUEST");
+	if (code !== 0 && code !== void 0) {
+		if (musicApiClosed(response.status, parsed, raw)) throw new LlmError(`draco-music-gen: ${MUSIC_API_CLOSED_MESSAGE}`, "INVALID_REQUEST");
+		throw new LlmError(`draco-music-gen: ${typeof base.status_msg === "string" ? base.status_msg : "MiniMax music failed"}`, "INVALID_REQUEST");
+	}
 	const data = root.data !== null && typeof root.data === "object" ? root.data : {};
 	const extra = root.extra_info !== null && typeof root.extra_info === "object" ? root.extra_info : data.extra_info !== null && typeof data.extra_info === "object" ? data.extra_info : {};
 	const audio = pickAudio(root, data);
@@ -90,6 +101,7 @@ async function collectMinimaxMusic(apiKey, region, request, signal) {
 * @param region - China mainland or global host.
 * @param model - selected Music 3 model.
 * @param signal - abort for the probe.
+* @returns when the create returns audio; throws on HTTP or MiniMax errors.
 */
 async function probeMinimaxMusic(apiKey, region, model, signal) {
 	await collectMinimaxMusic(apiKey, region, {
@@ -98,6 +110,37 @@ async function probeMinimaxMusic(apiKey, region, model, signal) {
 		instrumental: true,
 		lyricsOptimizer: false
 	}, signal);
+}
+function parseJson(raw) {
+	try {
+		return JSON.parse(raw);
+	} catch {
+		return;
+	}
+}
+function baseResp(parsed) {
+	if (parsed === null || typeof parsed !== "object") return {};
+	const root = parsed;
+	return root.base_resp !== null && typeof root.base_resp === "object" ? root.base_resp : {};
+}
+function minimaxStatusMsg(parsed) {
+	const msg = baseResp(parsed).status_msg;
+	return typeof msg === "string" && msg.length > 0 ? msg : void 0;
+}
+/**
+* True when MiniMax refused the hosted music API for this account.
+* HTTP 410 and `base_resp.status_code` 2153 are the documented 2026-08-20
+* closure. The status text is matched as a fallback.
+* @param status - HTTP status of the music_generation response.
+* @param parsed - JSON body when parse succeeded.
+* @param raw - response text used when JSON is absent.
+* @returns true when this account cannot use hosted MiniMax music.
+*/
+function musicApiClosed(status, parsed, raw) {
+	if (status === 410) return true;
+	if (baseResp(parsed).status_code === 2153) return true;
+	const text = `${minimaxStatusMsg(parsed) ?? ""} ${raw}`;
+	return /no longer available to new users/i.test(text) || /不再面向新用户/.test(text);
 }
 function pickAudio(root, data) {
 	const candidates = [
@@ -161,6 +204,7 @@ const Config = z.object({
 /**
 * Format a music generation as the model-facing envelope.
 * @param value - the canonical generation outcome.
+* @returns a short path envelope.
 */
 function formatMusicGenerateOutput(value) {
 	return `Generated${value.durationSeconds === void 0 ? "" : ` ${value.durationSeconds}s`} ${value.instrumental ? "instrumental" : "song"} via ${value.provider} (${value.model}) → ${value.path}`;
@@ -169,6 +213,7 @@ function formatMusicGenerateOutput(value) {
 * Re-brand a canonical generated-audio outcome into the attachment reference
 * an `AudioBlock` carries.
 * @param audio - the canonical audio metadata from the output schema.
+* @returns the branded attachment reference.
 */
 function audioRefFromValue(audio) {
 	return {
@@ -181,6 +226,7 @@ function audioRefFromValue(audio) {
 /**
 * Project one music generation into its envelope and durable audio.
 * @param value - the canonical generation outcome.
+* @returns the path envelope, plus an `AudioBlock` when `saveAudio` ran.
 */
 function musicGenerateContent(value) {
 	const blocks = [{
@@ -442,4 +488,4 @@ function apply(ctx, config) {
 	}));
 }
 //#endregion
-export { Config, MAX_MUSIC_CLIP_BYTES, MUSIC_3_FREE_MODEL, MUSIC_3_MODEL, MUSIC_GEN_SETTINGS_NAMESPACE, MUSIC_PROBE_TIMEOUT_MS, apply, audioRefFromValue, formatMusicGenerateOutput, hostOf, inject, musicGenerateContent, musicGenerateMeta, name };
+export { Config, MAX_MUSIC_CLIP_BYTES, MUSIC_3_FREE_MODEL, MUSIC_3_MODEL, MUSIC_API_CLOSED_MESSAGE, MUSIC_GEN_SETTINGS_NAMESPACE, MUSIC_PROBE_TIMEOUT_MS, apply, audioRefFromValue, formatMusicGenerateOutput, hostOf, inject, musicGenerateContent, musicGenerateMeta, name };

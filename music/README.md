@@ -36,7 +36,7 @@ dsh --profile web
 
 Open **Settings → Draco-suite**. If SuperGrok, Codex, or speech is also installed, the music card joins their tab. If this is the only Draco plugin, it mounts the Draco-suite tab itself.
 
-Pick **music-3.0** (paid/token plan, RPM 120) or **music-3.0-free** (API-key plan, RPM 3). Pick the MiniMax region: China (`api.minimaxi.com`) or Global (`api.minimax.io`). Paste `MINIMAX_API_KEY` on the card, or export it in the environment (China also accepts `MINIMAX_CN_API_KEY`). **Save and verify** sends a short instrumental probe to MiniMax. Music 3 is slow: the check often takes one or two minutes (the host waits up to 180s). While it runs, the key field and Save are hidden and the backend dropdown is disabled. A green dot on the selected backend hides the field; a key-icon control beside the dropdown reveals it again. A failure shows the field with the HTTP error.
+Pick **music-3.0** if this MiniMax account has a Token Plan or prior paid music access. **music-3.0-free** is discontinued as of 2026-08-20. MiniMax also closed paid music APIs to new accounts (HTTP 410 / `2153`); the card explains that instead of dumping JSON. Pick the MiniMax region: China (`api.minimaxi.com`) or Global (`api.minimax.io`). Paste `MINIMAX_API_KEY` on the card, or export it in the environment (China also accepts `MINIMAX_CN_API_KEY`). **Save and verify** sends a short instrumental probe to MiniMax. Music 3 is slow: the check often takes one or two minutes (the host waits up to 180s). While it runs, the key field and Save are hidden and the backend dropdown is disabled. A green dot on the selected backend hides the field; a key-icon control beside the dropdown reveals it again.
 
 | Backend | Credentials |
 |---|---|
