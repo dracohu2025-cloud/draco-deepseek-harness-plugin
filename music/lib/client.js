@@ -18,10 +18,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DracoSuiteSection_module_css_default = {
-			"cards": "Bhyigq_cards",
-			"intro": "Bhyigq_intro",
+			"section": "Bhyigq_section",
 			"title": "Bhyigq_title",
-			"section": "Bhyigq_section"
+			"intro": "Bhyigq_intro",
+			"cards": "Bhyigq_cards"
 		};
 		//#endregion
 		//#region lib/types/client/DracoSuiteSection.js
@@ -70,6 +70,7 @@ window.__ModuleLoader__.load({
 			"music.save": "保存并验证",
 			"music.replace": "更换密钥",
 			"music.checking": "正在向 MiniMax 验证密钥（Music 3 生成较慢，通常需要一两分钟）…",
+			"music.verifyHint": "已保存密钥的话，点「保存并验证」才会探测。输入框不回显已存值。",
 			"music.ready": "Music 3 已就绪",
 			"music.missing": "需要 MINIMAX_API_KEY",
 			"music.failPrefix": "验证失败：",
@@ -96,6 +97,7 @@ window.__ModuleLoader__.load({
 			"music.save": "Save and verify",
 			"music.replace": "Replace keys",
 			"music.checking": "Checking the key against MiniMax. Music 3 is slow; this often takes one or two minutes…",
+			"music.verifyHint": "A stored key is not shown. Click Save and verify to probe.",
 			"music.ready": "Music 3 ready",
 			"music.missing": "MINIMAX_API_KEY is required",
 			"music.failPrefix": "Check failed: ",
@@ -247,23 +249,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var MusicPicker_module_css_default = {
-			"name": "eQU_iq_name",
-			"error": "eQU_iq_error",
-			"selectRow": "eQU_iq_selectRow",
-			"hint": "eQU_iq_hint",
-			"fields": "eQU_iq_fields",
-			"primary": "eQU_iq_primary",
-			"fieldLabel": "eQU_iq_fieldLabel",
-			"card": "eQU_iq_card",
-			"dotReady": "eQU_iq_dotReady",
-			"input": "eQU_iq_input",
 			"head": "eQU_iq_head",
-			"iconBtn": "eQU_iq_iconBtn",
-			"select": "eQU_iq_select",
+			"selectWrap": "eQU_iq_selectWrap",
+			"hint": "eQU_iq_hint",
+			"input": "eQU_iq_input",
+			"primary": "eQU_iq_primary",
+			"name": "eQU_iq_name",
+			"fieldLabel": "eQU_iq_fieldLabel",
 			"muted": "eQU_iq_muted",
+			"iconBtn": "eQU_iq_iconBtn",
+			"dotReady": "eQU_iq_dotReady",
+			"selectRow": "eQU_iq_selectRow",
 			"identity": "eQU_iq_identity",
+			"fields": "eQU_iq_fields",
+			"card": "eQU_iq_card",
+			"select": "eQU_iq_select",
 			"selectReady": "eQU_iq_selectReady",
-			"selectWrap": "eQU_iq_selectWrap"
+			"error": "eQU_iq_error"
 		};
 		//#endregion
 		//#region lib/types/client/MusicGenPickerCard.js
@@ -285,13 +287,18 @@ window.__ModuleLoader__.load({
 			const [apiKey, setApiKey] = (0, react.useState)("");
 			const [busy, setBusy] = (0, react.useState)(false);
 			const [editing, setEditing] = (0, react.useState)(false);
+			const [checkedThisVisit, setCheckedThisVisit] = (0, react.useState)(false);
 			const active = value !== "none";
 			const verified = active && probe === "ok";
 			const checking = active && probe === "checking";
+			const showFail = active && probe === "fail" && checkedThisVisit;
 			const showForm = ready && saveKeys !== void 0 && active && !checking && (editing || !verified);
 			(0, react.useEffect)(() => {
 				if (verified) setEditing(false);
 			}, [verified]);
+			(0, react.useEffect)(() => {
+				if (checking) setCheckedThisVisit(true);
+			}, [checking]);
 			const onSave = (persist) => (event) => {
 				event.preventDefault();
 				setBusy(true);
@@ -368,9 +375,9 @@ window.__ModuleLoader__.load({
 						className: MusicPicker_module_css_default.muted,
 						children: t("music.unavailable")
 					}),
-					ready && active ? (0, react_jsx_runtime.jsx)(ProbeStatusLine, {
+					ready && active && !verified ? (0, react_jsx_runtime.jsx)(ProbeStatusLine, {
 						t,
-						probe,
+						probe: showFail ? "fail" : checking ? "checking" : "idle",
 						error: probeError,
 						configured: keyConfigured
 					}) : null,
@@ -402,7 +409,6 @@ window.__ModuleLoader__.load({
 			});
 		}
 		function ProbeStatusLine({ t, probe, error, configured }) {
-			if (probe === "ok") return null;
 			if (probe === "checking") return (0, react_jsx_runtime.jsx)("p", {
 				className: MusicPicker_module_css_default.muted,
 				children: t("music.checking")
@@ -413,7 +419,7 @@ window.__ModuleLoader__.load({
 			});
 			return (0, react_jsx_runtime.jsx)("p", {
 				className: MusicPicker_module_css_default.muted,
-				children: configured ? t("music.checking") : t("music.missing")
+				children: configured ? t("music.verifyHint") : t("music.missing")
 			});
 		}
 		function KeyIcon() {
@@ -504,14 +510,8 @@ window.__ModuleLoader__.load({
 			const push = () => {
 				seat.bound?.sync(snapshotOf(scope, seat));
 			};
-			const kickIdleProbe = () => {
-				const snap = snapshotOf(scope, seat);
-				if (snap.value === "none") return;
-				if (snap.keyConfigured && snap.probe === "idle") scope.set("probe", "checking");
-			};
 			const unsub = scope.subscribe(() => {
 				push();
-				kickIdleProbe();
 			});
 			const refreshKeys = async () => {
 				if (credentials === void 0) return;
@@ -522,7 +522,6 @@ window.__ModuleLoader__.load({
 					const region = musicRegionOf(scope.getSnapshot().value);
 					seat.keyConfigured = bag["MINIMAX_API_KEY"]?.configured === true || region === "cn" && bag["MINIMAX_CN_API_KEY"]?.configured === true;
 					push();
-					kickIdleProbe();
 				} catch {}
 			};
 			const write = (value) => {
@@ -616,15 +615,15 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var MusicGenerateRow_module_css_default = {
-			"summary": "AXUVPW_summary",
-			"root": "AXUVPW_root",
-			"title": "AXUVPW_title",
-			"player": "AXUVPW_player",
-			"loading": "AXUVPW_loading",
 			"head": "AXUVPW_head",
+			"player": "AXUVPW_player",
+			"summary": "AXUVPW_summary",
+			"loading": "AXUVPW_loading",
 			"error": "AXUVPW_error",
+			"audio": "AXUVPW_audio",
+			"root": "AXUVPW_root",
 			"download": "AXUVPW_download",
-			"audio": "AXUVPW_audio"
+			"title": "AXUVPW_title"
 		};
 		//#endregion
 		//#region lib/types/client/MusicGenerateRow.js
