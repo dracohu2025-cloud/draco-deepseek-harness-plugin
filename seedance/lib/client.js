@@ -8,20 +8,20 @@ window.__ModuleLoader__.load({
 		let react = require("react");
 		let _deepseek_ai_dsh_client_runtime_client = require("@deepseek-ai/dsh-client-runtime/client");
 		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-seedance-gen-ui/src/client/DracoSuiteSection.module.css.mjs
-		const css$1 = ".zP3u-a_section{max-width:720px;color:var(--dsw-alias-label-primary);flex-direction:column;gap:12px;display:flex}.zP3u-a_title{color:var(--dsw-alias-label-primary);margin:0;font-size:16px;font-weight:500;line-height:24px}.zP3u-a_intro{color:var(--dsw-alias-label-tertiary);margin:0;font-size:14px;line-height:22px}.zP3u-a_cards{flex-direction:column;gap:8px;margin-top:4px;display:flex}";
-		const tagId$1 = "draco-seedance-gen/DracoSuiteSection.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$1) + "]") === null) {
+		const css$2 = ".zP3u-a_section{max-width:720px;color:var(--dsw-alias-label-primary);flex-direction:column;gap:12px;display:flex}.zP3u-a_title{color:var(--dsw-alias-label-primary);margin:0;font-size:16px;font-weight:500;line-height:24px}.zP3u-a_intro{color:var(--dsw-alias-label-tertiary);margin:0;font-size:14px;line-height:22px}.zP3u-a_cards{flex-direction:column;gap:8px;margin-top:4px;display:flex}";
+		const tagId$2 = "draco-seedance-gen/DracoSuiteSection.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$2) + "]") === null) {
 			const tag = document.createElement("style");
 			tag.dataset.plugin = "draco-seedance-gen";
-			tag.dataset.pluginCss = tagId$1;
-			tag.textContent = css$1;
+			tag.dataset.pluginCss = tagId$2;
+			tag.textContent = css$2;
 			document.head.appendChild(tag);
 		}
 		var DracoSuiteSection_module_css_default = {
-			"cards": "zP3u-a_cards",
-			"section": "zP3u-a_section",
+			"intro": "zP3u-a_intro",
 			"title": "zP3u-a_title",
-			"intro": "zP3u-a_intro"
+			"cards": "zP3u-a_cards",
+			"section": "zP3u-a_section"
 		};
 		//#endregion
 		//#region lib/types/client/DracoSuiteSection.js
@@ -65,6 +65,9 @@ window.__ModuleLoader__.load({
 			"video.seedanceFast": "doubao-seedance-2.0-fast (720p)",
 			"video.unavailable": "设置尚未就绪",
 			"video.ready": "生视频已就绪",
+			"row.videoTitle": "生成视频",
+			"row.videoLoading": "视频加载中…",
+			"row.videoFailed": "视频加载失败，点击重试",
 			"video.arkKey": "ARK_API_KEY",
 			"video.keyPlaceholder": "输入新值以替换已保存的密钥",
 			"video.save": "保存并验证",
@@ -88,6 +91,9 @@ window.__ModuleLoader__.load({
 			"video.seedanceFast": "doubao-seedance-2.0-fast (720p)",
 			"video.unavailable": "Settings are not ready yet",
 			"video.ready": "Video generation ready",
+			"row.videoTitle": "Generated video",
+			"row.videoLoading": "Loading video…",
+			"row.videoFailed": "Video failed to load; click to retry",
 			"video.arkKey": "ARK_API_KEY",
 			"video.keyPlaceholder": "Enter a new value to replace the stored key",
 			"video.save": "Save and verify",
@@ -101,14 +107,14 @@ window.__ModuleLoader__.load({
 		const NS = "draco-seedance";
 		//#endregion
 		//#region lib/types/client/draco-suite.js
-		const HUB$1 = Symbol.for("dsh.draco-suite.section");
+		const HUB$2 = Symbol.for("dsh.draco-suite.section");
 		/** Settings nav / section id. */
 		const DRACO_SUITE_SECTION_ID = "draco-suite";
 		/** Card slot owned by the Draco-suite section. */
 		const DRACO_ITEM_SLOT = "settings.draco.item";
-		function hub$1() {
+		function hub$2() {
 			const global = globalThis;
-			return global[HUB$1] ??= { mounts: /* @__PURE__ */ new Map() };
+			return global[HUB$2] ??= { mounts: /* @__PURE__ */ new Map() };
 		}
 		/**
 		* Mount the Draco-suite settings section if it is absent.
@@ -117,7 +123,7 @@ window.__ModuleLoader__.load({
 		* @returns disposer that re-mounts from a leftover plugin when this one unloads.
 		*/
 		function installDracoSuite(ctx, owner) {
-			const h = hub$1();
+			const h = hub$2();
 			const mount = () => {
 				if (h.dispose !== void 0) return;
 				const t = ctx.locale.bind(NS);
@@ -147,8 +153,220 @@ window.__ModuleLoader__.load({
 				}
 				if (h.mounts.size === 0) {
 					const global = globalThis;
-					delete global[HUB$1];
+					delete global[HUB$2];
 				}
+			};
+		}
+		//#endregion
+		//#region lib/types/client/video-generate-content.js
+		/**
+		* `video_generate` tool-result helpers: pull VideoBlocks off the settled
+		* call and turn attachment bytes into a browser object URL.
+		*/
+		/**
+		* Collect video attachments from a settled tool result, including a nested
+		* `tool-result` wrapper when the Host still has that envelope.
+		* @param content - `ToolResultNode.content`.
+		* @returns video attachments in log order.
+		*/
+		function videosFromContent(content) {
+			const videos = [];
+			for (const item of content) {
+				if (typeof item !== "object" || item === null) continue;
+				const block = item;
+				if (block.type === "video" && typeof block.attachment === "object" && block.attachment !== null) {
+					const attachment = block.attachment;
+					if (typeof attachment.attachmentId === "string" && typeof attachment.mediaType === "string") videos.push({
+						attachmentId: attachment.attachmentId,
+						mediaType: attachment.mediaType,
+						...typeof attachment.name === "string" && attachment.name.length > 0 ? { name: attachment.name } : {}
+					});
+				}
+				if (block.type === "tool-result" && Array.isArray(block.content)) videos.push(...videosFromContent(block.content));
+			}
+			return videos;
+		}
+		/**
+		* Prompt text from `video_generate` arguments, for the collapsed row.
+		* @param argsRaw - JSON arguments, possibly truncated while streaming.
+		* @returns the prompt, or the raw string when JSON is incomplete.
+		*/
+		function promptFromArgs(argsRaw) {
+			try {
+				const parsed = JSON.parse(argsRaw);
+				if (typeof parsed === "object" && parsed !== null) {
+					const prompt = parsed.prompt;
+					if (typeof prompt === "string" && prompt.trim().length > 0) return prompt.trim();
+				}
+			} catch {}
+			return argsRaw;
+		}
+		/**
+		* Build a browser object URL for one decoded attachment.
+		* @param mediaType - video media type.
+		* @param data - decoded bytes from `session.readAttachment`.
+		* @returns a `blob:` URL the caller must revoke.
+		*/
+		function blobUrlFromBytes(mediaType, data) {
+			const copy = new Uint8Array(data.byteLength);
+			copy.set(data);
+			return URL.createObjectURL(new Blob([copy], { type: mediaType }));
+		}
+		//#endregion
+		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-seedance-gen-ui/src/client/VideoGenerateRow.module.css.mjs
+		const css$1 = ".yqdn-a_root{flex-direction:column;gap:8px;min-width:0;display:flex}.yqdn-a_head{align-items:baseline;gap:8px;min-width:0;display:flex}.yqdn-a_title{color:var(--dsw-alias-label-primary);flex:none;font-size:13px;font-weight:500;line-height:20px}.yqdn-a_summary{text-overflow:ellipsis;white-space:nowrap;min-width:0;color:var(--dsw-alias-label-secondary);font-size:13px;line-height:20px;overflow:hidden}.yqdn-a_player{flex-direction:column;align-items:flex-start;gap:6px;width:100%;max-width:360px;display:flex}.yqdn-a_video{background:var(--dsw-alias-bg-subtle);border-radius:8px;width:100%;max-height:240px;display:block}.yqdn-a_download{color:var(--dsw-alias-label-secondary);text-underline-offset:2px;font-size:12px;line-height:18px;text-decoration:underline}.yqdn-a_loading,.yqdn-a_error{background:var(--dsw-alias-bg-subtle);min-height:40px;color:var(--dsw-alias-label-secondary);font:inherit;border:none;border-radius:8px;align-items:center;padding:0 12px;display:inline-flex}.yqdn-a_error{cursor:pointer;color:var(--dsw-alias-state-danger)}";
+		const tagId$1 = "draco-seedance-gen/VideoGenerateRow.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$1) + "]") === null) {
+			const tag = document.createElement("style");
+			tag.dataset.plugin = "draco-seedance-gen";
+			tag.dataset.pluginCss = tagId$1;
+			tag.textContent = css$1;
+			document.head.appendChild(tag);
+		}
+		var VideoGenerateRow_module_css_default = {
+			"loading": "yqdn-a_loading",
+			"summary": "yqdn-a_summary",
+			"video": "yqdn-a_video",
+			"player": "yqdn-a_player",
+			"head": "yqdn-a_head",
+			"download": "yqdn-a_download",
+			"error": "yqdn-a_error",
+			"root": "yqdn-a_root",
+			"title": "yqdn-a_title"
+		};
+		//#endregion
+		//#region lib/types/client/VideoGenerateRow.js
+		/**
+		* `video_generate` toolview: plays the durable VideoBlock on official Web,
+		* which otherwise dumps video blocks as JSON.
+		*/
+		function VideoPlayer({ attachmentId, name, loadVideo, t }) {
+			const [src, setSrc] = (0, react.useState)(null);
+			const [error, setError] = (0, react.useState)(false);
+			const [attempt, setAttempt] = (0, react.useState)(0);
+			const loadRef = (0, react.useRef)(loadVideo);
+			loadRef.current = loadVideo;
+			const label = name ?? t("row.videoTitle");
+			(0, react.useEffect)(() => {
+				let revoked;
+				let cancelled = false;
+				setError(false);
+				setSrc(null);
+				loadRef.current(attachmentId).then((url) => {
+					if (cancelled) {
+						URL.revokeObjectURL(url);
+						return;
+					}
+					revoked = url;
+					setSrc(url);
+				}, () => {
+					if (!cancelled) setError(true);
+				});
+				return () => {
+					cancelled = true;
+					if (revoked !== void 0) URL.revokeObjectURL(revoked);
+				};
+			}, [attachmentId, attempt]);
+			if (error) return (0, react_jsx_runtime.jsx)("button", {
+				type: "button",
+				className: VideoGenerateRow_module_css_default.error,
+				onClick: () => {
+					setAttempt((n) => n + 1);
+				},
+				children: t("row.videoFailed")
+			});
+			if (src === null) return (0, react_jsx_runtime.jsx)("span", {
+				className: VideoGenerateRow_module_css_default.loading,
+				children: t("row.videoLoading")
+			});
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: VideoGenerateRow_module_css_default.player,
+				children: [(0, react_jsx_runtime.jsx)("video", {
+					className: VideoGenerateRow_module_css_default.video,
+					src,
+					controls: true,
+					playsInline: true,
+					preload: "metadata",
+					"aria-label": label
+				}), (0, react_jsx_runtime.jsx)("a", {
+					className: VideoGenerateRow_module_css_default.download,
+					href: src,
+					download: name ?? "video.mp4",
+					children: label
+				})]
+			});
+		}
+		/** Compact video row: title, prompt preview, and an in-row player. */
+		function VideoGenerateRow({ block, t, loadVideo }) {
+			const settled = "kind" in block;
+			const preview = promptFromArgs((settled ? block.call?.argsRaw : block.argsRaw) ?? "");
+			const videos = settled ? videosFromContent(block.content) : [];
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: VideoGenerateRow_module_css_default.root,
+				"data-state": settled ? block.isError ? "error" : "ok" : "running",
+				children: [(0, react_jsx_runtime.jsxs)("div", {
+					className: VideoGenerateRow_module_css_default.head,
+					children: [(0, react_jsx_runtime.jsx)("span", {
+						className: VideoGenerateRow_module_css_default.title,
+						children: t("row.videoTitle")
+					}), preview.length > 0 && (0, react_jsx_runtime.jsx)("span", {
+						className: VideoGenerateRow_module_css_default.summary,
+						children: preview
+					})]
+				}), videos.map((video) => (0, react_jsx_runtime.jsx)(VideoPlayer, {
+					attachmentId: video.attachmentId,
+					...video.name === void 0 ? {} : { name: video.name },
+					loadVideo,
+					t
+				}, video.attachmentId))]
+			});
+		}
+		//#endregion
+		//#region lib/types/client/video-generate-toolview.js
+		const HUB$1 = Symbol.for("dsh.draco-video-gen.toolview");
+		function hub$1() {
+			const global = globalThis;
+			return global[HUB$1] ??= {};
+		}
+		/**
+		* Resolve one session attachment into a browser object URL.
+		* @param ctx - client root (sessions service).
+		* @param sessionId - owning conversation.
+		* @param attachmentId - opaque id from the VideoBlock.
+		* @returns a `blob:` URL the caller must revoke.
+		*/
+		async function loadVideoAttachment(ctx, sessionId, attachmentId) {
+			const session = ctx.get("sessions")?.binding(sessionId)?.session;
+			if (session === void 0) throw new Error("video_generate: session is not available");
+			const result = await session.readAttachment(attachmentId);
+			if (!result.ok) throw new Error(`${result.error.code}: ${result.error.message}`);
+			return blobUrlFromBytes(result.value.attachment.mediaType, result.value.data);
+		}
+		/**
+		* Mount the video_generate toolview once per browser runtime.
+		* @param ctx - client root context.
+		* @returns disposer that withdraws the keyed row.
+		*/
+		function installVideoGenerateToolview(ctx) {
+			const h = hub$1();
+			if (h.dispose !== void 0) return () => {};
+			function BoundRow(props) {
+				return (0, react_jsx_runtime.jsx)(VideoGenerateRow, {
+					block: props.block,
+					t: props.t,
+					loadVideo: (attachmentId) => loadVideoAttachment(ctx, String(props.sessionId), attachmentId)
+				});
+			}
+			const injected = ctx.slots.inject("tool.call.toolview", () => ctx.slots.register({
+				name: "tool.call.toolview",
+				key: "video_generate",
+				locale: NS
+			}, BoundRow));
+			h.dispose = injected;
+			return () => {
+				injected();
+				delete h.dispose;
+				delete globalThis[HUB$1];
 			};
 		}
 		//#endregion
@@ -257,23 +475,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var VideoPicker_module_css_default = {
-			"card": "gQucAW_card",
-			"fields": "gQucAW_fields",
+			"fieldLabel": "gQucAW_fieldLabel",
 			"identity": "gQucAW_identity",
-			"hint": "gQucAW_hint",
-			"error": "gQucAW_error",
-			"primary": "gQucAW_primary",
 			"selectReady": "gQucAW_selectReady",
+			"fields": "gQucAW_fields",
 			"dotReady": "gQucAW_dotReady",
-			"head": "gQucAW_head",
-			"name": "gQucAW_name",
-			"selectWrap": "gQucAW_selectWrap",
+			"card": "gQucAW_card",
 			"select": "gQucAW_select",
-			"selectRow": "gQucAW_selectRow",
 			"input": "gQucAW_input",
+			"selectRow": "gQucAW_selectRow",
+			"hint": "gQucAW_hint",
 			"iconBtn": "gQucAW_iconBtn",
+			"error": "gQucAW_error",
+			"head": "gQucAW_head",
+			"selectWrap": "gQucAW_selectWrap",
+			"primary": "gQucAW_primary",
 			"muted": "gQucAW_muted",
-			"fieldLabel": "gQucAW_fieldLabel"
+			"name": "gQucAW_name"
 		};
 		//#endregion
 		//#region lib/types/client/VideoGenPickerCard.js
@@ -651,7 +869,9 @@ window.__ModuleLoader__.load({
 			}), "draco-seedance-gen-ui: dictionaries");
 			const suite = installDracoSuite(ctx, "seedance");
 			const picker = installVideoGenPicker(ctx);
+			const videoRow = installVideoGenerateToolview(ctx);
 			return () => {
+				videoRow();
 				picker();
 				suite();
 			};
