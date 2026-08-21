@@ -40,7 +40,7 @@ Chat and image-generation requests send `store: false`. The ChatGPT Codex backen
 
 Settings → Draco-suite has one **Image generation** dropdown (`Off`, `gpt-image-2-low/medium/high`, and `grok-imagine-image-2.0 (1K/2K)` when the SuperGrok plugin is also installed). The closed control shows the full model id. A Codex-only login defaults an unset image backend to medium. When SuperGrok is also signed in, the image backend stays unset until you pick a row here. An explicit user choice is left alone.
 
-A successful `image_generate` commits the PNG through the session attachment store and returns a text envelope plus an `ImageBlock`. A DeepSeek Harness Web build that renders tool-result images shows the picture on the tool row. A convenience copy also lands under `$DSH_HOME/draco/images/`. Speech is a separate plugin: [../speech/README.md](../speech/README.md).
+A successful `image_generate` commits the PNG through the session attachment store and returns a text envelope plus an `ImageBlock`. Official `dsh --profile web` shows that picture on the `image_generate` tool row (this plugin registers the toolview). A convenience copy also lands under `$DSH_HOME/draco/images/`. Speech is a separate plugin: [../speech/README.md](../speech/README.md).
 
 CLI fallbacks: `/codex-login`, `/codex-status`.
 
