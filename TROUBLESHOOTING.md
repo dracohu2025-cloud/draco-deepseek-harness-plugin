@@ -56,6 +56,18 @@ An older plugin left the official generic tool row in charge; that row JSON-dump
 
 Speech already plays in the tool row via `speech_generate` presentation metadata.
 
+## Video row says 生成视频 but has no player
+
+The MP4 is on disk under `$DSH_HOME/draco/videos/`; official `dsh` has no `saveVideo`, so the player reads that file from the host. `video_generate` is registered by the **first** of Codex / SuperGrok / Seedance in the profile, so all three must be current:
+
+```sh
+dsh plugin --profile web update draco-codex-oauth
+dsh plugin --profile web update draco-grok-oauth
+dsh plugin --profile web update draco-seedance-gen
+```
+
+Then **stop and start** `dsh --profile web` and reload the page. Historical rows whose filename is still under `$DSH_HOME/draco/videos/` play without generating again. Updating only SuperGrok or only Seedance is not enough when Codex is also installed.
+
 ## `duplicate loader entry id` / `tool "…" is already registered`
 
 Two layers are claiming the same cordis row id or exclusive tool. `update` every Draco plugin you have, or `remove` the leftover (`draco-music-gen` is withdrawn). Do not install the same `#path:` twice under different specs.
@@ -82,4 +94,4 @@ SuperGrok lives in `grok/`, like the other four plugins. Install `github:dracohu
 
 ---
 
-中文摘要：`dsh plugin` 需要 PATH 上的 pnpm；五个插件都用 `#path:`（SuperGrok 是 `#path:grok`，仓库根不是 npm 包）；`github:` 安装走 GitHub tarball，429 是限流（可改本地路径）；装完必须重启 `dsh --profile web`；没看到 Draco-suite / 模型 / 推理强度 / 图片视频播放器时先 `update` 再重启；不要用 `--profile draco`；Music 3 已撤出。
+中文摘要：`dsh plugin` 需要 PATH 上的 pnpm；五个插件都用 `#path:`（SuperGrok 是 `#path:grok`，仓库根不是 npm 包）；`github:` 安装走 GitHub tarball，429 是限流（可改本地路径）；装完必须重启 `dsh --profile web`；没看到 Draco-suite / 模型 / 推理强度 / 图片视频播放器时先 `update` 再重启；**生成视频** 行没有播放器时要同时 `update` Codex、SuperGrok、Seedance（`video_generate` 由先加载的那份注册）；不要用 `--profile draco`；Music 3 已撤出。

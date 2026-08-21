@@ -557,18 +557,17 @@ function videoGenerateContent(value) {
 	return blocks;
 }
 /**
-* Persist the MP4 on `tool/result` so the video toolview can play it on a
-* host that has no `saveVideo`. Reads the convenience copy written by execute.
+* Point the video toolview at the convenience MP4 without embedding bytes
+* in the session log. Official `dsh` has no `saveVideo`; the browser reads
+* the file through `readVideoClip` on SuperGrok or Seedance Remotes.
 * @param value - the canonical generation outcome.
-* @returns presentation meta carrying canonical base64 of the MP4.
+* @returns presentation meta naming the convenience MP4.
 */
 function videoGenerateMeta(value) {
-	const data = readFileSync(value.path);
 	return { clip: {
 		name: basename(value.path),
 		mediaType: "video/mp4",
-		bytes: data.byteLength,
-		data: data.toString("base64")
+		bytes: value.bytes
 	} };
 }
 const XAI_API_KEY = credentialRef("XAI_API_KEY");

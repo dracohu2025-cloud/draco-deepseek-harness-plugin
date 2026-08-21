@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, realpathSync, statSync, writeFileSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
 import z from "@deepseek-ai/schemastery";
 import { AttachmentId } from "@deepseek-ai/dsh-attachment";
@@ -7,6 +7,7 @@ import { dshHomePath } from "@deepseek-ai/dsh-home-paths";
 import { defineTool } from "@deepseek-ai/dsh-tools";
 import { LlmError, normalizeApiKey } from "@deepseek-ai/dsh-llm";
 import { credentialRef } from "@deepseek-ai/dsh-credentials";
+import { Remote, TypertRemoteService } from "@deepseek-ai/dsh-typert-protocol";
 //#region lib/types/ark-seedance.js
 /**
 * Volcengine Ark Seedance 2.0 HTTP client: create a contents-generation
@@ -365,6 +366,132 @@ async function resolveSeedanceReferences(tokens, attachments, sessionEvents, sig
 	return urls;
 }
 //#endregion
+//#region lib/types/video-clip.js
+/**
+* Read a `video_generate` convenience MP4 from `$DSH_HOME/draco/videos`.
+* The browser player asks for a basename; this helper refuses anything that
+* is not a single matching path segment under that directory.
+*/
+/** Single path segment written by `video_generate` under `$DSH_HOME/draco/videos`. */
+const VIDEO_CLIP_NAME = /^[A-Za-z0-9][A-Za-z0-9._-]{0,200}\.mp4$/;
+/**
+* Read one convenience MP4 by basename.
+* @param name - filename only, matching {@link VIDEO_CLIP_NAME}.
+* @returns the file as canonical base64.
+* @throws when `name` is not a safe basename or the file is missing.
+*/
+function readConvenienceVideo(name) {
+	if (!VIDEO_CLIP_NAME.test(name)) throw new Error("invalid video name");
+	const root = dshHomePath("draco", "videos");
+	const path = join(root, name);
+	/* v8 ignore next -- a VIDEO_CLIP_NAME basename cannot join outside root. */
+	if (dirname(path) !== root) throw new Error("invalid video name");
+	if (!existsSync(path)) throw new Error("missing video");
+	const realRoot = realpathSync(root);
+	const realPath = realpathSync(path);
+	if (dirname(realPath) !== realRoot) throw new Error("invalid video name");
+	const data = readFileSync(realPath);
+	return {
+		name,
+		mediaType: "video/mp4",
+		bytes: data.byteLength,
+		data: data.toString("base64")
+	};
+}
+//#endregion
+//#region lib/types/remote.js
+/**
+* Typert Remote that reads `video_generate` convenience MP4s for browser
+* clients. The wire namespace is `dracoVideoClip`.
+* @module @deepseek-ai/dsh-draco-seedance-gen/remote
+*/
+var __runInitializers = function(thisArg, initializers, value) {
+	var useValue = arguments.length > 2;
+	for (var i = 0; i < initializers.length; i++) value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+	return useValue ? value : void 0;
+};
+var __esDecorate = function(ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+	function accept(f) {
+		if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected");
+		return f;
+	}
+	var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+	var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+	var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+	var _, done = false;
+	for (var i = decorators.length - 1; i >= 0; i--) {
+		var context = {};
+		for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
+		for (var p in contextIn.access) context.access[p] = contextIn.access[p];
+		context.addInitializer = function(f) {
+			if (done) throw new TypeError("Cannot add initializers after decoration has completed");
+			extraInitializers.push(accept(f || null));
+		};
+		var result = (0, decorators[i])(kind === "accessor" ? {
+			get: descriptor.get,
+			set: descriptor.set
+		} : descriptor[key], context);
+		if (kind === "accessor") {
+			if (result === void 0) continue;
+			if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+			if (_ = accept(result.get)) descriptor.get = _;
+			if (_ = accept(result.set)) descriptor.set = _;
+			if (_ = accept(result.init)) initializers.unshift(_);
+		} else if (_ = accept(result)) if (kind === "field") initializers.unshift(_);
+		else descriptor[key] = _;
+	}
+	if (target) Object.defineProperty(target, contextIn.name, descriptor);
+	done = true;
+};
+/** Typert Remote exposing convenience MP4s under `$DSH_HOME/draco/videos`. */
+let SeedanceVideoRemote = (() => {
+	let _classSuper = TypertRemoteService;
+	let _instanceExtraInitializers = [];
+	let _readVideoClip_decorators;
+	return class SeedanceVideoRemote extends _classSuper {
+		static {
+			const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(_classSuper[Symbol.metadata] ?? null) : void 0;
+			_readVideoClip_decorators = [Remote];
+			__esDecorate(this, null, _readVideoClip_decorators, {
+				kind: "method",
+				name: "readVideoClip",
+				static: false,
+				private: false,
+				access: {
+					has: (obj) => "readVideoClip" in obj,
+					get: (obj) => obj.readVideoClip
+				},
+				metadata: _metadata
+			}, null, _instanceExtraInitializers);
+			if (_metadata) Object.defineProperty(this, Symbol.metadata, {
+				enumerable: true,
+				configurable: true,
+				writable: true,
+				value: _metadata
+			});
+		}
+		constructor(ctx) {
+			super(ctx, "dracoVideoClip");
+			__runInitializers(this, _instanceExtraInitializers);
+		}
+		/**
+		* Read one `video_generate` convenience MP4 by basename.
+		* @param name - filename under `$DSH_HOME/draco/videos`.
+		* @returns the MP4 as canonical base64, or `error` when the name is rejected or missing.
+		*/
+		readVideoClip(name) {
+			try {
+				return {
+					status: "ok",
+					...readConvenienceVideo(name)
+				};
+			} catch {
+				return { status: "error" };
+			}
+		}
+	};
+})();
+//#endregion
 //#region lib/types/index.js
 /**
 * Draco Seedance 2.0 video backend. Settings live in `draco-seedance-gen`
@@ -434,18 +561,17 @@ function seedanceGenerateContent(value) {
 	return blocks;
 }
 /**
-* Persist the MP4 on `tool/result` so the video toolview can play it on a
-* host that has no `saveVideo`. Reads the convenience copy written by execute.
+* Point the video toolview at the convenience MP4 without embedding bytes
+* in the session log. Official `dsh` has no `saveVideo`; the browser reads
+* the file through the `dracoVideoClip` Remote.
 * @param value - the canonical generation outcome.
-* @returns presentation meta carrying canonical base64 of the MP4.
+* @returns presentation meta naming the convenience MP4.
 */
 function seedanceGenerateMeta(value) {
-	const data = readFileSync(value.path);
 	return { clip: {
 		name: basename(value.path),
 		mediaType: "video/mp4",
-		bytes: data.byteLength,
-		data: data.toString("base64")
+		bytes: value.bytes
 	} };
 }
 function probeFailureMessage(error) {
@@ -458,6 +584,7 @@ function probeFailureMessage(error) {
 }
 const ARK_API_KEY = credentialRef("ARK_API_KEY");
 const TOOLS_MARK = Symbol.for("dsh.draco-seedance-gen.tools");
+const CLIP_REMOTE = Symbol.for("dsh.draco-video-clip.remote");
 function backendsOf(tools) {
 	const bag = tools;
 	return bag[VIDEO_BACKENDS] ??= /* @__PURE__ */ new Map();
@@ -519,6 +646,14 @@ async function runSeedance(ctx, model, args, exec) {
 * @param config - composition base for the settings namespace.
 */
 function apply(ctx, config) {
+	const marked = ctx;
+	if (marked[CLIP_REMOTE] !== true) {
+		new SeedanceVideoRemote(ctx);
+		marked[CLIP_REMOTE] = true;
+		ctx.effect(() => () => {
+			delete marked[CLIP_REMOTE];
+		}, "draco-seedance-gen: video clip remote");
+	}
 	let current = config;
 	ctx.inject(["settings"], (sctx) => {
 		const scope = sctx.settings.register(SEEDANCE_GEN_SETTINGS_NAMESPACE, Config, { base: config });

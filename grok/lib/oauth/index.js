@@ -1,7 +1,40 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname } from "node:path";
+import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { dshHomePath } from "@deepseek-ai/dsh-home-paths";
 import { Remote, TypertRemoteService } from "@deepseek-ai/dsh-typert-protocol";
+//#region lib/types/video-clip.js
+/**
+* Read a `video_generate` convenience MP4 from `$DSH_HOME/draco/videos`.
+* The browser player asks for a basename; this helper refuses anything that
+* is not a single matching path segment under that directory.
+*/
+/** Single path segment written by `video_generate` under `$DSH_HOME/draco/videos`. */
+const VIDEO_CLIP_NAME = /^[A-Za-z0-9][A-Za-z0-9._-]{0,200}\.mp4$/;
+/**
+* Read one convenience MP4 by basename.
+* @param name - filename only, matching {@link VIDEO_CLIP_NAME}.
+* @returns the file as canonical base64.
+* @throws when `name` is not a safe basename or the file is missing.
+*/
+function readConvenienceVideo(name) {
+	if (!VIDEO_CLIP_NAME.test(name)) throw new Error("invalid video name");
+	const root = dshHomePath("draco", "videos");
+	const path = join(root, name);
+	/* v8 ignore next -- a VIDEO_CLIP_NAME basename cannot join outside root. */
+	if (dirname(path) !== root) throw new Error("invalid video name");
+	if (!existsSync(path)) throw new Error("missing video");
+	const realRoot = realpathSync(root);
+	const realPath = realpathSync(path);
+	if (dirname(realPath) !== realRoot) throw new Error("invalid video name");
+	const data = readFileSync(realPath);
+	return {
+		name,
+		mediaType: "video/mp4",
+		bytes: data.byteLength,
+		data: data.toString("base64")
+	};
+}
+//#endregion
 //#region lib/types/remote.js
 /**
 * Typert Remote surface of the xAI OAuth session: browser clients mount this
@@ -54,12 +87,14 @@ let XaiOauthRemote = (() => {
 	let _startLogin_decorators;
 	let _status_decorators;
 	let _logout_decorators;
+	let _readVideoClip_decorators;
 	return class XaiOauthRemote extends _classSuper {
 		static {
 			const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(_classSuper[Symbol.metadata] ?? null) : void 0;
 			_startLogin_decorators = [Remote];
 			_status_decorators = [Remote];
 			_logout_decorators = [Remote];
+			_readVideoClip_decorators = [Remote];
 			__esDecorate(this, null, _startLogin_decorators, {
 				kind: "method",
 				name: "startLogin",
@@ -90,6 +125,17 @@ let XaiOauthRemote = (() => {
 				access: {
 					has: (obj) => "logout" in obj,
 					get: (obj) => obj.logout
+				},
+				metadata: _metadata
+			}, null, _instanceExtraInitializers);
+			__esDecorate(this, null, _readVideoClip_decorators, {
+				kind: "method",
+				name: "readVideoClip",
+				static: false,
+				private: false,
+				access: {
+					has: (obj) => "readVideoClip" in obj,
+					get: (obj) => obj.readVideoClip
 				},
 				metadata: _metadata
 			}, null, _instanceExtraInitializers);
@@ -147,6 +193,21 @@ let XaiOauthRemote = (() => {
 		/** Forget the stored session. */
 		logout() {
 			this.service.logout();
+		}
+		/**
+		* Read one `video_generate` convenience MP4 by basename.
+		* @param name - filename under `$DSH_HOME/draco/videos`.
+		* @returns the MP4 as canonical base64, or `error` when the name is rejected or missing.
+		*/
+		readVideoClip(name) {
+			try {
+				return {
+					status: "ok",
+					...readConvenienceVideo(name)
+				};
+			} catch {
+				return { status: "error" };
+			}
 		}
 	};
 })();

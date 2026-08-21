@@ -2,6 +2,16 @@
 import { z } from 'zod'
 
 const _deepseek_ai_dsh_draco_oauth_xai_xaiOauthRemote_logout_result$schema = z.void()
+const _deepseek_ai_dsh_draco_oauth_xai_xaiOauthRemote_readVideoClip_parameter_0$schema = z.string()
+const _deepseek_ai_dsh_draco_oauth_xai_xaiOauthRemote_readVideoClip_result$schema = z.union([z.object({
+  'status': z.literal("ok"),
+  'name': z.string(),
+  'mediaType': z.literal("video/mp4"),
+  'bytes': z.number(),
+  'data': z.string(),
+}), z.object({
+  'status': z.literal("error"),
+})])
 const _deepseek_ai_dsh_draco_oauth_xai_xaiOauthRemote_startLogin_result$schema = z.object({
   'status': z.union([z.literal("error"), z.literal("awaiting-approval"), z.literal("idle"), z.literal("active"), z.literal("expired")]),
   'verificationUriComplete': z.string().optional(),
@@ -43,7 +53,32 @@ export const TYPERT_REMOTE = {
         typeSymbol: 'draco-grok-oauth#xaiOauthRemote/logout:result',
         schema: _deepseek_ai_dsh_draco_oauth_xai_xaiOauthRemote_logout_result$schema,
       },
-      sourceLocation: {"file":"packages/draco/draco-oauth-xai/src/remote.ts","line":64,"column":3},
+      sourceLocation: {"file":"packages/draco/draco-oauth-xai/src/remote.ts","line":65,"column":3},
+    },
+    {
+      id: 'draco-grok-oauth#xaiOauthRemote/readVideoClip',
+      service: 'xaiOauthRemote',
+      namespace: 'xaiOauthRemote',
+      method: 'readVideoClip',
+      invocation: { kind: 'direct' },
+      parameters: [
+        {
+          name: 'name',
+          wire: 'name',
+          source: 'json',
+          codec: {
+            mode: 'strict',
+            typeSymbol: 'draco-grok-oauth#xaiOauthRemote/readVideoClip:name',
+            schema: _deepseek_ai_dsh_draco_oauth_xai_xaiOauthRemote_readVideoClip_parameter_0$schema,
+          },
+        },
+      ],
+      result: {
+        mode: 'strict',
+        typeSymbol: 'draco-grok-oauth/types#VideoClipView',
+        schema: _deepseek_ai_dsh_draco_oauth_xai_xaiOauthRemote_readVideoClip_result$schema,
+      },
+      sourceLocation: {"file":"packages/draco/draco-oauth-xai/src/remote.ts","line":75,"column":3},
     },
     {
       id: 'draco-grok-oauth#xaiOauthRemote/startLogin',
@@ -58,7 +93,7 @@ export const TYPERT_REMOTE = {
         typeSymbol: 'draco-grok-oauth/types#XaiOauthLoginView',
         schema: _deepseek_ai_dsh_draco_oauth_xai_xaiOauthRemote_startLogin_result$schema,
       },
-      sourceLocation: {"file":"packages/draco/draco-oauth-xai/src/remote.ts","line":26,"column":9},
+      sourceLocation: {"file":"packages/draco/draco-oauth-xai/src/remote.ts","line":27,"column":9},
     },
     {
       id: 'draco-grok-oauth#xaiOauthRemote/status',
@@ -73,7 +108,7 @@ export const TYPERT_REMOTE = {
         typeSymbol: 'draco-grok-oauth/types#XaiOauthStatusView',
         schema: _deepseek_ai_dsh_draco_oauth_xai_xaiOauthRemote_status_result$schema,
       },
-      sourceLocation: {"file":"packages/draco/draco-oauth-xai/src/remote.ts","line":41,"column":3},
+      sourceLocation: {"file":"packages/draco/draco-oauth-xai/src/remote.ts","line":42,"column":3},
     },
   ],
 }

@@ -4042,6 +4042,14 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		//#endregion
 		//#region ../draco-oauth-xai/lib/typert.remote-client.js
 		const _deepseek_ai_dsh_draco_oauth_xai_xaiOauthRemote_logout_result$schema = _void();
+		const _deepseek_ai_dsh_draco_oauth_xai_xaiOauthRemote_readVideoClip_parameter_0$schema = string();
+		const _deepseek_ai_dsh_draco_oauth_xai_xaiOauthRemote_readVideoClip_result$schema = union([object({
+			"status": literal("ok"),
+			"name": string(),
+			"mediaType": literal("video/mp4"),
+			"bytes": number(),
+			"data": string()
+		}), object({ "status": literal("error") })]);
 		const _deepseek_ai_dsh_draco_oauth_xai_xaiOauthRemote_startLogin_result$schema = object({
 			"status": union([
 				literal("error"),
@@ -4091,7 +4099,34 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 					},
 					sourceLocation: {
 						"file": "packages/draco/draco-oauth-xai/src/remote.ts",
-						"line": 64,
+						"line": 65,
+						"column": 3
+					}
+				},
+				{
+					id: "draco-grok-oauth#xaiOauthRemote/readVideoClip",
+					service: "xaiOauthRemote",
+					namespace: "xaiOauthRemote",
+					method: "readVideoClip",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "name",
+						wire: "name",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "draco-grok-oauth#xaiOauthRemote/readVideoClip:name",
+							schema: _deepseek_ai_dsh_draco_oauth_xai_xaiOauthRemote_readVideoClip_parameter_0$schema
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "draco-grok-oauth/types#VideoClipView",
+						schema: _deepseek_ai_dsh_draco_oauth_xai_xaiOauthRemote_readVideoClip_result$schema
+					},
+					sourceLocation: {
+						"file": "packages/draco/draco-oauth-xai/src/remote.ts",
+						"line": 75,
 						"column": 3
 					}
 				},
@@ -4109,7 +4144,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 					},
 					sourceLocation: {
 						"file": "packages/draco/draco-oauth-xai/src/remote.ts",
-						"line": 26,
+						"line": 27,
 						"column": 9
 					}
 				},
@@ -4127,14 +4162,14 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 					},
 					sourceLocation: {
 						"file": "packages/draco/draco-oauth-xai/src/remote.ts",
-						"line": 41,
+						"line": 42,
 						"column": 3
 					}
 				}
 			]
 		};
 		//#endregion
-		//#region src/client/bridge.ts
+		//#region lib/types/client/bridge.js
 		let bridge;
 		/** Install or clear the bridge (plugin activation/teardown; effect-bound). */
 		function installBridge(next) {
@@ -4156,30 +4191,30 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var DracoSuiteSection_module_css_default = {
-			"cards": "IJyxqW_cards",
+			"section": "IJyxqW_section",
 			"intro": "IJyxqW_intro",
 			"title": "IJyxqW_title",
-			"section": "IJyxqW_section"
+			"cards": "IJyxqW_cards"
 		};
 		//#endregion
-		//#region src/client/DracoSuiteSection.tsx
+		//#region lib/types/client/DracoSuiteSection.js
 		/**
 		* Settings page for SuperGrok / Codex login and the shared image-generation
 		* dropdown. Cards arrive through `settings.draco.item`.
 		*/
 		function DracoSuiteSection({ t, renderSlot }) {
-			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+			return (0, react_jsx_runtime.jsxs)("div", {
 				className: DracoSuiteSection_module_css_default.section,
 				children: [
-					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("h2", {
+					(0, react_jsx_runtime.jsx)("h2", {
 						className: DracoSuiteSection_module_css_default.title,
 						children: t("suite.title")
 					}),
-					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+					(0, react_jsx_runtime.jsx)("p", {
 						className: DracoSuiteSection_module_css_default.intro,
 						children: t("suite.intro")
 					}),
-					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+					(0, react_jsx_runtime.jsx)("div", {
 						className: DracoSuiteSection_module_css_default.cards,
 						children: renderSlot("settings.draco.item", {})
 					})
@@ -4187,7 +4222,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			});
 		}
 		//#endregion
-		//#region src/client/locales.ts
+		//#region lib/types/client/locales.js
 		/** `draco` namespace dictionaries (the SuperGrok wizard chip's copy). */
 		/** Simplified Chinese dictionary (the key-set source of truth). */
 		const zh = {
@@ -4294,7 +4329,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		/** The namespace key used for locale registration and seat props. */
 		const NS = "draco";
 		//#endregion
-		//#region src/client/draco-suite.ts
+		//#region lib/types/client/draco-suite.js
 		const HUB$4 = Symbol.for("dsh.draco-suite.section");
 		/** Settings nav / section id. */
 		const DRACO_SUITE_SECTION_ID = "draco-suite";
@@ -4358,35 +4393,35 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		}
 		var HermesCompatCard_module_css_default = {
 			"input": "BacZVG_input",
-			"dotIdle": "BacZVG_dotIdle",
-			"hint": "BacZVG_hint",
+			"name": "BacZVG_name",
+			"primary": "BacZVG_primary",
 			"head": "BacZVG_head",
 			"ready": "BacZVG_ready",
-			"tag": "BacZVG_tag",
-			"link": "BacZVG_link",
 			"iconBtn": "BacZVG_iconBtn",
-			"code": "BacZVG_code",
-			"muted": "BacZVG_muted",
-			"error": "BacZVG_error",
-			"card": "BacZVG_card",
-			"selectRow": "BacZVG_selectRow",
-			"name": "BacZVG_name",
-			"selected": "BacZVG_selected",
-			"primary": "BacZVG_primary",
-			"secondary": "BacZVG_secondary",
-			"identity": "BacZVG_identity",
-			"select": "BacZVG_select",
-			"fieldLabel": "BacZVG_fieldLabel",
+			"hint": "BacZVG_hint",
 			"row": "BacZVG_row",
-			"awaiting": "BacZVG_awaiting",
+			"card": "BacZVG_card",
+			"tag": "BacZVG_tag",
+			"identity": "BacZVG_identity",
 			"fields": "BacZVG_fields",
-			"dotWait": "BacZVG_dotWait",
+			"selected": "BacZVG_selected",
+			"dotIdle": "BacZVG_dotIdle",
+			"error": "BacZVG_error",
+			"link": "BacZVG_link",
+			"muted": "BacZVG_muted",
+			"selectRow": "BacZVG_selectRow",
 			"selectWrap": "BacZVG_selectWrap",
+			"secondary": "BacZVG_secondary",
+			"dotWait": "BacZVG_dotWait",
 			"selectReady": "BacZVG_selectReady",
-			"dotReady": "BacZVG_dotReady"
+			"fieldLabel": "BacZVG_fieldLabel",
+			"dotReady": "BacZVG_dotReady",
+			"awaiting": "BacZVG_awaiting",
+			"code": "BacZVG_code",
+			"select": "BacZVG_select"
 		};
 		//#endregion
-		//#region src/client/HermesCompatCard.tsx
+		//#region lib/types/client/HermesCompatCard.js
 		/** Poll interval while a login awaits approval. */
 		const POLL_MS = 3e3;
 		/**
@@ -4437,44 +4472,44 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 				bridge.logout();
 				setView({ kind: "idle" });
 			};
-			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("article", {
+			return (0, react_jsx_runtime.jsxs)("article", {
 				className: HermesCompatCard_module_css_default.card,
 				children: [
-					/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+					(0, react_jsx_runtime.jsxs)("div", {
 						className: HermesCompatCard_module_css_default.head,
-						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						children: [(0, react_jsx_runtime.jsx)("div", {
 							className: HermesCompatCard_module_css_default.identity,
-							children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+							children: (0, react_jsx_runtime.jsx)("span", {
 								className: HermesCompatCard_module_css_default.name,
 								children: t("compat.provider")
 							})
-						}), view.kind === "active" ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+						}), view.kind === "active" ? (0, react_jsx_runtime.jsx)("span", {
 							className: HermesCompatCard_module_css_default.dotReady,
 							role: "img",
 							"aria-label": t("active.ready"),
 							title: t("active.ready")
-						}) : view.kind === "awaiting-approval" ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+						}) : view.kind === "awaiting-approval" ? (0, react_jsx_runtime.jsx)("span", {
 							className: HermesCompatCard_module_css_default.dotWait,
 							role: "img",
 							"aria-label": t("awaiting.title"),
 							title: t("awaiting.title")
-						}) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+						}) : (0, react_jsx_runtime.jsx)("span", {
 							className: HermesCompatCard_module_css_default.dotIdle,
 							role: "img",
 							"aria-label": t("idle.hint"),
 							title: t("idle.hint")
 						})]
 					}),
-					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+					(0, react_jsx_runtime.jsx)("p", {
 						className: HermesCompatCard_module_css_default.hint,
 						children: t("idle.hint")
 					}),
-					view.kind === "active" ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+					view.kind === "active" ? (0, react_jsx_runtime.jsxs)("div", {
 						className: HermesCompatCard_module_css_default.row,
-						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", {
+						children: [(0, react_jsx_runtime.jsxs)("span", {
 							className: HermesCompatCard_module_css_default.ready,
 							role: "status",
-							children: [t("active.ready"), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", {
+							children: [t("active.ready"), (0, react_jsx_runtime.jsxs)("span", {
 								className: HermesCompatCard_module_css_default.muted,
 								children: [
 									t("active.expires"),
@@ -4482,43 +4517,43 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 									new Date(view.expiresAt).toLocaleTimeString()
 								]
 							})]
-						}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+						}), (0, react_jsx_runtime.jsx)("button", {
 							type: "button",
 							className: HermesCompatCard_module_css_default.secondary,
 							onClick: signOut,
 							children: t("active.logout")
 						})]
-					}) : view.kind === "awaiting-approval" ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+					}) : view.kind === "awaiting-approval" ? (0, react_jsx_runtime.jsxs)("div", {
 						className: HermesCompatCard_module_css_default.awaiting,
 						role: "status",
 						children: [
-							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { children: t("awaiting.title") }),
-							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("a", {
+							(0, react_jsx_runtime.jsx)("span", { children: t("awaiting.title") }),
+							(0, react_jsx_runtime.jsx)("a", {
 								className: HermesCompatCard_module_css_default.link,
 								href: view.verificationUriComplete || view.verificationUri,
 								target: "_blank",
 								rel: "noreferrer",
 								children: t("awaiting.link")
 							}),
-							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+							(0, react_jsx_runtime.jsx)("span", {
 								className: HermesCompatCard_module_css_default.code,
 								title: `${t("awaiting.code")}: ${view.userCode}`,
 								children: view.userCode
 							}),
-							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+							(0, react_jsx_runtime.jsx)("span", {
 								className: HermesCompatCard_module_css_default.muted,
 								children: t("awaiting.pending")
 							})
 						]
-					}) : /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+					}) : (0, react_jsx_runtime.jsxs)("div", {
 						className: HermesCompatCard_module_css_default.row,
-						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+						children: [(0, react_jsx_runtime.jsx)("button", {
 							type: "button",
 							className: HermesCompatCard_module_css_default.primary,
 							disabled: busy,
 							onClick: login,
 							children: t("idle.login")
-						}), loginError !== null && /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+						}), loginError !== null && (0, react_jsx_runtime.jsx)("span", {
 							className: HermesCompatCard_module_css_default.error,
 							role: "status",
 							title: loginError,
@@ -4529,7 +4564,11 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			});
 		}
 		//#endregion
-		//#region src/client/image-generate-content.ts
+		//#region lib/types/client/image-generate-content.js
+		/**
+		* `image_generate` tool-result helpers: pull ImageBlocks off the settled
+		* call and turn attachment bytes into a browser object URL.
+		*/
 		/**
 		* Collect image attachments from a settled tool result, including a nested
 		* `tool-result` wrapper when the Host still has that envelope.
@@ -4591,16 +4630,16 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var ImageGenerateRow_module_css_default = {
+			"loading": "suBC4W_loading",
+			"error": "suBC4W_error",
+			"root": "suBC4W_root",
+			"preview": "suBC4W_preview",
 			"head": "suBC4W_head",
 			"title": "suBC4W_title",
-			"preview": "suBC4W_preview",
-			"loading": "suBC4W_loading",
-			"summary": "suBC4W_summary",
-			"error": "suBC4W_error",
-			"root": "suBC4W_root"
+			"summary": "suBC4W_summary"
 		};
 		//#endregion
-		//#region src/client/ImageGenerateRow.tsx
+		//#region lib/types/client/ImageGenerateRow.js
 		/**
 		* `image_generate` toolview: shows the durable ImageBlock on official Web,
 		* which otherwise dumps image blocks as JSON.
@@ -4631,7 +4670,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 					if (revoked !== void 0) URL.revokeObjectURL(revoked);
 				};
 			}, [attachmentId, attempt]);
-			if (error) return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+			if (error) return (0, react_jsx_runtime.jsx)("button", {
 				type: "button",
 				className: ImageGenerateRow_module_css_default.error,
 				onClick: () => {
@@ -4639,17 +4678,17 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 				},
 				children: t("row.imageFailed")
 			});
-			if (src === null) return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+			if (src === null) return (0, react_jsx_runtime.jsx)("span", {
 				className: ImageGenerateRow_module_css_default.loading,
 				children: t("row.imageLoading")
 			});
-			return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+			return (0, react_jsx_runtime.jsx)("button", {
 				type: "button",
 				className: ImageGenerateRow_module_css_default.preview,
 				onClick: () => {
 					window.open(src, "_blank", "noopener");
 				},
-				children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("img", {
+				children: (0, react_jsx_runtime.jsx)("img", {
 					src,
 					alt: name ?? t("row.imageTitle")
 				})
@@ -4660,19 +4699,19 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			const settled = "kind" in block;
 			const preview = promptFromArgs$1((settled ? block.call?.argsRaw : block.argsRaw) ?? "");
 			const images = settled ? imagesFromContent(block.content) : [];
-			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+			return (0, react_jsx_runtime.jsxs)("div", {
 				className: ImageGenerateRow_module_css_default.root,
 				"data-state": settled ? block.isError ? "error" : "ok" : "running",
-				children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+				children: [(0, react_jsx_runtime.jsxs)("div", {
 					className: ImageGenerateRow_module_css_default.head,
-					children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+					children: [(0, react_jsx_runtime.jsx)("span", {
 						className: ImageGenerateRow_module_css_default.title,
 						children: t("row.imageTitle")
-					}), preview.length > 0 && /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+					}), preview.length > 0 && (0, react_jsx_runtime.jsx)("span", {
 						className: ImageGenerateRow_module_css_default.summary,
 						children: preview
 					})]
-				}), images.map((image) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)(ImagePreview, {
+				}), images.map((image) => (0, react_jsx_runtime.jsx)(ImagePreview, {
 					attachmentId: image.attachmentId,
 					...image.name === void 0 ? {} : { name: image.name },
 					loadImage,
@@ -4681,7 +4720,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			});
 		}
 		//#endregion
-		//#region src/client/image-generate-toolview.tsx
+		//#region lib/types/client/image-generate-toolview.js
 		const HUB$3 = Symbol.for("dsh.draco-image-gen.toolview");
 		function hub$3() {
 			const global = globalThis;
@@ -4710,7 +4749,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			const h = hub$3();
 			if (h.dispose !== void 0) return () => {};
 			function BoundRow(props) {
-				return /* @__PURE__ */ (0, react_jsx_runtime.jsx)(ImageGenerateRow, {
+				return (0, react_jsx_runtime.jsx)(ImageGenerateRow, {
 					block: props.block,
 					t: props.t,
 					loadImage: (attachmentId) => loadImageAttachment(ctx, String(props.sessionId), attachmentId)
@@ -4729,7 +4768,11 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			};
 		}
 		//#endregion
-		//#region src/client/video-generate-content.ts
+		//#region lib/types/client/video-generate-content.js
+		/**
+		* `video_generate` tool-result helpers: pull VideoBlocks off the settled
+		* call and turn attachment bytes into a browser object URL.
+		*/
 		/**
 		* Collect video attachments from a settled tool result, including a nested
 		* `tool-result` wrapper when the Host still has that envelope.
@@ -4779,10 +4822,12 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			copy.set(data);
 			return URL.createObjectURL(new Blob([copy], { type: mediaType }));
 		}
+		/** Basename `video_generate` writes under `$DSH_HOME/draco/videos`. */
+		const VIDEO_FILE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,200}\.mp4$/;
 		/**
-		* Read a clip from a settled tool result's presentation meta.
+		* Read an inline base64 clip from a settled tool result's presentation meta.
 		* @param meta - `tool/result` meta, or undefined while the call is running.
-		* @returns the clip, or undefined when meta is absent or malformed.
+		* @returns the clip, or undefined when meta has no inline bytes.
 		*/
 		function clipFromMeta(meta) {
 			if (typeof meta !== "object" || meta === null) return void 0;
@@ -4796,6 +4841,38 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 				mediaType: record.mediaType,
 				data: record.data
 			};
+		}
+		/**
+		* Read the convenience-file basename from presentation meta when bytes
+		* were not inlined into the session log.
+		* @param meta - `tool/result` meta, or undefined while the call is running.
+		* @returns the basename, or undefined when meta has no usable `clip.name`.
+		*/
+		function clipNameFromMeta(meta) {
+			if (typeof meta !== "object" || meta === null) return void 0;
+			const clip = meta.clip;
+			if (typeof clip !== "object" || clip === null) return void 0;
+			const name = clip.name;
+			return typeof name === "string" && VIDEO_FILE.test(name) ? name : void 0;
+		}
+		/**
+		* Parse a convenience MP4 basename from the model-facing path envelope.
+		* @param content - `ToolResultNode.content`.
+		* @returns the basename, or undefined when no `draco/videos/*.mp4` path is present.
+		*/
+		function videoNameFromContent(content) {
+			for (const item of content) {
+				if (typeof item !== "object" || item === null) continue;
+				const block = item;
+				if (block.type === "text" && typeof block.text === "string") {
+					const match = /(?:^|[/\\])draco[/\\]videos[/\\]([A-Za-z0-9][A-Za-z0-9._-]{0,200}\.mp4)\b/.exec(block.text);
+					if (match?.[1] !== void 0) return match[1];
+				}
+				if (block.type === "tool-result" && Array.isArray(block.content)) {
+					const nested = videoNameFromContent(block.content);
+					if (nested !== void 0) return nested;
+				}
+			}
 		}
 		/**
 		* Build a browser object URL for one clip.
@@ -4819,18 +4896,18 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			document.head.appendChild(tag);
 		}
 		var VideoGenerateRow_module_css_default = {
-			"player": "Tom5qG_player",
-			"error": "Tom5qG_error",
+			"loading": "Tom5qG_loading",
 			"root": "Tom5qG_root",
-			"video": "Tom5qG_video",
-			"head": "Tom5qG_head",
+			"download": "Tom5qG_download",
 			"title": "Tom5qG_title",
 			"summary": "Tom5qG_summary",
-			"download": "Tom5qG_download",
-			"loading": "Tom5qG_loading"
+			"video": "Tom5qG_video",
+			"head": "Tom5qG_head",
+			"error": "Tom5qG_error",
+			"player": "Tom5qG_player"
 		};
 		//#endregion
-		//#region src/client/VideoGenerateRow.tsx
+		//#region lib/types/client/VideoGenerateRow.js
 		/**
 		* `video_generate` toolview: plays the durable VideoBlock on official Web,
 		* which otherwise dumps video blocks as JSON.
@@ -4862,7 +4939,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 					if (revoked !== void 0) URL.revokeObjectURL(revoked);
 				};
 			}, [attachmentId, attempt]);
-			if (error) return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+			if (error) return (0, react_jsx_runtime.jsx)("button", {
 				type: "button",
 				className: VideoGenerateRow_module_css_default.error,
 				onClick: () => {
@@ -4870,20 +4947,20 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 				},
 				children: t("row.videoFailed")
 			});
-			if (src === null) return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+			if (src === null) return (0, react_jsx_runtime.jsx)("span", {
 				className: VideoGenerateRow_module_css_default.loading,
 				children: t("row.videoLoading")
 			});
-			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+			return (0, react_jsx_runtime.jsxs)("div", {
 				className: VideoGenerateRow_module_css_default.player,
-				children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("video", {
+				children: [(0, react_jsx_runtime.jsx)("video", {
 					className: VideoGenerateRow_module_css_default.video,
 					src,
 					controls: true,
 					playsInline: true,
 					preload: "metadata",
 					"aria-label": label
-				}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("a", {
+				}), (0, react_jsx_runtime.jsx)("a", {
 					className: VideoGenerateRow_module_css_default.download,
 					href: src,
 					download: name ?? "video.mp4",
@@ -4918,7 +4995,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 				data,
 				attempt
 			]);
-			if (error) return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+			if (error) return (0, react_jsx_runtime.jsx)("button", {
 				type: "button",
 				className: VideoGenerateRow_module_css_default.error,
 				onClick: () => {
@@ -4926,20 +5003,75 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 				},
 				children: t("row.videoFailed")
 			});
-			if (src === null) return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+			if (src === null) return (0, react_jsx_runtime.jsx)("span", {
 				className: VideoGenerateRow_module_css_default.loading,
 				children: t("row.videoLoading")
 			});
-			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+			return (0, react_jsx_runtime.jsxs)("div", {
 				className: VideoGenerateRow_module_css_default.player,
-				children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("video", {
+				children: [(0, react_jsx_runtime.jsx)("video", {
 					className: VideoGenerateRow_module_css_default.video,
 					src,
 					controls: true,
 					playsInline: true,
 					preload: "metadata",
 					"aria-label": name
-				}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("a", {
+				}), (0, react_jsx_runtime.jsx)("a", {
+					className: VideoGenerateRow_module_css_default.download,
+					href: src,
+					download: name,
+					children: name
+				})]
+			});
+		}
+		function FilePlayer({ name, loadClip, t }) {
+			const [src, setSrc] = (0, react.useState)(null);
+			const [error, setError] = (0, react.useState)(false);
+			const [attempt, setAttempt] = (0, react.useState)(0);
+			const loadRef = (0, react.useRef)(loadClip);
+			loadRef.current = loadClip;
+			(0, react.useEffect)(() => {
+				let revoked;
+				let cancelled = false;
+				setError(false);
+				setSrc(null);
+				loadRef.current(name).then((url) => {
+					if (cancelled) {
+						URL.revokeObjectURL(url);
+						return;
+					}
+					revoked = url;
+					setSrc(url);
+				}, () => {
+					if (!cancelled) setError(true);
+				});
+				return () => {
+					cancelled = true;
+					if (revoked !== void 0) URL.revokeObjectURL(revoked);
+				};
+			}, [name, attempt]);
+			if (error) return (0, react_jsx_runtime.jsx)("button", {
+				type: "button",
+				className: VideoGenerateRow_module_css_default.error,
+				onClick: () => {
+					setAttempt((n) => n + 1);
+				},
+				children: t("row.videoFailed")
+			});
+			if (src === null) return (0, react_jsx_runtime.jsx)("span", {
+				className: VideoGenerateRow_module_css_default.loading,
+				children: t("row.videoLoading")
+			});
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: VideoGenerateRow_module_css_default.player,
+				children: [(0, react_jsx_runtime.jsx)("video", {
+					className: VideoGenerateRow_module_css_default.video,
+					src,
+					controls: true,
+					playsInline: true,
+					preload: "metadata",
+					"aria-label": name
+				}), (0, react_jsx_runtime.jsx)("a", {
 					className: VideoGenerateRow_module_css_default.download,
 					href: src,
 					download: name,
@@ -4948,42 +5080,48 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			});
 		}
 		/** Compact video row: title, prompt preview, and an in-row player. */
-		function VideoGenerateRow({ block, t, loadVideo }) {
+		function VideoGenerateRow({ block, t, loadVideo, loadClip }) {
 			const settled = "kind" in block;
 			const preview = promptFromArgs((settled ? block.call?.argsRaw : block.argsRaw) ?? "");
 			const videos = settled ? videosFromContent(block.content) : [];
 			const clip = settled && videos.length === 0 ? clipFromMeta(block.meta) : void 0;
-			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+			const fileName = settled && videos.length === 0 && clip === void 0 ? clipNameFromMeta(block.meta) ?? videoNameFromContent(block.content) : void 0;
+			return (0, react_jsx_runtime.jsxs)("div", {
 				className: VideoGenerateRow_module_css_default.root,
 				"data-state": settled ? block.isError ? "error" : "ok" : "running",
 				children: [
-					/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+					(0, react_jsx_runtime.jsxs)("div", {
 						className: VideoGenerateRow_module_css_default.head,
-						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+						children: [(0, react_jsx_runtime.jsx)("span", {
 							className: VideoGenerateRow_module_css_default.title,
 							children: t("row.videoTitle")
-						}), preview.length > 0 && /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+						}), preview.length > 0 && (0, react_jsx_runtime.jsx)("span", {
 							className: VideoGenerateRow_module_css_default.summary,
 							children: preview
 						})]
 					}),
-					videos.map((video) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)(VideoPlayer, {
+					videos.map((video) => (0, react_jsx_runtime.jsx)(VideoPlayer, {
 						attachmentId: video.attachmentId,
 						...video.name === void 0 ? {} : { name: video.name },
 						loadVideo,
 						t
 					}, video.attachmentId)),
-					clip !== void 0 ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)(ClipPlayer, {
+					clip !== void 0 ? (0, react_jsx_runtime.jsx)(ClipPlayer, {
 						name: clip.name,
 						mediaType: clip.mediaType,
 						data: clip.data,
+						t
+					}) : null,
+					fileName !== void 0 && loadClip !== void 0 ? (0, react_jsx_runtime.jsx)(FilePlayer, {
+						name: fileName,
+						loadClip,
 						t
 					}) : null
 				]
 			});
 		}
 		//#endregion
-		//#region src/client/video-generate-toolview.tsx
+		//#region lib/types/client/video-generate-toolview.js
 		const HUB$2 = Symbol.for("dsh.draco-video-gen.toolview");
 		function hub$2() {
 			const global = globalThis;
@@ -5004,6 +5142,34 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			return blobUrlFromBytes(result.value.attachment.mediaType, result.value.data);
 		}
 		/**
+		* Read a convenience MP4 from SuperGrok or Seedance Remotes.
+		* @param ctx - client root after those plugins have mounted.
+		* @param name - basename under `$DSH_HOME/draco/videos`.
+		* @returns a `blob:` URL the caller must revoke.
+		*/
+		async function loadVideoClip(ctx, name) {
+			const remotes = [
+				ctx.get("remote.dracoVideoClip"),
+				ctx.get("remote.xaiOauthRemote"),
+				ctx.get("remote.codexOauthRemote")
+			];
+			for (const remote of remotes) {
+				const read = remote?.readVideoClip;
+				if (read === void 0) continue;
+				const result = await read(name);
+				if (!result.ok || result.value.status !== "ok") continue;
+				const { data, mediaType } = result.value;
+				if (typeof data !== "string" || data.length === 0) continue;
+				if (typeof mediaType !== "string" || mediaType.length === 0) continue;
+				return blobUrlFromClip({
+					name: typeof result.value.name === "string" && result.value.name.length > 0 ? result.value.name : name,
+					mediaType,
+					data
+				});
+			}
+			throw new Error("video_generate: clip is not available");
+		}
+		/**
 		* Mount the video_generate toolview once per browser runtime.
 		* @param ctx - client root context.
 		* @returns disposer that withdraws the keyed row.
@@ -5012,10 +5178,11 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			const h = hub$2();
 			if (h.dispose !== void 0) return () => {};
 			function BoundRow(props) {
-				return /* @__PURE__ */ (0, react_jsx_runtime.jsx)(VideoGenerateRow, {
+				return (0, react_jsx_runtime.jsx)(VideoGenerateRow, {
 					block: props.block,
 					t: props.t,
-					loadVideo: (attachmentId) => loadVideoAttachment(ctx, String(props.sessionId), attachmentId)
+					loadVideo: (attachmentId) => loadVideoAttachment(ctx, String(props.sessionId), attachmentId),
+					loadClip: (name) => loadVideoClip(ctx, name)
 				});
 			}
 			const injected = ctx.slots.inject("tool.call.toolview", () => ctx.slots.register({
@@ -5031,7 +5198,11 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			};
 		}
 		//#endregion
-		//#region src/client/image-gen-value.ts
+		//#region lib/types/client/image-gen-value.js
+		/**
+		* Shared `draco-image-gen` picker values. SuperGrok and Codex both write this
+		* namespace; the dropdown lists only the backends whose UI plugin is loaded.
+		*/
 		/** Host settings section owned by `@deepseek-ai/dsh-draco-image-gen`. */
 		const IMAGE_GEN_NS = "draco-image-gen";
 		/** Slot id for the single image-generation card (duplicate ids throw). */
@@ -5090,7 +5261,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			return false;
 		}
 		//#endregion
-		//#region src/client/ImageGenPickerCard.tsx
+		//#region lib/types/client/ImageGenPickerCard.js
 		const LABELS$1 = {
 			none: "image.off",
 			"imagine-1k": "image.imagine1k",
@@ -5109,46 +5280,46 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			const available = useStore((s) => s.available);
 			const value = useStore((s) => s.value);
 			const verified = imageReadyOf(available, value);
-			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("article", {
+			return (0, react_jsx_runtime.jsxs)("article", {
 				className: HermesCompatCard_module_css_default.card,
 				children: [
-					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+					(0, react_jsx_runtime.jsx)("div", {
 						className: HermesCompatCard_module_css_default.head,
-						children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						children: (0, react_jsx_runtime.jsx)("div", {
 							className: HermesCompatCard_module_css_default.identity,
-							children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+							children: (0, react_jsx_runtime.jsx)("span", {
 								className: HermesCompatCard_module_css_default.name,
 								children: t("image.title")
 							})
 						})
 					}),
-					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+					(0, react_jsx_runtime.jsx)("p", {
 						className: HermesCompatCard_module_css_default.hint,
 						children: t("image.hint")
 					}),
-					ready ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+					ready ? (0, react_jsx_runtime.jsx)("div", {
 						className: HermesCompatCard_module_css_default.selectRow,
-						children: /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						children: (0, react_jsx_runtime.jsxs)("div", {
 							className: HermesCompatCard_module_css_default.selectWrap,
-							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("select", {
+							children: [(0, react_jsx_runtime.jsx)("select", {
 								className: verified ? `${HermesCompatCard_module_css_default.select} ${HermesCompatCard_module_css_default.selectReady}` : HermesCompatCard_module_css_default.select,
 								"aria-label": t("image.title"),
 								value,
 								onChange: (event) => {
 									setValue(event.target.value);
 								},
-								children: optionsFor(available, value).map((row) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
+								children: optionsFor(available, value).map((row) => (0, react_jsx_runtime.jsx)("option", {
 									value: row,
 									children: t(LABELS$1[row])
 								}, row))
-							}), verified ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+							}), verified ? (0, react_jsx_runtime.jsx)("span", {
 								className: HermesCompatCard_module_css_default.dotReady,
 								role: "img",
 								"aria-label": t("image.ready"),
 								title: t("image.ready")
 							}) : null]
 						})
-					}) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+					}) : (0, react_jsx_runtime.jsx)("p", {
 						className: HermesCompatCard_module_css_default.muted,
 						children: t("image.unavailable")
 					})
@@ -5156,7 +5327,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			});
 		}
 		//#endregion
-		//#region src/client/image-gen-store.ts
+		//#region lib/types/client/image-gen-store.js
 		/**
 		* Image-generation dropdown store: a mirror of the `draco-image-gen` settings
 		* section plus which OAuth UI plugins have advertised a backend.
@@ -5183,7 +5354,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			});
 		}
 		//#endregion
-		//#region src/client/image-gen-picker.ts
+		//#region lib/types/client/image-gen-picker.js
 		const HUB$1 = Symbol.for("dsh.draco-image-gen.picker");
 		function hub$1() {
 			const global = globalThis;
@@ -5272,7 +5443,11 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			};
 		}
 		//#endregion
-		//#region src/client/video-gen-value.ts
+		//#region lib/types/client/video-gen-value.js
+		/**
+		* Shared `draco-image-gen.videoProvider` picker values. SuperGrok advertises
+		* Imagine Video; the Seedance plugin advertises three Seedance 2.0 rows.
+		*/
 		/** Slot id for the single video-generation card (duplicate ids throw). */
 		const VIDEO_GEN_SEAT_ID = "draco-video-gen";
 		/**
@@ -5335,7 +5510,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			return false;
 		}
 		//#endregion
-		//#region src/client/VideoGenPickerCard.tsx
+		//#region lib/types/client/VideoGenPickerCard.js
 		const LABELS = {
 			none: "video.off",
 			imagine: "video.imagine",
@@ -5374,28 +5549,28 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 					setBusy(false);
 				});
 			};
-			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("article", {
+			return (0, react_jsx_runtime.jsxs)("article", {
 				className: HermesCompatCard_module_css_default.card,
 				children: [
-					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+					(0, react_jsx_runtime.jsx)("div", {
 						className: HermesCompatCard_module_css_default.head,
-						children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						children: (0, react_jsx_runtime.jsx)("div", {
 							className: HermesCompatCard_module_css_default.identity,
-							children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+							children: (0, react_jsx_runtime.jsx)("span", {
 								className: HermesCompatCard_module_css_default.name,
 								children: t("video.title")
 							})
 						})
 					}),
-					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+					(0, react_jsx_runtime.jsx)("p", {
 						className: HermesCompatCard_module_css_default.hint,
 						children: t("video.hint")
 					}),
-					ready ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+					ready ? (0, react_jsx_runtime.jsxs)("div", {
 						className: HermesCompatCard_module_css_default.selectRow,
-						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						children: [(0, react_jsx_runtime.jsxs)("div", {
 							className: HermesCompatCard_module_css_default.selectWrap,
-							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("select", {
+							children: [(0, react_jsx_runtime.jsx)("select", {
 								className: verified ? `${HermesCompatCard_module_css_default.select} ${HermesCompatCard_module_css_default.selectReady}` : HermesCompatCard_module_css_default.select,
 								"aria-label": t("video.title"),
 								value,
@@ -5403,17 +5578,17 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 								onChange: (event) => {
 									setValue(event.target.value);
 								},
-								children: videoOptionsFor(available, value).map((row) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
+								children: videoOptionsFor(available, value).map((row) => (0, react_jsx_runtime.jsx)("option", {
 									value: row,
 									children: t(LABELS[row])
 								}, row))
-							}), verified ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+							}), verified ? (0, react_jsx_runtime.jsx)("span", {
 								className: HermesCompatCard_module_css_default.dotReady,
 								role: "img",
 								"aria-label": t("video.ready"),
 								title: t("video.ready")
 							}) : null]
-						}), seedanceVerified && available.seedance && saveKeys !== void 0 && !editing ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+						}), seedanceVerified && available.seedance && saveKeys !== void 0 && !editing ? (0, react_jsx_runtime.jsx)("button", {
 							className: HermesCompatCard_module_css_default.iconBtn,
 							type: "button",
 							"aria-label": t("video.replace"),
@@ -5421,24 +5596,24 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 							onClick: () => {
 								setEditing(true);
 							},
-							children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(KeyIcon, {})
+							children: (0, react_jsx_runtime.jsx)(KeyIcon, {})
 						}) : null]
-					}) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+					}) : (0, react_jsx_runtime.jsx)("p", {
 						className: HermesCompatCard_module_css_default.muted,
 						children: t("video.unavailable")
 					}),
-					ready && showSeedance ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)(ProbeStatusLine, {
+					ready && showSeedance ? (0, react_jsx_runtime.jsx)(ProbeStatusLine, {
 						t,
 						probe: seedanceProbe,
 						error: seedanceProbeError,
 						configured: seedanceConfigured
 					}) : null,
-					showForm ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("form", {
+					showForm ? (0, react_jsx_runtime.jsxs)("form", {
 						className: HermesCompatCard_module_css_default.fields,
 						onSubmit: onSave(saveKeys),
-						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
+						children: [(0, react_jsx_runtime.jsxs)("label", {
 							className: HermesCompatCard_module_css_default.fieldLabel,
-							children: [t("video.arkKey"), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+							children: [t("video.arkKey"), (0, react_jsx_runtime.jsx)("input", {
 								className: HermesCompatCard_module_css_default.input,
 								type: "password",
 								autoComplete: "off",
@@ -5450,7 +5625,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 									setArk(event.target.value);
 								}
 							})]
-						}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+						}), (0, react_jsx_runtime.jsx)("button", {
 							className: HermesCompatCard_module_css_default.primary,
 							type: "submit",
 							disabled: busy || checking,
@@ -5462,33 +5637,33 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 		}
 		function ProbeStatusLine({ t, probe, error, configured }) {
 			if (probe === "ok") return null;
-			if (probe === "checking") return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+			if (probe === "checking") return (0, react_jsx_runtime.jsx)("p", {
 				className: HermesCompatCard_module_css_default.muted,
 				children: t("video.checking")
 			});
-			if (probe === "fail") return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("p", {
+			if (probe === "fail") return (0, react_jsx_runtime.jsxs)("p", {
 				className: HermesCompatCard_module_css_default.error,
 				children: [t("video.failPrefix"), error]
 			});
-			return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+			return (0, react_jsx_runtime.jsx)("p", {
 				className: HermesCompatCard_module_css_default.muted,
 				children: configured ? t("video.checking") : t("video.seedanceMissing")
 			});
 		}
 		function KeyIcon() {
-			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("svg", {
+			return (0, react_jsx_runtime.jsxs)("svg", {
 				width: "16",
 				height: "16",
 				viewBox: "0 0 16 16",
 				fill: "none",
 				"aria-hidden": "true",
-				children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("circle", {
+				children: [(0, react_jsx_runtime.jsx)("circle", {
 					cx: "5.5",
 					cy: "5.5",
 					r: "3.1",
 					stroke: "currentColor",
 					strokeWidth: "1.5"
-				}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", {
+				}), (0, react_jsx_runtime.jsx)("path", {
 					d: "M8.2 7.1 14 12.9v1.6h-2.2v-1.5h-1.6v-1.5H8.7L8.2 11",
 					stroke: "currentColor",
 					strokeWidth: "1.5",
@@ -5497,7 +5672,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			});
 		}
 		//#endregion
-		//#region src/client/video-gen-store.ts
+		//#region lib/types/client/video-gen-store.js
 		/**
 		* Video-generation dropdown store: a mirror of `draco-image-gen.videoProvider`
 		* plus which UI plugins have advertised a video backend.
@@ -5530,7 +5705,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			});
 		}
 		//#endregion
-		//#region src/client/video-gen-picker.ts
+		//#region lib/types/client/video-gen-picker.js
 		const HUB = Symbol.for("dsh.draco-video-gen.picker");
 		function hub() {
 			const global = globalThis;
@@ -5642,7 +5817,7 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
 			};
 		}
 		//#endregion
-		//#region src/client/index.ts
+		//#region lib/types/client/index.js
 		/**
 		* SuperGrok login wizard plugin, browser half: mounts the
 		* `draco-grok-oauth` Typert Remote contribution and injects a

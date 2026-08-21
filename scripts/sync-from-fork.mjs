@@ -88,6 +88,7 @@ const COPIES = [
   ['draco-seedance-gen-ui', 'lib/invariant.js', 'seedance', 'lib/invariant.js'],
   ['draco-seedance-gen', 'lib/index.js', 'seedance', 'lib/seedance/index.js'],
   ['draco-seedance-gen', 'lib/invariant.js', 'seedance', 'lib/seedance/invariant.js'],
+  ['draco-seedance-gen', 'lib/types/types.js', 'seedance', 'lib/types.js'],
   ['draco-x-search-ui', 'lib/index.js', 'x-search', 'lib/index.js'],
   ['draco-x-search-ui', 'lib/invariant.js', 'x-search', 'lib/invariant.js'],
   ['draco-x-search', 'lib/index.js', 'x-search', 'lib/x-search/index.js'],
@@ -104,6 +105,8 @@ const REWRITTEN = [
   ['draco-oauth-xai', 'lib/typert.remote-client.js', 'lib/typert.remote-client.js'],
   ['draco-speech-gen-ui', 'lib/client.js', 'lib/client.js'],
   ['draco-seedance-gen-ui', 'lib/client.js', 'lib/client.js'],
+  ['draco-seedance-gen', 'lib/typert.host.js', 'lib/typert.host.js'],
+  ['draco-seedance-gen', 'lib/typert.remote-client.js', 'lib/typert.remote-client.js'],
   ['draco-x-search-ui', 'lib/client.js', 'lib/client.js'],
 ]
 
