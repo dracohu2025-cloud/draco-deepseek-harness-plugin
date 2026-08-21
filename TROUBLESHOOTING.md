@@ -70,7 +70,7 @@ Seed-Audio is generative. The host waits up to 120s and retries empty-audio HTTP
 
 ## X search runs official `web_search` instead
 
-`x_search` is a separate tool. Official `web_search` stays DeepSeek / Exa / Perplexity. Install `#path:x-search`, **Save and verify** `grok-x-search`, then ask for X / Twitter posts.
+`x_search` is a separate tool. Official `web_search` stays DeepSeek / Exa / Perplexity. Install `#path:x-search` and `#path:grok`, **Sign in with SuperGrok**, then ask for X / Twitter posts. X Search lights a green ready-dot from that login; it does not take `XAI_API_KEY`.
 
 ## `dsh: --profile draco`
 

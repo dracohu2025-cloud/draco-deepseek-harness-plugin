@@ -6,6 +6,8 @@ A DeepSeek Harness **bundle** that adds `x_search` (X / Twitter posts) through x
 
 This is **not** a `web_search` engine. Official web search stays DeepSeek / Exa / Perplexity. `x_search` is its own tool, so any chat model (including DeepSeek) can call it.
 
+Credentials are **SuperGrok OAuth only**. There is no `XAI_API_KEY` field. Sign in with SuperGrok and the grok-x-search row lights a green ready-dot.
+
 Full install path (Node, official `dsh`, all plugins, first run): [../README.md](../README.md).
 
 ## Install
@@ -16,12 +18,13 @@ You need a working official `dsh` CLI (`npm install -g @deepseek-ai/dsh`) and pn
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:x-search
 ```
 
-This repository ships **built** `lib/` artifacts, so no `prepare` script runs.
+Also install SuperGrok (`#path:grok`) and **Sign in with SuperGrok**. This repository ships **built** `lib/` artifacts, so no `prepare` script runs.
 
 Day-to-day iteration uses this floating spec. After a new `main` lands, refresh with:
 
 ```sh
 dsh plugin --profile web update draco-x-search
+dsh plugin --profile web update draco-grok-oauth
 ```
 
 Pin a commit only when you want a frozen install. pnpm takes the commit and the subdirectory as `#<sha>&path:x-search` (quote the spec so the shell does not split on `&`):
@@ -38,9 +41,7 @@ Then **restart** the official Web profile (plugins load only on boot):
 dsh --profile web
 ```
 
-Open **Settings → Draco-suite**. If SuperGrok, Codex, speech, or Seedance is also installed, the X Search card joins their tab. If this is the only Draco plugin, it mounts the Draco-suite tab itself.
-
-Pick **grok-x-search** (exact wording). SuperGrok login is enough when `draco-grok-oauth` is installed and signed in. Otherwise paste `XAI_API_KEY`. **Save and verify** lists `GET /v1/models`; it does not search X and it does not run on its own when you open Settings. An empty save uses the SuperGrok bearer. While it runs, the key field and Save are hidden and the dropdown is disabled. A green dot on the selected row hides the field; a key-icon control beside the dropdown reveals it again. A failure shows the field with the HTTP error.
+Open **Settings → Draco-suite**. If SuperGrok is signed in, X Search selects **grok-x-search** and shows a green ready-dot. If SuperGrok is not signed in, the row says to sign in first. There is no Save-and-verify and no API-key box.
 
 A successful `x_search` posts `https://api.x.ai/v1/responses` with `tools: [{ type: "x_search" }]` and model `grok-4.6` (timeout 180s). The tool result is a short Grok summary plus citeable `x.com` URLs taken only from `url_citation` annotations. Optional arguments: `allowed_x_handles` / `excluded_x_handles` (at most 20, not both), `from_date` / `to_date`, `enable_image_understanding` / `enable_video_understanding`.
 
@@ -50,7 +51,7 @@ In chat you do not type the tool name. Example: `What are people saying on X abo
 
 | Row | Package export | Role |
 |---|---|---|
-| `draco-x-search` | `draco-x-search/x-search` | `x_search` (SuperGrok OAuth or `XAI_API_KEY`) |
+| `draco-x-search` | `draco-x-search/x-search` | `x_search` (SuperGrok OAuth) |
 | `draco-x-search-ui` | `draco-x-search` | Settings → Draco-suite X Search card |
 
 ## Uninstall

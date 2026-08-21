@@ -54,7 +54,7 @@ dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plu
 # Seedance 2.0 — extra video_generate backends (Volcengine Ark)
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:seedance
 
-# X Search — x_search on X (Twitter). Not a web_search engine
+# X Search — x_search on X (Twitter) via SuperGrok OAuth. Not a web_search engine
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:x-search
 ```
 
@@ -88,7 +88,7 @@ Every installed plugin puts cards on **Settings → Draco-suite**. A green ready
 | Image generation | One dropdown: `Off`, `grok-imagine-image-2.0 (1K/2K)`, `gpt-image-2-low/medium/high` (Codex rows appear after Codex login). Closed control shows the full model id. | Selected Imagine / Codex row has a green dot. SuperGrok-only defaults to Imagine 2.0 1K. Codex-only defaults to `gpt-image-2` medium. Both signed in: pick a row yourself. |
 | Video generation | One dropdown: `Off`, `grok-imagine-video-1.5`, plus Seedance rows when that plugin is installed. | Selected row has a green dot. SuperGrok login defaults video to Imagine Video 1.5. Seedance still needs **Save and verify**. |
 | Speech | Pick **doubao-tts** or **seed-audio-1.0**. Paste keys. **Save and verify**. | Green dot on the selected backend. Seed-Audio often takes 30s+ (host waits up to 120s). Doubao TTS is usually a few seconds. |
-| X Search | Pick **grok-x-search**. Empty **Save and verify** reuses SuperGrok login; otherwise paste `XAI_API_KEY`. The check lists xAI models; it does not search X. | Green dot on `grok-x-search`. |
+| X Search | Install SuperGrok and **Sign in with SuperGrok**. X Search then selects **grok-x-search** and lights a green ready-dot. No API key and no Save-and-verify. | Green dot on `grok-x-search` while SuperGrok is signed in. |
 
 Credentials (paste on the card, or export in the environment):
 
@@ -98,7 +98,7 @@ Credentials (paste on the card, or export in the environment):
 | Doubao TTS | `VOLCENGINE_TTS_APP_ID` + `VOLCENGINE_TTS_ACCESS_TOKEN` |
 | Seed-Audio 1.0 | `SEED_AUDIO_API_KEY` (Ark API key for the Seed-Audio endpoint; not the TTS token) |
 | Seedance 2.0 | `ARK_API_KEY` (same Ark key used for Volcengine LLMs) |
-| X Search | SuperGrok OAuth, or `XAI_API_KEY` |
+| X Search | SuperGrok OAuth only (no `XAI_API_KEY`) |
 
 While **Save and verify** runs, the key fields and Save are hidden and the dropdown is disabled.
 
@@ -245,7 +245,7 @@ dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plu
 # Seedance 2.0 — 额外的 video_generate 后端（火山方舟）
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:seedance
 
-# X 搜索 — x_search（X / Twitter）。不是 web_search 引擎
+# X 搜索 — x_search（X / Twitter），只用 SuperGrok OAuth。不是 web_search 引擎
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:x-search
 ```
 
@@ -279,7 +279,7 @@ dsh --profile web
 | 生图 | 一个下拉：`Off`、`grok-imagine-image-2.0 (1K/2K)`、`gpt-image-2-low/medium/high`（Codex 登录后才有 GPT 行）。收起时仍显示完整模型 id。 | 选中的 Imagine / Codex 行有绿灯。只登 SuperGrok 时默认 Imagine 2.0 1K。只登 Codex 时默认 `gpt-image-2` medium。两个都登了：自己选一行。 |
 | 生视频 | 一个下拉：`Off`、`grok-imagine-video-1.5`，装了 Seedance 还会出现对应行。 | 选中行有绿灯。SuperGrok 登录后视频默认 Imagine Video 1.5。Seedance 仍需 **保存并验证**。 |
 | 语音 | 选 **doubao-tts** 或 **seed-audio-1.0**，粘贴密钥，**保存并验证**。 | 选中后端有绿灯。Seed-Audio 探针经常要 30 秒以上（宿主最多等 120 秒）。Doubao TTS 通常几秒。 |
-| X 搜索 | 选 **grok-x-search**。空着 **保存并验证** 会复用 SuperGrok 登录；否则粘贴 `XAI_API_KEY`。这次检查只列 xAI 模型，不会真去搜 X。 | `grok-x-search` 上有绿灯。 |
+| X 搜索 | 先装 SuperGrok 并 **Sign in with SuperGrok**。X Search 会自动选中 **grok-x-search** 并点亮绿灯。没有 API Key，也不用保存并验证。 | SuperGrok 已登录时，`grok-x-search` 上有绿灯。 |
 
 密钥（写在卡片上，或导出到环境变量）：
 
@@ -289,7 +289,7 @@ dsh --profile web
 | Doubao TTS | `VOLCENGINE_TTS_APP_ID` + `VOLCENGINE_TTS_ACCESS_TOKEN` |
 | Seed-Audio 1.0 | `SEED_AUDIO_API_KEY`（Seed-Audio 接口用的方舟 API Key，不是 TTS token） |
 | Seedance 2.0 | `ARK_API_KEY`（和火山 LLM 同一把方舟 Key） |
-| X 搜索 | SuperGrok OAuth，或 `XAI_API_KEY` |
+| X 搜索 | 只走 SuperGrok OAuth（不要 `XAI_API_KEY`） |
 
 **保存并验证** 进行时，密钥框和保存按钮会隐藏，下拉禁用。
 

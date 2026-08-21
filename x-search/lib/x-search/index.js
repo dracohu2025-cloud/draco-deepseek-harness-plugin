@@ -1,15 +1,14 @@
 import z from "@deepseek-ai/schemastery";
 import { settingsNamespace } from "@deepseek-ai/dsh-settings";
 import { defineTool } from "@deepseek-ai/dsh-tools";
-import { LlmError, normalizeApiKey } from "@deepseek-ai/dsh-llm";
-import { credentialRef } from "@deepseek-ai/dsh-credentials";
+import { LlmError } from "@deepseek-ai/dsh-llm";
 //#region lib/types/xai-x-search.js
 /**
 * xAI Responses `x_search` client: one dedicated Grok turn with the
 * server-side X Search tool, then citations on the assistant message.
 * @module @deepseek-ai/dsh-draco-x-search/src/xai-x-search
 */
-/** xAI Responses endpoint used by SuperGrok OAuth and API keys. */
+/** xAI Responses endpoint used with the SuperGrok OAuth bearer. */
 const XAI_RESPONSES_URL = "https://api.x.ai/v1/responses";
 /** Cheap Settings probe; listing models does not search X. */
 const XAI_MODELS_URL = "https://api.x.ai/v1/models";
@@ -141,8 +140,8 @@ function assistantText(payload) {
 	return parts.join("\n\n").trim();
 }
 /**
-* Confirm a bearer can list xAI models. This does not search X.
-* @param apiKey - SuperGrok OAuth or `XAI_API_KEY`.
+* Confirm a SuperGrok OAuth bearer can list xAI models. This does not search X.
+* @param apiKey - SuperGrok OAuth access token.
 * @param signal - cancellation / probe timeout.
 */
 async function probeXSearch(apiKey, signal) {
@@ -155,7 +154,7 @@ async function probeXSearch(apiKey, signal) {
 }
 /**
 * Run one Grok turn with server-side `x_search` and collect citations.
-* @param apiKey - SuperGrok OAuth or `XAI_API_KEY`.
+* @param apiKey - SuperGrok OAuth access token.
 * @param args - already-normalized tool arguments.
 * @param signal - cancellation.
 */
@@ -186,7 +185,8 @@ async function collectXSearch(apiKey, args, signal) {
 /**
 * Draco `x_search`: X (Twitter) search via xAI server-side `x_search`.
 * Settings live in `draco-x-search` (`provider` plus probe fields). The
-* backend is SuperGrok OAuth (`ctx.xaiOauth`) or `XAI_API_KEY`.
+* only backend is SuperGrok OAuth (`ctx.xaiOauth`). A ready SuperGrok
+* session selects `grok-x-search` and marks the probe `ok`.
 * @module @deepseek-ai/dsh-draco-x-search
 */
 const name = "draco-x-search";
@@ -226,37 +226,30 @@ function xSearchContent(value) {
 		text: formatXSearchOutput(value)
 	}];
 }
-function probeFailureMessage(error) {
-	if (error instanceof LlmError) return error.message.slice(0, 180);
-	if (error instanceof Error) {
-		if (error.name === "AbortError") return "probe timed out";
-		return error.message.slice(0, 180);
-	}
-	return String(error).slice(0, 180);
-}
-const XAI_API_KEY = credentialRef("XAI_API_KEY");
 const TOOLS_MARK = Symbol.for("dsh.draco-x-search.tools");
-async function resolveSecret(ctx, ref) {
-	const credentials = ctx.get("credentials");
-	if (credentials !== void 0) {
-		const hit = await credentials.resolve(ref);
-		if (hit !== void 0) {
-			const checked = normalizeApiKey(hit.value);
-			if (checked.ok) return checked.value;
-		}
-	}
-	const env = process.env[ref];
-	if (typeof env !== "string") return void 0;
-	const checked = normalizeApiKey(env);
-	return checked.ok ? checked.value : void 0;
-}
 async function resolveBearer(ctx) {
 	const oauth = ctx.get("xaiOauth");
-	if (oauth !== void 0 && typeof oauth.getBearer === "function") {
-		const token = await oauth.getBearer();
-		if (typeof token === "string" && token.length > 0) return token;
+	if (oauth === void 0 || typeof oauth.getBearer !== "function") return void 0;
+	const token = await oauth.getBearer();
+	return typeof token === "string" && token.length > 0 ? token : void 0;
+}
+async function syncOauth(ctx, scope) {
+	const token = await resolveBearer(ctx);
+	const resolved = scope.get();
+	if (token !== void 0) {
+		const patch = {
+			xSearchProbe: "ok",
+			xSearchProbeError: ""
+		};
+		if (resolved.provider === "none") patch.provider = "grok-x-search";
+		if (resolved.xSearchProbe === "ok" && (resolved.xSearchProbeError ?? "") === "" && patch.provider === void 0) return;
+		await scope.update(patch);
+		return;
 	}
-	return resolveSecret(ctx, XAI_API_KEY);
+	if (resolved.xSearchProbe === "ok" || (resolved.xSearchProbeError ?? "") !== "") await scope.update({
+		xSearchProbe: "idle",
+		xSearchProbeError: ""
+	});
 }
 function valueFromCollected(collected) {
 	return {
@@ -276,40 +269,16 @@ function apply(ctx, config) {
 	ctx.inject(["settings"], (sctx) => {
 		const scope = sctx.settings.register(X_SEARCH_SETTINGS_NAMESPACE, Config, { base: config });
 		current = scope.get();
-		const runProbe = async () => {
-			const controller = new AbortController();
-			const timer = setTimeout(() => controller.abort(), X_SEARCH_PROBE_TIMEOUT_MS);
-			try {
-				const apiKey = await resolveBearer(ctx);
-				if (apiKey === void 0) {
-					await scope.update({
-						xSearchProbe: "fail",
-						xSearchProbeError: "missing SuperGrok login or XAI_API_KEY"
-					});
-					return;
-				}
-				await probeXSearch(apiKey, controller.signal);
-				await scope.update({
-					xSearchProbe: "ok",
-					xSearchProbeError: ""
-				});
-			} catch (error) {
-				await scope.update({
-					xSearchProbe: "fail",
-					xSearchProbeError: probeFailureMessage(error)
-				});
-			} finally {
-				clearTimeout(timer);
-			}
-		};
-		const considerProbe = (next) => {
-			if (next.provider === "grok-x-search" && next.xSearchProbe === "checking") runProbe();
-		};
 		scope.watch((next) => {
 			current = next;
-			considerProbe(next);
 		});
-		considerProbe(current);
+		sctx.on("draco/xai-oauth-ready", () => {
+			syncOauth(ctx, scope);
+		});
+		sctx.on("draco/xai-oauth-ended", () => {
+			syncOauth(ctx, scope);
+		});
+		syncOauth(ctx, scope);
 	});
 	const tools = ctx.tools;
 	if (tools[TOOLS_MARK] === true || ctx.tools.get?.("x_search") !== void 0) return;
@@ -320,7 +289,7 @@ function apply(ctx, config) {
 	ctx.tools.register(defineTool({
 		name: "x_search",
 		timeoutMs: 18e4,
-		description: "Search X (Twitter) via Grok. Settings → Draco-suite must enable grok-x-search (SuperGrok login or XAI_API_KEY). Optional handle and date filters. Returns a short summary plus citeable x.com URLs.",
+		description: "Search X (Twitter) via Grok. SuperGrok login enables grok-x-search. Optional handle and date filters. Returns a short summary plus citeable x.com URLs.",
 		parameters: {
 			query: {
 				type: "string",
@@ -390,9 +359,9 @@ function apply(ctx, config) {
 		async execute(args, exec) {
 			const query = args.query.trim();
 			if (query.length === 0) throw new Error("query must be a non-empty string");
-			if (current.provider !== "grok-x-search") throw new Error("X search is not configured; pick grok-x-search in Settings → Draco-suite");
+			if (current.provider !== "grok-x-search") throw new Error("X search is not configured; sign in with SuperGrok or pick grok-x-search in Settings → Draco-suite");
 			const apiKey = await resolveBearer(ctx);
-			if (apiKey === void 0) throw new Error("no SuperGrok login or XAI_API_KEY; sign in or save a key in Settings → Draco-suite");
+			if (apiKey === void 0) throw new Error("no SuperGrok login; sign in with SuperGrok in Settings → Draco-suite");
 			return valueFromCollected(await collectXSearch(apiKey, {
 				...args,
 				query

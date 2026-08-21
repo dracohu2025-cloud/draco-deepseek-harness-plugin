@@ -57,7 +57,7 @@ After SuperGrok login, Settings → Draco-suite shows an **Image generation** dr
 
 In chat you do not type tool names. Example: `Draw a red panda in watercolor.` / `Make a 6-second video of a cat walking.`
 
-Speech, Seedance, and X Search are separate plugins: [speech/README.md](../speech/README.md), [seedance/README.md](../seedance/README.md), [x-search/README.md](../x-search/README.md). X Search reuses this SuperGrok OAuth bearer (or `XAI_API_KEY`) and is not a `web_search` engine.
+Speech, Seedance, and X Search are separate plugins: [speech/README.md](../speech/README.md), [seedance/README.md](../seedance/README.md), [x-search/README.md](../x-search/README.md). X Search reuses this SuperGrok OAuth bearer only and is not a `web_search` engine.
 
 ## What this bundle inserts
 

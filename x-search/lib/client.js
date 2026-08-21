@@ -5,7 +5,6 @@ window.__ModuleLoader__.load({
 		var exports = module.exports;
 		Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 		let react_jsx_runtime = require("react/jsx-runtime");
-		let react = require("react");
 		let _deepseek_ai_dsh_client_runtime_client = require("@deepseek-ai/dsh-client-runtime/client");
 		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-x-search-ui/src/client/DracoSuiteSection.module.css.mjs
 		const css$1 = ".GSLRma_section{max-width:720px;color:var(--dsw-alias-label-primary);flex-direction:column;gap:12px;display:flex}.GSLRma_title{color:var(--dsw-alias-label-primary);margin:0;font-size:16px;font-weight:500;line-height:24px}.GSLRma_intro{color:var(--dsw-alias-label-tertiary);margin:0;font-size:14px;line-height:22px}.GSLRma_cards{flex-direction:column;gap:8px;margin-top:4px;display:flex}";
@@ -18,30 +17,30 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DracoSuiteSection_module_css_default = {
-			"cards": "GSLRma_cards",
-			"title": "GSLRma_title",
 			"intro": "GSLRma_intro",
-			"section": "GSLRma_section"
+			"section": "GSLRma_section",
+			"cards": "GSLRma_cards",
+			"title": "GSLRma_title"
 		};
 		//#endregion
-		//#region lib/types/client/DracoSuiteSection.js
+		//#region src/client/DracoSuiteSection.tsx
 		/**
 		* Settings page that hosts Draco login and media cards. Cards arrive through
 		* `settings.draco.item`.
 		*/
 		function DracoSuiteSection({ t, renderSlot }) {
-			return (0, react_jsx_runtime.jsxs)("div", {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 				className: DracoSuiteSection_module_css_default.section,
 				children: [
-					(0, react_jsx_runtime.jsx)("h2", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("h2", {
 						className: DracoSuiteSection_module_css_default.title,
 						children: t("suite.title")
 					}),
-					(0, react_jsx_runtime.jsx)("p", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 						className: DracoSuiteSection_module_css_default.intro,
 						children: t("suite.intro")
 					}),
-					(0, react_jsx_runtime.jsx)("div", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 						className: DracoSuiteSection_module_css_default.cards,
 						children: renderSlot("settings.draco.item", {})
 					})
@@ -49,50 +48,38 @@ window.__ModuleLoader__.load({
 			});
 		}
 		//#endregion
-		//#region lib/types/client/locales.js
+		//#region src/client/locales.ts
 		/** `draco-x-search` namespace dictionaries. */
 		/** Simplified Chinese dictionary (the key-set source of truth). */
 		const zh = {
 			"suite.nav": "Draco-suite",
 			"suite.title": "Draco-suite",
-			"suite.intro": "Grok X Search。使用 SuperGrok 登录，或 XAI_API_KEY。",
+			"suite.intro": "Grok X Search。SuperGrok 登录后自动就绪。",
 			"xsearch.title": "X Search",
-			"xsearch.hint": "在 X 上搜索帖子。使用已登录的 SuperGrok，或粘贴 XAI_API_KEY。关闭下拉仍显示 grok-x-search。不是网页搜索。",
+			"xsearch.hint": "在 X 上搜索帖子。SuperGrok 登录后自动点亮 grok-x-search。不是网页搜索。",
 			"xsearch.off": "关闭",
 			"xsearch.grok": "grok-x-search",
 			"xsearch.unavailable": "设置尚未就绪",
-			"xsearch.apiKey": "XAI_API_KEY",
-			"xsearch.keyPlaceholder": "留空则使用 SuperGrok 登录；输入新值以保存 API Key",
-			"xsearch.save": "保存并验证",
-			"xsearch.replace": "更换密钥",
-			"xsearch.checking": "正在向 xAI 验证凭据…",
 			"xsearch.ready": "X Search 已就绪",
-			"xsearch.missing": "需要 SuperGrok 登录或 XAI_API_KEY",
-			"xsearch.failPrefix": "验证失败："
+			"xsearch.missing": "请先登录 SuperGrok"
 		};
 		/** English dictionary, checked complete against the zh key set. */
 		const en = {
 			"suite.nav": "Draco-suite",
 			"suite.title": "Draco-suite",
-			"suite.intro": "Grok X Search. SuperGrok login, or XAI_API_KEY.",
+			"suite.intro": "Grok X Search. SuperGrok login lights it automatically.",
 			"xsearch.title": "X Search",
-			"xsearch.hint": "Search posts on X. Uses a SuperGrok login, or paste XAI_API_KEY. The closed dropdown still shows grok-x-search. This is not web search.",
+			"xsearch.hint": "Search posts on X. SuperGrok login lights grok-x-search. This is not web search.",
 			"xsearch.off": "Off",
 			"xsearch.grok": "grok-x-search",
 			"xsearch.unavailable": "Settings are not ready yet",
-			"xsearch.apiKey": "XAI_API_KEY",
-			"xsearch.keyPlaceholder": "Leave empty to use SuperGrok login; enter a value to store an API key",
-			"xsearch.save": "Save and verify",
-			"xsearch.replace": "Replace keys",
-			"xsearch.checking": "Checking credentials against xAI…",
 			"xsearch.ready": "X Search ready",
-			"xsearch.missing": "SuperGrok login or XAI_API_KEY is required",
-			"xsearch.failPrefix": "Check failed: "
+			"xsearch.missing": "Sign in with SuperGrok first"
 		};
 		/** The namespace key used for locale registration and seat props. */
 		const NS = "draco-x-search";
 		//#endregion
-		//#region lib/types/client/draco-suite.js
+		//#region src/client/draco-suite.ts
 		const HUB$1 = Symbol.for("dsh.draco-suite.section");
 		/** Settings nav / section id. */
 		const DRACO_SUITE_SECTION_ID = "draco-suite";
@@ -144,10 +131,7 @@ window.__ModuleLoader__.load({
 			};
 		}
 		//#endregion
-		//#region lib/types/client/x-search-value.js
-		/**
-		* `draco-x-search.provider` picker values.
-		*/
+		//#region src/client/x-search-value.ts
 		/** Host settings section owned by `draco-x-search`. */
 		const X_SEARCH_NS = "draco-x-search";
 		/**
@@ -155,8 +139,6 @@ window.__ModuleLoader__.load({
 		* register this id.
 		*/
 		const X_SEARCH_SEAT_ID = "draco-x-search-card";
-		/** XAI API key reference. */
-		const X_SEARCH_KEY_REF = "XAI_API_KEY";
 		/**
 		* Normalize a Host probe field.
 		* @param value - stored probe status, if any.
@@ -199,185 +181,95 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var XSearchPicker_module_css_default = {
-			"dotReady": "MZ62nW_dotReady",
-			"selectWrap": "MZ62nW_selectWrap",
-			"hint": "MZ62nW_hint",
-			"card": "MZ62nW_card",
-			"muted": "MZ62nW_muted",
-			"fieldLabel": "MZ62nW_fieldLabel",
-			"name": "MZ62nW_name",
-			"selectRow": "MZ62nW_selectRow",
-			"input": "MZ62nW_input",
-			"error": "MZ62nW_error",
 			"selectReady": "MZ62nW_selectReady",
+			"fieldLabel": "MZ62nW_fieldLabel",
 			"fields": "MZ62nW_fields",
-			"head": "MZ62nW_head",
-			"primary": "MZ62nW_primary",
+			"selectRow": "MZ62nW_selectRow",
 			"select": "MZ62nW_select",
+			"hint": "MZ62nW_hint",
+			"input": "MZ62nW_input",
+			"selectWrap": "MZ62nW_selectWrap",
+			"head": "MZ62nW_head",
+			"name": "MZ62nW_name",
 			"identity": "MZ62nW_identity",
-			"iconBtn": "MZ62nW_iconBtn"
+			"primary": "MZ62nW_primary",
+			"dotReady": "MZ62nW_dotReady",
+			"card": "MZ62nW_card",
+			"iconBtn": "MZ62nW_iconBtn",
+			"error": "MZ62nW_error",
+			"muted": "MZ62nW_muted"
 		};
 		//#endregion
-		//#region lib/types/client/XSearchPickerCard.js
+		//#region src/client/XSearchPickerCard.tsx
 		const LABELS = {
 			none: "xsearch.off",
 			"grok-x-search": "xsearch.grok"
 		};
 		/**
-		* One Settings → Draco-suite dropdown for grok-x-search, plus an optional
-		* XAI_API_KEY field. SuperGrok login is enough; the key is a fallback.
+		* One Settings → Draco-suite dropdown for grok-x-search. SuperGrok login
+		* selects the row and lights the ready dot; there is no API-key field.
 		*/
-		function XSearchPickerCard({ t, setValue, saveKeys, useStore }) {
+		function XSearchPickerCard({ t, setValue, useStore }) {
 			const ready = useStore((s) => s.ready);
 			const value = useStore((s) => s.value);
-			const keyConfigured = useStore((s) => s.keyConfigured);
 			const probe = useStore((s) => s.probe);
-			const probeError = useStore((s) => s.probeError);
-			const [xai, setXai] = (0, react.useState)("");
-			const [busy, setBusy] = (0, react.useState)(false);
-			const [editing, setEditing] = (0, react.useState)(false);
 			const showGrok = value === "grok-x-search";
 			const verified = showGrok && probe === "ok";
-			const checking = showGrok && probe === "checking";
-			const showForm = ready && saveKeys !== void 0 && showGrok && !checking && (editing || !verified);
-			(0, react.useEffect)(() => {
-				if (verified) setEditing(false);
-			}, [verified]);
-			const onSave = (persist) => (event) => {
-				event.preventDefault();
-				setBusy(true);
-				persist({ ...xai.trim().length > 0 ? { xai: xai.trim() } : {} }).finally(() => {
-					setXai("");
-					setBusy(false);
-				});
-			};
-			return (0, react_jsx_runtime.jsxs)("article", {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("article", {
 				className: XSearchPicker_module_css_default.card,
 				children: [
-					(0, react_jsx_runtime.jsx)("div", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 						className: XSearchPicker_module_css_default.head,
-						children: (0, react_jsx_runtime.jsx)("div", {
+						children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 							className: XSearchPicker_module_css_default.identity,
-							children: (0, react_jsx_runtime.jsx)("span", {
+							children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 								className: XSearchPicker_module_css_default.name,
 								children: t("xsearch.title")
 							})
 						})
 					}),
-					(0, react_jsx_runtime.jsx)("p", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 						className: XSearchPicker_module_css_default.hint,
 						children: t("xsearch.hint")
 					}),
-					ready ? (0, react_jsx_runtime.jsxs)("div", {
+					ready ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 						className: XSearchPicker_module_css_default.selectRow,
-						children: [(0, react_jsx_runtime.jsxs)("div", {
+						children: /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 							className: XSearchPicker_module_css_default.selectWrap,
-							children: [(0, react_jsx_runtime.jsx)("select", {
+							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("select", {
 								className: verified ? `${XSearchPicker_module_css_default.select} ${XSearchPicker_module_css_default.selectReady}` : XSearchPicker_module_css_default.select,
 								"aria-label": t("xsearch.title"),
 								value,
-								disabled: checking,
 								onChange: (event) => {
 									setValue(event.target.value);
 								},
-								children: xSearchOptions().map((row) => (0, react_jsx_runtime.jsx)("option", {
+								children: xSearchOptions().map((row) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
 									value: row,
 									children: t(LABELS[row])
 								}, row))
-							}), verified ? (0, react_jsx_runtime.jsx)("span", {
+							}), verified ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 								className: XSearchPicker_module_css_default.dotReady,
 								role: "img",
 								"aria-label": t("xsearch.ready"),
 								title: t("xsearch.ready")
 							}) : null]
-						}), verified && saveKeys !== void 0 && !editing ? (0, react_jsx_runtime.jsx)("button", {
-							className: XSearchPicker_module_css_default.iconBtn,
-							type: "button",
-							"aria-label": t("xsearch.replace"),
-							title: t("xsearch.replace"),
-							onClick: () => {
-								setEditing(true);
-							},
-							children: (0, react_jsx_runtime.jsx)(KeyIcon, {})
-						}) : null]
-					}) : (0, react_jsx_runtime.jsx)("p", {
+						})
+					}) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 						className: XSearchPicker_module_css_default.muted,
 						children: t("xsearch.unavailable")
 					}),
-					ready && showGrok ? (0, react_jsx_runtime.jsx)(ProbeStatusLine, {
-						t,
-						probe,
-						error: probeError,
-						configured: keyConfigured
-					}) : null,
-					showForm ? (0, react_jsx_runtime.jsxs)("form", {
-						className: XSearchPicker_module_css_default.fields,
-						onSubmit: onSave(saveKeys),
-						children: [(0, react_jsx_runtime.jsxs)("label", {
-							className: XSearchPicker_module_css_default.fieldLabel,
-							children: [t("xsearch.apiKey"), (0, react_jsx_runtime.jsx)("input", {
-								className: XSearchPicker_module_css_default.input,
-								type: "password",
-								autoComplete: "off",
-								value: xai,
-								placeholder: t("xsearch.keyPlaceholder"),
-								"aria-label": t("xsearch.apiKey"),
-								disabled: busy || checking,
-								onChange: (event) => {
-									setXai(event.target.value);
-								}
-							})]
-						}), (0, react_jsx_runtime.jsx)("button", {
-							className: XSearchPicker_module_css_default.primary,
-							type: "submit",
-							disabled: busy || checking,
-							children: t("xsearch.save")
-						})]
+					ready && showGrok && !verified ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+						className: XSearchPicker_module_css_default.muted,
+						children: t("xsearch.missing")
 					}) : null
 				]
 			});
 		}
-		function ProbeStatusLine({ t, probe, error, configured }) {
-			if (probe === "ok") return null;
-			if (probe === "checking") return (0, react_jsx_runtime.jsx)("p", {
-				className: XSearchPicker_module_css_default.muted,
-				children: t("xsearch.checking")
-			});
-			if (probe === "fail") return (0, react_jsx_runtime.jsxs)("p", {
-				className: XSearchPicker_module_css_default.error,
-				children: [t("xsearch.failPrefix"), error]
-			});
-			return (0, react_jsx_runtime.jsx)("p", {
-				className: XSearchPicker_module_css_default.muted,
-				children: configured ? t("xsearch.checking") : t("xsearch.missing")
-			});
-		}
-		function KeyIcon() {
-			return (0, react_jsx_runtime.jsxs)("svg", {
-				width: "16",
-				height: "16",
-				viewBox: "0 0 16 16",
-				fill: "none",
-				"aria-hidden": "true",
-				children: [(0, react_jsx_runtime.jsx)("circle", {
-					cx: "5.5",
-					cy: "5.5",
-					r: "3.1",
-					stroke: "currentColor",
-					strokeWidth: "1.5"
-				}), (0, react_jsx_runtime.jsx)("path", {
-					d: "M8.2 7.1 14 12.9v1.6h-2.2v-1.5h-1.6v-1.5H8.7L8.2 11",
-					stroke: "currentColor",
-					strokeWidth: "1.5",
-					strokeLinejoin: "round"
-				})]
-			});
-		}
 		//#endregion
-		//#region lib/types/client/x-search-store.js
+		//#region src/client/x-search-store.ts
 		/**
-		* X Search dropdown store: a mirror of `draco-x-search.provider` plus
-		* whether `XAI_API_KEY` is configured.
+		* X Search dropdown store: a mirror of `draco-x-search.provider` plus the
+		* SuperGrok OAuth ready probe.
 		*/
 		/**
 		* Declares the X Search dropdown state.
@@ -388,37 +280,29 @@ window.__ModuleLoader__.load({
 				init: () => ({
 					ready: false,
 					value: "none",
-					keyConfigured: false,
 					probe: "idle",
 					probeError: ""
 				}),
 				actions: { sync: (draft, next) => {
 					draft.ready = next.ready;
 					draft.value = next.value;
-					draft.keyConfigured = next.keyConfigured;
 					draft.probe = next.probe;
 					draft.probeError = next.probeError;
 				} }
 			});
 		}
 		//#endregion
-		//#region lib/types/client/x-search-picker.js
+		//#region src/client/x-search-picker.ts
 		const HUB = Symbol.for("dsh.draco-x-search-card.picker");
 		function hub() {
 			const global = globalThis;
 			return global[HUB] ??= {};
 		}
-		function credentialsOf(ctx) {
-			const getter = ctx.get;
-			if (typeof getter !== "function") return void 0;
-			return getter.call(ctx, "connection")?.api?.credentials;
-		}
-		function snapshotOf(scope, seat) {
+		function snapshotOf(scope) {
 			const snap = scope.getSnapshot();
 			return {
 				ready: snap.status === "ready",
 				value: xSearchValueOf(snap.value),
-				keyConfigured: seat.keyConfigured,
 				probe: xSearchProbeOf(snap.value?.xSearchProbe),
 				probeError: snap.value?.xSearchProbeError ?? ""
 			};
@@ -432,34 +316,15 @@ window.__ModuleLoader__.load({
 			const h = hub();
 			if (h.disposeSeat !== void 0) return () => {};
 			const scope = ctx.settingsScope.bind({ namespace: X_SEARCH_NS });
-			const seat = { keyConfigured: false };
-			const credentials = credentialsOf(ctx);
+			const seat = {};
 			const push = () => {
-				seat.bound?.sync(snapshotOf(scope, seat));
+				seat.bound?.sync(snapshotOf(scope));
 			};
 			const unsub = scope.subscribe(() => {
 				push();
 			});
-			const refreshKeys = async () => {
-				if (credentials === void 0) return;
-				try {
-					const response = await credentials.describe({ refs: [X_SEARCH_KEY_REF] });
-					if (!response.result.ok) return;
-					seat.keyConfigured = response.result.value.credentials[X_SEARCH_KEY_REF]?.configured === true;
-					push();
-				} catch {}
-			};
 			const write = (value) => {
 				for (const [field, next] of xSearchWritesOf(value)) scope.set(field, next);
-			};
-			const saveKeys = credentials === void 0 ? void 0 : async (keys) => {
-				if (keys.xai !== void 0) await credentials.set({
-					ref: X_SEARCH_KEY_REF,
-					value: keys.xai
-				});
-				await refreshKeys();
-				await scope.set("xSearchProbeError", "");
-				await scope.set("xSearchProbe", "checking");
 			};
 			const store = createXSearchPickerStore();
 			const injected = ctx.slots.inject(DRACO_ITEM_SLOT, () => ctx.slots.register({
@@ -471,16 +336,11 @@ window.__ModuleLoader__.load({
 				inject: (actions) => {
 					seat.bound = actions;
 					push();
-					refreshKeys();
-					return {
-						setValue: write,
-						...saveKeys === void 0 ? {} : { saveKeys }
-					};
+					return { setValue: write };
 				}
 			}, XSearchPickerCard));
 			h.disposeSeat = injected;
 			push();
-			refreshKeys();
 			return () => {
 				unsub();
 				injected();
@@ -489,7 +349,7 @@ window.__ModuleLoader__.load({
 			};
 		}
 		//#endregion
-		//#region lib/types/client/index.js
+		//#region src/client/index.ts
 		/** Services required by the browser half. */
 		const inject = [
 			"slots",

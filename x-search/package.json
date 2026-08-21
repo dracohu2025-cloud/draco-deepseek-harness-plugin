@@ -1,7 +1,7 @@
 {
   "name": "draco-x-search",
   "version": "0.1.0",
-  "description": "DeepSeek Harness plugin: x_search via SuperGrok OAuth or XAI_API_KEY",
+  "description": "DeepSeek Harness plugin: x_search via SuperGrok OAuth",
   "license": "MIT",
   "type": "module",
   "private": false,

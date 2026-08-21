@@ -83,7 +83,22 @@ export const TYPERT = {
     "services": [],
     "events": [
       {
-        "description": "xAI OAuth just became usable: a successful device-code login, a persisted session loading from disk, or a successful token refresh. Image-generation config listens and defaults its provider to Grok Imagine when the user has not already chosen a backend.",
+        "description": "xAI OAuth is no longer usable because the user signed out.",
+        "summary": "xAI OAuth is no longer usable because the user signed out.",
+        "tags": [
+          {
+            "name": "mode",
+            "comment": "emit",
+            "text": "@mode emit"
+          }
+        ],
+        "jsDoc": "/**\n * xAI OAuth is no longer usable because the user signed out.\n * @mode emit\n */",
+        "name": "draco/xai-oauth-ended",
+        "mode": "emit",
+        "signature": "'draco/xai-oauth-ended'(): void"
+      },
+      {
+        "description": "xAI OAuth just became usable: a successful device-code login, a persisted session loading from disk, or a successful token refresh. Image-generation config listens and defaults its provider to Grok Imagine when the user has not already chosen a backend. X Search listens and lights grok-x-search.",
         "summary": "xAI OAuth just became usable: a successful device-code login, a persisted session loading from disk, or a successful token refresh.",
         "tags": [
           {
@@ -98,7 +113,7 @@ export const TYPERT = {
             "text": "@mode emit"
           }
         ],
-        "jsDoc": "/**\n * xAI OAuth just became usable: a successful device-code login, a\n * persisted session loading from disk, or a successful token refresh.\n * Image-generation config listens and defaults its provider to Grok\n * Imagine when the user has not already chosen a backend.\n * @param expiresAt - epoch milliseconds at which the new access token expires.\n * @mode emit\n */",
+        "jsDoc": "/**\n * xAI OAuth just became usable: a successful device-code login, a\n * persisted session loading from disk, or a successful token refresh.\n * Image-generation config listens and defaults its provider to Grok\n * Imagine when the user has not already chosen a backend. X Search\n * listens and lights grok-x-search.\n * @param expiresAt - epoch milliseconds at which the new access token expires.\n * @mode emit\n */",
         "name": "draco/xai-oauth-ready",
         "mode": "emit",
         "signature": "'draco/xai-oauth-ready'(expiresAt: number): void"

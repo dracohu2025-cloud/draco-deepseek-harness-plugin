@@ -404,6 +404,7 @@ function apply(ctx) {
 			try {
 				writeFileSync(dshHomePath(TOKENS_FILE), "", { mode: 384 });
 			} catch {}
+			ctx.emit("draco/xai-oauth-ended");
 		}
 	};
 	ctx.effect(() => {
