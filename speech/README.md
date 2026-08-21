@@ -4,9 +4,11 @@ English | 中文
 
 A DeepSeek Harness **bundle** that adds `speech_generate` through Volcengine Doubao TTS and Seed-Audio 1.0. It is independent of SuperGrok (`draco-grok-oauth`) and Codex (`draco-codex-oauth`). Install only the plugins you want.
 
+Full install path (Node, official `dsh`, all plugins, first run): [../README.md](../README.md).
+
 ## Install
 
-You need a working `dsh` CLI (the official DeepSeek Harness release).
+You need a working official `dsh` CLI (`npm install -g @deepseek-ai/dsh`) and pnpm on `PATH`.
 
 ```sh
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:speech
@@ -28,7 +30,7 @@ dsh plugin --profile web add 'github:dracohu2025-cloud/draco-deepseek-harness-pl
 
 `add` of the same floating URL does not refresh the lockfile. `update` does. `remove` then `add` is only for a stuck lockfile or leftover SuperGrok / Codex speech rows.
 
-Then start the official Web profile:
+Then **restart** the official Web profile (plugins load only on boot):
 
 ```sh
 dsh --profile web
@@ -44,6 +46,8 @@ Pick **doubao-tts** (exact wording) or **seed-audio-1.0** (expressive; may add a
 | `seed-audio-1.0` | `SEED_AUDIO_API_KEY` |
 
 `speech_generate` writes an MP3 under `$DSH_HOME/draco/audio/` and plays it in the chat tool row. The clip is stored on the tool result so official `dsh --profile web` can play it without a host `saveAudio`. When the host does have `saveAudio`, the result also carries a durable `AudioBlock`. Speech is never defaulted from OAuth.
+
+In chat you do not type the tool name. Example: `Read this paragraph aloud in Chinese.`
 
 If an older SuperGrok or Codex plugin still registered `speech_generate` or a speech Settings card, `update` those bundles (or `remove` then `add` only if their lockfile is stuck). TTS no longer ships inside the image/video bundles.
 

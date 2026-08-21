@@ -6,9 +6,11 @@ A DeepSeek Harness **bundle** that adds `x_search` (X / Twitter posts) through x
 
 This is **not** a `web_search` engine. Official web search stays DeepSeek / Exa / Perplexity. `x_search` is its own tool, so any chat model (including DeepSeek) can call it.
 
+Full install path (Node, official `dsh`, all plugins, first run): [../README.md](../README.md).
+
 ## Install
 
-You need a working `dsh` CLI (the official DeepSeek Harness release).
+You need a working official `dsh` CLI (`npm install -g @deepseek-ai/dsh`) and pnpm on `PATH`.
 
 ```sh
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:x-search
@@ -30,7 +32,7 @@ dsh plugin --profile web add 'github:dracohu2025-cloud/draco-deepseek-harness-pl
 
 `add` of the same floating URL does not refresh the lockfile. `update` does. `remove` then `add` is only for a stuck lockfile.
 
-Then start the official Web profile:
+Then **restart** the official Web profile (plugins load only on boot):
 
 ```sh
 dsh --profile web
@@ -41,6 +43,8 @@ Open **Settings → Draco-suite**. If SuperGrok, Codex, speech, or Seedance is a
 Pick **grok-x-search** (exact wording). SuperGrok login is enough when `draco-grok-oauth` is installed and signed in. Otherwise paste `XAI_API_KEY`. **Save and verify** lists `GET /v1/models`; it does not search X and it does not run on its own when you open Settings. An empty save uses the SuperGrok bearer. While it runs, the key field and Save are hidden and the dropdown is disabled. A green dot on the selected row hides the field; a key-icon control beside the dropdown reveals it again. A failure shows the field with the HTTP error.
 
 A successful `x_search` posts `https://api.x.ai/v1/responses` with `tools: [{ type: "x_search" }]` and model `grok-4.6` (timeout 180s). The tool result is a short Grok summary plus citeable `x.com` URLs taken only from `url_citation` annotations. Optional arguments: `allowed_x_handles` / `excluded_x_handles` (at most 20, not both), `from_date` / `to_date`, `enable_image_understanding` / `enable_video_understanding`.
+
+In chat you do not type the tool name. Example: `What are people saying on X about Grok 4.6 this week?`
 
 ## What this bundle inserts
 

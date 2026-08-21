@@ -6,9 +6,11 @@ A DeepSeek Harness **bundle** that adds OpenAI Codex / ChatGPT OAuth login, **GP
 
 This package is independent of SuperGrok (`draco-grok-oauth` at the repository root). Install only the plugins you want.
 
+Full install path (Node, official `dsh`, all plugins, first run): [../README.md](../README.md).
+
 ## Install
 
-You need a working `dsh` CLI (the official DeepSeek Harness release).
+You need a working official `dsh` CLI (`npm install -g @deepseek-ai/dsh`) and pnpm on `PATH`.
 
 ```sh
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex
@@ -28,7 +30,7 @@ Pin a commit only when you want a frozen install. pnpm takes the commit and the 
 dsh plugin --profile web add 'github:dracohu2025-cloud/draco-deepseek-harness-plugin#<sha>&path:codex'
 ```
 
-Then start the official Web profile:
+Then **restart** the official Web profile (plugins load only on boot):
 
 ```sh
 dsh --profile web
@@ -41,6 +43,8 @@ Chat and image-generation requests send `store: false`. The ChatGPT Codex backen
 Settings → Draco-suite has one **Image generation** dropdown (`Off`, `gpt-image-2-low/medium/high`, and `grok-imagine-image-2.0 (1K/2K)` when the SuperGrok plugin is also installed). The closed control shows the full model id. A Codex-only login defaults an unset image backend to medium. When SuperGrok is also signed in, the image backend stays unset until you pick a row here. An explicit user choice is left alone.
 
 A successful `image_generate` commits the PNG through the session attachment store and returns a text envelope plus an `ImageBlock`. Official `dsh --profile web` shows that picture on the `image_generate` tool row (this plugin registers the toolview). A convenience copy also lands under `$DSH_HOME/draco/images/`. Speech is a separate plugin: [../speech/README.md](../speech/README.md).
+
+In chat you do not type tool names. Example: `Draw a red panda in watercolor.`
 
 CLI fallbacks: `/codex-login`, `/codex-status`.
 

@@ -4,6 +4,8 @@ English | 中文
 
 A DeepSeek Harness **bundle** that adds Volcengine Seedance 2.0 rows to `video_generate`. It is independent of SuperGrok (`draco-grok-oauth`) and Codex (`draco-codex-oauth`). Install only the plugins you want.
 
+Full install path (Node, official `dsh`, all plugins, first run): [../README.md](../README.md).
+
 Settings → Draco-suite **Video generation** lists three models. The closed dropdown still shows the full id:
 
 - `doubao-seedance-2.0 (1080p)`
@@ -14,7 +16,7 @@ If SuperGrok is also installed, those rows join the same dropdown as `grok-imagi
 
 ## Install
 
-You need a working `dsh` CLI (the official DeepSeek Harness release).
+You need a working official `dsh` CLI (`npm install -g @deepseek-ai/dsh`) and pnpm on `PATH`.
 
 ```sh
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:seedance
@@ -42,7 +44,7 @@ dsh plugin --profile web add 'github:dracohu2025-cloud/draco-deepseek-harness-pl
 
 `add` of the same floating URL does not refresh the lockfile. `update` does. `remove` then `add` is only for a stuck lockfile.
 
-Then start the official Web profile:
+Then **restart** the official Web profile (plugins load only on boot):
 
 ```sh
 dsh --profile web
@@ -53,6 +55,8 @@ Open **Settings → Draco-suite**. If SuperGrok or Codex is also installed, the 
 Pick a Seedance row, paste `ARK_API_KEY` (the same Ark key used for Volcengine LLMs), and **Save and verify**. The check lists Ark tasks (`page_size=1`); it does not generate a video. While it runs, the key field and Save are hidden and the dropdown is disabled. A green dot on the selected model hides the field; a key-icon control beside the dropdown reveals it again. A failure shows the field with the HTTP error.
 
 `video_generate` writes an MP4 under `$DSH_HOME/draco/videos/` and commits a durable `VideoBlock`. Official `dsh --profile web` plays that MP4 on the `video_generate` tool row (this plugin registers the toolview, shared with SuperGrok). Duration is 4–15 seconds (default 6). Optional `references` (up to 7): the first still is the first frame; later stills are style references. Seedance is never defaulted from OAuth.
+
+In chat you do not type the tool name. Example: `Make a 6-second video of a cat walking across a kitchen.` Pick `doubao-seedance-2.0 (1080p)`, `mini`, or `fast` in Settings first.
 
 China Ark only: `doubao-seedance-2-0-260128`, `doubao-seedance-2-0-mini-260615`, `doubao-seedance-2-0-fast-260128` on `ark.cn-beijing.volces.com`.
 
