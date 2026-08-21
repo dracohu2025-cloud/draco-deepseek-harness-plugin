@@ -1,6 +1,6 @@
 import z from "@deepseek-ai/schemastery";
 import { credentialRef } from "@deepseek-ai/dsh-credentials";
-import { CONTEXT_WINDOW_EXCEEDED_CODE, CallId, LlmAdapter, LlmError, assertUsableApiKey, attributionHeaders, contentHasImage, isContextWindowExceededError } from "@deepseek-ai/dsh-llm";
+import { CONTEXT_WINDOW_EXCEEDED_CODE, CallId, LlmAdapter, LlmError, ReasoningEffortId, assertUsableApiKey, attributionHeaders, contentHasImage, isContextWindowExceededError } from "@deepseek-ai/dsh-llm";
 import { MAX_TIMER_DELAY_MS, idleWatchdog, timeoutOf } from "@deepseek-ai/dsh-timeout";
 import { EventSourceParserStream } from "eventsource-parser/stream";
 //#region lib/types/codex-headers.js
@@ -59,6 +59,47 @@ const KNOWN_NAMES = {
 /** Selector label for one wire model id. */
 function catalogName(id) {
 	return KNOWN_NAMES[id] ?? id;
+}
+function effort(id, name) {
+	return {
+		id: ReasoningEffortId(id),
+		name
+	};
+}
+/** Grok 4.6 Responses `reasoning.effort`; reasoning cannot be turned off. */
+const XAI_REASONING_EFFORTS = [
+	effort("low", "Low"),
+	effort("medium", "Medium"),
+	effort("high", "High"),
+	effort("xhigh", "Extra high")
+];
+/** xAI default when the composer has not picked an effort. */
+const XAI_DEFAULT_REASONING_EFFORT = ReasoningEffortId("high");
+/** GPT-5.6 Responses `reasoning.effort`. */
+const CODEX_REASONING_EFFORTS = [
+	effort("none", "None"),
+	effort("low", "Low"),
+	effort("medium", "Medium"),
+	effort("high", "High"),
+	effort("xhigh", "Extra high"),
+	effort("max", "Max")
+];
+/** OpenAI default when the composer has not picked an effort. */
+const CODEX_DEFAULT_REASONING_EFFORT = ReasoningEffortId("medium");
+/**
+* Composer-visible reasoning menu for one Responses auth family.
+* @param family - SuperGrok / xAI vs Codex.
+* @returns efforts plus the family default.
+*/
+function responsesReasoning(family) {
+	if (family === "xai") return {
+		efforts: XAI_REASONING_EFFORTS,
+		defaultEffort: XAI_DEFAULT_REASONING_EFFORT
+	};
+	return {
+		efforts: CODEX_REASONING_EFFORTS,
+		defaultEffort: CODEX_DEFAULT_REASONING_EFFORT
+	};
 }
 const SELECTABLE_CODEX_IDS = new Set(DEFAULT_CODEX_MODELS);
 /**
@@ -431,13 +472,15 @@ var ResponsesApiAdapter = class extends LlmAdapter {
 		const xai = facts !== void 0 && (facts.auth.kind !== "oauth" || facts.auth.session === "xai");
 		const codex = facts !== void 0 && facts.auth.kind === "oauth" && facts.auth.session === "codex";
 		const contextWindow = catalog?.contextWindow ?? (xai ? 5e5 : void 0) ?? (codex ? 105e4 : void 0);
+		const reasoning = xai ? responsesReasoning("xai") : codex ? responsesReasoning("codex") : void 0;
 		return Promise.resolve({
 			provider,
 			id: model,
 			name: catalog?.name ?? model,
 			...catalog?.description !== void 0 ? { description: catalog.description } : {},
 			inputModalities: [...INPUT_MODALITIES],
-			...contextWindow !== void 0 ? { context: { contextWindow } } : {}
+			...contextWindow !== void 0 ? { context: { contextWindow } } : {},
+			...reasoning === void 0 ? {} : { reasoning }
 		});
 	}
 	async *stream(options) {
@@ -471,7 +514,8 @@ var ResponsesApiAdapter = class extends LlmAdapter {
 				...options.system !== void 0 && options.system.length > 0 ? { instructions: options.system } : {},
 				...tools !== void 0 ? { tools } : {},
 				...options.temperature !== void 0 ? { temperature: options.temperature } : {},
-				...options.maxTokens !== void 0 ? { max_output_tokens: options.maxTokens } : {}
+				...options.maxTokens !== void 0 ? { max_output_tokens: options.maxTokens } : {},
+				...options.reasoningEffort === void 0 ? {} : { reasoning: { effort: String(options.reasoningEffort) } }
 			};
 			const consumer = new AbortController();
 			const watchdog = __addDisposableResource(env_1, idleWatchdog(options.signal === void 0 ? consumer.signal : AbortSignal.any([options.signal, consumer.signal]), this.options.streamIdleTimeoutMs, STREAM_IDLE_TIMEOUT_CODE), false);
@@ -717,6 +761,10 @@ var ResponsesApiAdapter = class extends LlmAdapter {
 * ChatGPT Codex backend refuses to persist Responses. User and nested
 * tool-result images resolve through `ctx.attachments` into `input_image`
 * data URLs; listed and unlisted models advertise text plus image.
+* SuperGrok routes advertise Grok 4.6 reasoning efforts (low / medium / high
+* / extra high; default high). Codex routes advertise GPT-5.6 efforts
+* (none / low / medium / high / extra high / max; default medium). The
+* composer model picker is the same control DeepSeek models use.
 * @module @deepseek-ai/dsh-draco-llm-responses
 */
 const name = "draco-llm-responses";

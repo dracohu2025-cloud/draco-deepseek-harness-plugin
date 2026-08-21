@@ -34,7 +34,7 @@ Then start the official Web profile:
 dsh --profile web
 ```
 
-Open **Settings → Draco-suite**, click **Sign in with Codex**, approve `https://auth.openai.com/codex/device`, then pick **GPT-5.6 Sol**, **Terra**, or **Luna** in the composer. After login the selector still asks ChatGPT `/models`, then keeps only those three slugs (each with a 1,050,000-token window). Before login, and when the live listing has none of them, it shows the same three-row fallback. GPT-5.5 and earlier stay hidden.
+Open **Settings → Draco-suite**, click **Sign in with Codex**, approve `https://auth.openai.com/codex/device`, then pick **GPT-5.6 Sol**, **Terra**, or **Luna** in the composer. After login the selector still asks ChatGPT `/models`, then keeps only those three slugs (each with a 1,050,000-token window). Before login, and when the live listing has none of them, it shows the same three-row fallback. GPT-5.5 and earlier stay hidden. The same control then offers reasoning intensity **None / Low / Medium / High / Extra high / Max** (default **Medium**), the same row DeepSeek models use.
 
 Chat and image-generation requests send `store: false`. The ChatGPT Codex backend refuses to persist Responses and returns HTTP 400 `Store must be set to false` without that field.
 

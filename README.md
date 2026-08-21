@@ -38,7 +38,7 @@ dsh plugin --profile web update draco-grok-oauth
 dsh --profile web
 ```
 
-Open **Settings → Draco-suite**, click **Sign in with SuperGrok**, approve the device-code URL, then pick **Grok 4.6** in the composer. The selector does not offer older Grok 4.x rows.
+Open **Settings → Draco-suite**, click **Sign in with SuperGrok**, approve the device-code URL, then pick **Grok 4.6** in the composer. The selector does not offer older Grok 4.x rows. The same control then offers reasoning intensity **Low / Medium / High / Extra high** (default **High**), the same row DeepSeek models use. Grok 4.6 cannot turn reasoning off.
 
 CLI fallbacks: `/grok-login`, `/grok-status`. Tokens live at `$DSH_HOME/draco/xai-oauth.json` (`0600`).
 
