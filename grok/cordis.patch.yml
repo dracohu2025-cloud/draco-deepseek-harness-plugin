@@ -1,6 +1,6 @@
 # SuperGrok / xAI layer for an official DeepSeek Harness profile.
 # Install with:
-#   dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin
+#   dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:grok
 # Then boot:
 #   dsh --profile web
 

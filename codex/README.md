@@ -4,7 +4,7 @@ English | 中文
 
 A DeepSeek Harness **bundle** that adds OpenAI Codex / ChatGPT OAuth login, **GPT-5.6 Sol / Terra / Luna** on the Responses API (1.05M context window), and `gpt-image-2` image generation after the first successful login. Install it into an official DSH profile. You do not need the Draco fork or the Draco profile. The selector does not offer GPT-5.5 or earlier.
 
-This package is independent of SuperGrok (`draco-grok-oauth` at the repository root). Install only the plugins you want.
+This package is independent of SuperGrok (`draco-grok-oauth`, `#path:grok`). Install only the plugins you want.
 
 Full install path (Node, official `dsh`, all plugins, first run): [../README.md](../README.md).
 

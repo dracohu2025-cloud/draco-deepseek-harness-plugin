@@ -25,8 +25,8 @@ const forkRoot = resolve(process.argv[2] ?? join(homedir(), 'REPO', 'deepseek-ha
 const dracoRoot = join(forkRoot, 'packages', 'draco')
 
 /**
- * One publish layer: target directory ('' = repo root), published package
- * name, and the scoped fork ids that must become that name.
+ * One publish layer: subdirectory, published package name, and the scoped
+ * fork ids that must become that name.
  * Order matters: the longer `-ui` id is rewritten first.
  */
 const LAYERS = [
@@ -36,7 +36,7 @@ const LAYERS = [
     scopedIds: ['@deepseek-ai/dsh-draco-oauth-codex-ui', '@deepseek-ai/dsh-draco-oauth-codex'],
   },
   {
-    dir: '',
+    dir: 'grok',
     packageName: 'draco-grok-oauth',
     scopedIds: ['@deepseek-ai/dsh-draco-oauth-xai-ui', '@deepseek-ai/dsh-draco-oauth-xai'],
   },
@@ -68,16 +68,16 @@ const COPIES = [
   ['draco-llm-responses', 'lib/index.js', 'codex', 'lib/responses.js'],
   ['draco-image-gen', 'lib/index.js', 'codex', 'lib/image-gen/index.js'],
   ['draco-image-gen', 'lib/invariant.js', 'codex', 'lib/image-gen/invariant.js'],
-  // grok layer (publishes as draco-grok-oauth at the repo root)
-  ['draco-oauth-xai-ui', 'lib/index.js', '', 'lib/index.js'],
-  ['draco-oauth-xai-ui', 'lib/invariant.js', '', 'lib/invariant.js'],
-  ['draco-oauth-xai', 'lib/index.js', '', 'lib/oauth/index.js'],
-  ['draco-oauth-xai', 'lib/invariant.js', '', 'lib/oauth/invariant.js'],
-  ['draco-oauth-xai', 'lib/types/types.js', '', 'lib/types.js'],
-  ['draco-llm-responses', 'lib/index.js', '', 'lib/responses/index.js'],
-  ['draco-llm-responses', 'lib/invariant.js', '', 'lib/responses/invariant.js'],
-  ['draco-image-gen', 'lib/index.js', '', 'lib/imagine/index.js'],
-  ['draco-image-gen', 'lib/invariant.js', '', 'lib/imagine/invariant.js'],
+  // grok layer (publishes as draco-grok-oauth under grok/)
+  ['draco-oauth-xai-ui', 'lib/index.js', 'grok', 'lib/index.js'],
+  ['draco-oauth-xai-ui', 'lib/invariant.js', 'grok', 'lib/invariant.js'],
+  ['draco-oauth-xai', 'lib/index.js', 'grok', 'lib/oauth/index.js'],
+  ['draco-oauth-xai', 'lib/invariant.js', 'grok', 'lib/oauth/invariant.js'],
+  ['draco-oauth-xai', 'lib/types/types.js', 'grok', 'lib/types.js'],
+  ['draco-llm-responses', 'lib/index.js', 'grok', 'lib/responses/index.js'],
+  ['draco-llm-responses', 'lib/invariant.js', 'grok', 'lib/responses/invariant.js'],
+  ['draco-image-gen', 'lib/index.js', 'grok', 'lib/imagine/index.js'],
+  ['draco-image-gen', 'lib/invariant.js', 'grok', 'lib/imagine/invariant.js'],
   // speech layer (publishes as draco-speech-gen under speech/)
   ['draco-speech-gen-ui', 'lib/index.js', 'speech', 'lib/index.js'],
   ['draco-speech-gen-ui', 'lib/invariant.js', 'speech', 'lib/invariant.js'],
@@ -107,6 +107,15 @@ const REWRITTEN = [
   ['draco-x-search-ui', 'lib/client.js', 'lib/client.js'],
 ]
 
+function layerDirFor(forkPackage) {
+  if (forkPackage.includes('codex')) return 'codex'
+  if (forkPackage.includes('speech')) return 'speech'
+  if (forkPackage.includes('seedance')) return 'seedance'
+  if (forkPackage.includes('x-search')) return 'x-search'
+  if (forkPackage.includes('xai')) return 'grok'
+  throw new Error(`no publish layer for fork package ${forkPackage}`)
+}
+
 function layerFor(dir) {
   const layer = LAYERS.find((entry) => entry.dir === dir)
   if (layer === undefined) throw new Error(`no publish layer for directory "${dir}"`)
@@ -123,15 +132,7 @@ function copyPlain(forkPackage, forkFile, layerDir, publishFile) {
 }
 
 function copyRewritten(forkPackage, forkFile, publishFile) {
-  const layerDir = forkPackage.includes('codex')
-    ? 'codex'
-    : forkPackage.includes('speech')
-      ? 'speech'
-      : forkPackage.includes('seedance')
-        ? 'seedance'
-        : forkPackage.includes('x-search')
-          ? 'x-search'
-          : ''
+  const layerDir = layerDirFor(forkPackage)
   const layer = layerFor(layerDir)
   const source = join(dracoRoot, forkPackage, forkFile)
   const target = join(publishRoot, layerDir, publishFile)

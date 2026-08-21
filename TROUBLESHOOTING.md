@@ -22,7 +22,7 @@ Wait and retry, or install from a local clone (bypasses codeload):
 
 ```sh
 git clone https://github.com/dracohu2025-cloud/draco-deepseek-harness-plugin.git
-dsh plugin --profile web add /absolute/path/to/draco-deepseek-harness-plugin
+dsh plugin --profile web add /absolute/path/to/draco-deepseek-harness-plugin/grok
 dsh plugin --profile web add /absolute/path/to/draco-deepseek-harness-plugin/codex
 ```
 
@@ -76,6 +76,10 @@ Seed-Audio is generative. The host waits up to 120s and retries empty-audio HTTP
 
 These bundles install into official `web`. There is no supported `draco` profile in official `dsh`.
 
+## SuperGrok `add github:…/draco-deepseek-harness-plugin` with no `#path:` fails / does not update
+
+SuperGrok lives in `grok/`, like the other four plugins. Install `github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:grok`. The repository root is not an npm package. An older install from the root spec needs a one-time `remove` then `add` with `#path:grok`; after that, `update draco-grok-oauth` works.
+
 ---
 
-中文摘要：`dsh plugin` 需要 PATH 上的 pnpm；`github:` 安装走 GitHub tarball，429 是限流（可改本地路径）；装完必须重启 `dsh --profile web`；没看到 Draco-suite / 模型 / 推理强度 / 图片视频播放器时先 `update` 再重启；不要用 `--profile draco`；Music 3 已撤出。
+中文摘要：`dsh plugin` 需要 PATH 上的 pnpm；五个插件都用 `#path:`（SuperGrok 是 `#path:grok`，仓库根不是 npm 包）；`github:` 安装走 GitHub tarball，429 是限流（可改本地路径）；装完必须重启 `dsh --profile web`；没看到 Draco-suite / 模型 / 推理强度 / 图片视频播放器时先 `update` 再重启；不要用 `--profile draco`；Music 3 已撤出。

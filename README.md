@@ -39,11 +39,11 @@ Verified against official `dsh` `0.1.1-rc.1`.
 
 ### 2. Install the plugins
 
-Each plugin is independent. Install only the ones you want, or all five:
+Each plugin is independent and lives in its own subdirectory. pnpm’s `#path:` selects that folder — all five commands look the same. Install only the ones you want, or all five:
 
 ```sh
 # SuperGrok / xAI — Grok 4.6 + Grok Imagine image/video
-dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin
+dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:grok
 
 # Codex / ChatGPT — GPT-5.6 Sol / Terra / Luna + gpt-image-2
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex
@@ -61,6 +61,13 @@ dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plu
 The repository ships built `lib/`. No `prepare` script runs.
 
 `add` of the same GitHub URL does **not** refresh an already-installed copy. Use [Update](#6-update).
+
+If SuperGrok was installed from the old root spec (no `#path:grok`), `update` cannot retarget the URL. One-time:
+
+```sh
+dsh plugin --profile web remove draco-grok-oauth
+dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:grok
+```
 
 ### 3. Start the Web UI
 
@@ -140,7 +147,7 @@ Then restart `dsh --profile web`. Do not `remove` then `add` for a normal upgrad
 Pin a commit only to freeze. Quote the spec so the shell does not split on `&`:
 
 ```sh
-dsh plugin --profile web add 'github:dracohu2025-cloud/draco-deepseek-harness-plugin#<sha>'
+dsh plugin --profile web add 'github:dracohu2025-cloud/draco-deepseek-harness-plugin#<sha>&path:grok'
 dsh plugin --profile web add 'github:dracohu2025-cloud/draco-deepseek-harness-plugin#<sha>&path:codex'
 ```
 
@@ -160,11 +167,11 @@ Then restart `dsh`.
 
 | Plugin | Package | Extra README |
 |---|---|---|
-| SuperGrok / xAI | `draco-grok-oauth` (repository root) | this file |
-| Codex / ChatGPT | `draco-codex-oauth` | [codex/README.md](./codex/README.md) |
-| Speech / TTS | `draco-speech-gen` | [speech/README.md](./speech/README.md) |
-| Seedance 2.0 | `draco-seedance-gen` | [seedance/README.md](./seedance/README.md) |
-| X Search | `draco-x-search` | [x-search/README.md](./x-search/README.md) |
+| SuperGrok / xAI | `draco-grok-oauth` (`#path:grok`) | [grok/README.md](./grok/README.md) |
+| Codex / ChatGPT | `draco-codex-oauth` (`#path:codex`) | [codex/README.md](./codex/README.md) |
+| Speech / TTS | `draco-speech-gen` (`#path:speech`) | [speech/README.md](./speech/README.md) |
+| Seedance 2.0 | `draco-seedance-gen` (`#path:seedance`) | [seedance/README.md](./seedance/README.md) |
+| X Search | `draco-x-search` (`#path:x-search`) | [x-search/README.md](./x-search/README.md) |
 
 SuperGrok rows: `draco-grok-oauth` (device-code session), `draco-grok-oauth-ui` (Settings card), `draco-grok-llm-responses` (Grok 4.6 adapter), `draco-grok-imagine` (`image_generate` + `video_generate` after login).
 
@@ -223,11 +230,11 @@ Install problems: [TROUBLESHOOTING.md](./TROUBLESHOOTING.md).
 
 ### 2. 安装插件
 
-每个插件独立。只装你要的，或五条都跑：
+每个插件独立，并且各占一个子目录。pnpm 的 `#path:` 用来选那个目录 — 五条命令写法一致。只装你要的，或五条都跑：
 
 ```sh
 # SuperGrok / xAI — Grok 4.6 + Grok Imagine 生图/生视频
-dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin
+dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:grok
 
 # Codex / ChatGPT — GPT-5.6 Sol / Terra / Luna + gpt-image-2
 dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex
@@ -245,6 +252,13 @@ dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plu
 本仓库发布的是编好的 `lib/`，安装时不会跑 `prepare`。
 
 对同一 GitHub URL 再执行一次 `add` **不会**刷新已装版本。要升级请看 [更新](#6-更新)。
+
+如果 SuperGrok 是用旧的仓库根 spec 装的（没有 `#path:grok`），`update` 改不了那个 URL。只需做一次：
+
+```sh
+dsh plugin --profile web remove draco-grok-oauth
+dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:grok
+```
 
 ### 3. 启动 Web UI
 
@@ -324,7 +338,7 @@ dsh plugin --profile web update draco-x-search
 只有需要冻结版本时才 pin commit。带 `&` 的 spec 请加引号：
 
 ```sh
-dsh plugin --profile web add 'github:dracohu2025-cloud/draco-deepseek-harness-plugin#<sha>'
+dsh plugin --profile web add 'github:dracohu2025-cloud/draco-deepseek-harness-plugin#<sha>&path:grok'
 dsh plugin --profile web add 'github:dracohu2025-cloud/draco-deepseek-harness-plugin#<sha>&path:codex'
 ```
 
@@ -344,11 +358,11 @@ dsh plugin --profile web remove draco-x-search
 
 | 插件 | 包名 | 详细 README |
 |---|---|---|
-| SuperGrok / xAI | `draco-grok-oauth`（仓库根） | 本文件 |
-| Codex / ChatGPT | `draco-codex-oauth` | [codex/README.md](./codex/README.md) |
-| 语音 / TTS | `draco-speech-gen` | [speech/README.md](./speech/README.md) |
-| Seedance 2.0 | `draco-seedance-gen` | [seedance/README.md](./seedance/README.md) |
-| X 搜索 | `draco-x-search` | [x-search/README.md](./x-search/README.md) |
+| SuperGrok / xAI | `draco-grok-oauth`（`#path:grok`） | [grok/README.md](./grok/README.md) |
+| Codex / ChatGPT | `draco-codex-oauth`（`#path:codex`） | [codex/README.md](./codex/README.md) |
+| 语音 / TTS | `draco-speech-gen`（`#path:speech`） | [speech/README.md](./speech/README.md) |
+| Seedance 2.0 | `draco-seedance-gen`（`#path:seedance`） | [seedance/README.md](./seedance/README.md) |
+| X 搜索 | `draco-x-search`（`#path:x-search`） | [x-search/README.md](./x-search/README.md) |
 
 生图、生视频在 SuperGrok / Codex / Seedance 之间共用同一个工具名（`image_generate`、`video_generate`）。语音和 X 搜索是独占工具（`speech_generate`、`x_search`）。
 

@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url'
 const publishRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 
 const LAYERS = [
-  { name: 'grok', dir: '', packageName: 'draco-grok-oauth' },
+  { name: 'grok', dir: 'grok', packageName: 'draco-grok-oauth' },
   { name: 'codex', dir: 'codex', packageName: 'draco-codex-oauth' },
   { name: 'speech', dir: 'speech', packageName: 'draco-speech-gen' },
   { name: 'seedance', dir: 'seedance', packageName: 'draco-seedance-gen' },
