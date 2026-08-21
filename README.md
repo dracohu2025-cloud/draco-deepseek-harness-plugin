@@ -116,7 +116,7 @@ Then talk. The model calls the tools. You do not type tool names.
 | You want | Tool the model calls | You should see |
 |---|---|---|
 | A picture | `image_generate` | The PNG on the tool row (not a JSON dump). Copy also under `$DSH_HOME/draco/images/`. |
-| A video | `video_generate` | An in-row player + download. MP4 under `$DSH_HOME/draco/videos/`. Duration: Imagine 1–15s; Seedance 4–15s (default 6). Optional `references` (up to 7): prior image path, `sha256:` attachment id, https URL, data URI, or `latest`. |
+| A video | `video_generate` | An in-row player on the **生成视频** tool row (not only a filename in the assistant text). MP4 under `$DSH_HOME/draco/videos/`. Duration: Imagine 1–15s; Seedance 4–15s (default 6). Optional `references` (up to 7): prior image path, `sha256:` attachment id, https URL, data URI, or `latest`. |
 | Spoken audio | `speech_generate` | An in-row MP3 player. Copy under `$DSH_HOME/draco/audio/`. |
 | Posts on X / Twitter | `x_search` | A short Grok summary plus citeable `x.com` URLs. |
 
@@ -307,7 +307,7 @@ dsh --profile web
 | 你想要 | 模型调用的工具 | 你应该看到 |
 |---|---|---|
 | 图 | `image_generate` | 工具行里直接出 PNG（不是一坨 JSON）。副本在 `$DSH_HOME/draco/images/`。 |
-| 视频 | `video_generate` | 工具行里可播放 + 下载。MP4 在 `$DSH_HOME/draco/videos/`。时长：Imagine 1–15 秒；Seedance 4–15 秒（默认 6）。可选 `references`（最多 7 张）：上一张图路径、`sha256:` 附件 id、https URL、data URI，或 `latest`。 |
+| 视频 | `video_generate` | **生成视频** 工具行里可播放 + 下载（不只是助手文字里的文件名）。MP4 在 `$DSH_HOME/draco/videos/`。时长：Imagine 1–15 秒；Seedance 4–15 秒（默认 6）。可选 `references`（最多 7 张）：上一张图路径、`sha256:` 附件 id、https URL、data URI，或 `latest`。 |
 | 语音 | `speech_generate` | 工具行里可播放 MP3。副本在 `$DSH_HOME/draco/audio/`。 |
 | X / Twitter 帖子 | `x_search` | 一段 Grok 摘要 + 可引用的 `x.com` 链接。 |
 

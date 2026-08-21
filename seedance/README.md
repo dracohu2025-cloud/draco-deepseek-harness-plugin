@@ -54,7 +54,7 @@ Open **Settings → Draco-suite**. If SuperGrok or Codex is also installed, the 
 
 Pick a Seedance row, paste `ARK_API_KEY` (the same Ark key used for Volcengine LLMs), and **Save and verify**. The check lists Ark tasks (`page_size=1`); it does not generate a video. While it runs, the key field and Save are hidden and the dropdown is disabled. A green dot on the selected model hides the field; a key-icon control beside the dropdown reveals it again. A failure shows the field with the HTTP error.
 
-`video_generate` writes an MP4 under `$DSH_HOME/draco/videos/` and commits a durable `VideoBlock`. Official `dsh --profile web` plays that MP4 on the `video_generate` tool row (this plugin registers the toolview, shared with SuperGrok). Duration is 4–15 seconds (default 6). Optional `references` (up to 7): the first still is the first frame; later stills are style references. Seedance is never defaulted from OAuth.
+`video_generate` writes an MP4 under `$DSH_HOME/draco/videos/` and commits a durable `VideoBlock`. Official `dsh --profile web` plays that MP4 on the `video_generate` tool row (this plugin registers the toolview, shared with SuperGrok; the clip is stored on the tool result because official dsh has no `saveVideo`). Duration is 4–15 seconds (default 6). Optional `references` (up to 7): the first still is the first frame; later stills are style references. Seedance is never defaulted from OAuth.
 
 In chat you do not type the tool name. Example: `Make a 6-second video of a cat walking across a kitchen.` Pick `doubao-seedance-2.0 (1080p)`, `mini`, or `fast` in Settings first.
 

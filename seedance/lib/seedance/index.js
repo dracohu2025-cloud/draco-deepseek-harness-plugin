@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import z from "@deepseek-ai/schemastery";
 import { AttachmentId } from "@deepseek-ai/dsh-attachment";
 import { settingsNamespace } from "@deepseek-ai/dsh-settings";
@@ -433,6 +433,21 @@ function seedanceGenerateContent(value) {
 	});
 	return blocks;
 }
+/**
+* Persist the MP4 on `tool/result` so the video toolview can play it on a
+* host that has no `saveVideo`. Reads the convenience copy written by execute.
+* @param value - the canonical generation outcome.
+* @returns presentation meta carrying canonical base64 of the MP4.
+*/
+function seedanceGenerateMeta(value) {
+	const data = readFileSync(value.path);
+	return { clip: {
+		name: basename(value.path),
+		mediaType: "video/mp4",
+		bytes: data.byteLength,
+		data: data.toString("base64")
+	} };
+}
 function probeFailureMessage(error) {
 	if (error instanceof LlmError) return error.message.slice(0, 180);
 	if (error instanceof Error) {
@@ -639,7 +654,8 @@ function apply(ctx, config) {
 					}
 				}
 			},
-			render: (_args, value) => seedanceGenerateContent(value)
+			render: (_args, value) => seedanceGenerateContent(value),
+			presentationMeta: (_args, value) => seedanceGenerateMeta(value)
 		},
 		async execute(args, exec) {
 			if (args.prompt.trim().length === 0) throw new Error("prompt must be a non-empty string");
@@ -657,4 +673,4 @@ function apply(ctx, config) {
 	}));
 }
 //#endregion
-export { Config, SEEDANCE_GEN_SETTINGS_NAMESPACE, SEEDANCE_MAX_REFERENCES, SEEDANCE_MODELS, SEEDANCE_MODEL_IDS, VIDEO_BACKENDS, apply, clampSeedanceDuration, formatSeedanceGenerateOutput, inject, isSeedanceModelId, name, seedanceGenerateContent, seedanceRequestBody, videoRefFromValue };
+export { Config, SEEDANCE_GEN_SETTINGS_NAMESPACE, SEEDANCE_MAX_REFERENCES, SEEDANCE_MODELS, SEEDANCE_MODEL_IDS, VIDEO_BACKENDS, apply, clampSeedanceDuration, formatSeedanceGenerateOutput, inject, isSeedanceModelId, name, seedanceGenerateContent, seedanceGenerateMeta, seedanceRequestBody, videoRefFromValue };

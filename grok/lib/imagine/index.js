@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import z from "@deepseek-ai/schemastery";
 import { AttachmentId } from "@deepseek-ai/dsh-attachment";
 import { settingsNamespace } from "@deepseek-ai/dsh-settings";
@@ -556,6 +556,21 @@ function videoGenerateContent(value) {
 	});
 	return blocks;
 }
+/**
+* Persist the MP4 on `tool/result` so the video toolview can play it on a
+* host that has no `saveVideo`. Reads the convenience copy written by execute.
+* @param value - the canonical generation outcome.
+* @returns presentation meta carrying canonical base64 of the MP4.
+*/
+function videoGenerateMeta(value) {
+	const data = readFileSync(value.path);
+	return { clip: {
+		name: basename(value.path),
+		mediaType: "video/mp4",
+		bytes: data.byteLength,
+		data: data.toString("base64")
+	} };
+}
 const XAI_API_KEY = credentialRef("XAI_API_KEY");
 /** Shared across the SuperGrok and Codex package copies of this file. */
 const TOOLS_MARK = Symbol.for("dsh.draco-image-gen.tools");
@@ -899,7 +914,8 @@ function apply(ctx, config) {
 					}
 				}
 			},
-			render: (_args, value) => videoGenerateContent(value)
+			render: (_args, value) => videoGenerateContent(value),
+			presentationMeta: (_args, value) => videoGenerateMeta(value)
 		},
 		async execute(args, exec) {
 			const prompt = args.prompt.trim();
@@ -955,4 +971,4 @@ function apply(ctx, config) {
 	}));
 }
 //#endregion
-export { CODEX_DEFAULT_QUALITY, CODEX_IMAGE_MODEL, Config, IMAGE_GEN_SETTINGS_NAMESPACE, apply, formatImageGenerateOutput, formatVideoGenerateOutput, imageGenerateContent, imageRefFromValue, inject, name, videoGenerateContent, videoRefFromValue };
+export { CODEX_DEFAULT_QUALITY, CODEX_IMAGE_MODEL, Config, IMAGE_GEN_SETTINGS_NAMESPACE, apply, formatImageGenerateOutput, formatVideoGenerateOutput, imageGenerateContent, imageRefFromValue, inject, name, videoGenerateContent, videoGenerateMeta, videoRefFromValue };

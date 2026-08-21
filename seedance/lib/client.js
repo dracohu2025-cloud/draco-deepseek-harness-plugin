@@ -18,30 +18,30 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DracoSuiteSection_module_css_default = {
-			"intro": "zP3u-a_intro",
-			"title": "zP3u-a_title",
 			"cards": "zP3u-a_cards",
-			"section": "zP3u-a_section"
+			"section": "zP3u-a_section",
+			"title": "zP3u-a_title",
+			"intro": "zP3u-a_intro"
 		};
 		//#endregion
-		//#region lib/types/client/DracoSuiteSection.js
+		//#region src/client/DracoSuiteSection.tsx
 		/**
 		* Settings page that hosts Draco login and media cards. Cards arrive through
 		* `settings.draco.item`. SuperGrok / Codex / speech UI plugins share this section id.
 		*/
 		function DracoSuiteSection({ t, renderSlot }) {
-			return (0, react_jsx_runtime.jsxs)("div", {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 				className: DracoSuiteSection_module_css_default.section,
 				children: [
-					(0, react_jsx_runtime.jsx)("h2", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("h2", {
 						className: DracoSuiteSection_module_css_default.title,
 						children: t("suite.title")
 					}),
-					(0, react_jsx_runtime.jsx)("p", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 						className: DracoSuiteSection_module_css_default.intro,
 						children: t("suite.intro")
 					}),
-					(0, react_jsx_runtime.jsx)("div", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 						className: DracoSuiteSection_module_css_default.cards,
 						children: renderSlot("settings.draco.item", {})
 					})
@@ -49,7 +49,7 @@ window.__ModuleLoader__.load({
 			});
 		}
 		//#endregion
-		//#region lib/types/client/locales.js
+		//#region src/client/locales.ts
 		/** `draco-seedance` namespace dictionaries. */
 		/** Simplified Chinese dictionary (the key-set source of truth). */
 		const zh = {
@@ -106,7 +106,7 @@ window.__ModuleLoader__.load({
 		/** The namespace key used for locale registration and seat props. */
 		const NS = "draco-seedance";
 		//#endregion
-		//#region lib/types/client/draco-suite.js
+		//#region src/client/draco-suite.ts
 		const HUB$2 = Symbol.for("dsh.draco-suite.section");
 		/** Settings nav / section id. */
 		const DRACO_SUITE_SECTION_ID = "draco-suite";
@@ -158,11 +158,7 @@ window.__ModuleLoader__.load({
 			};
 		}
 		//#endregion
-		//#region lib/types/client/video-generate-content.js
-		/**
-		* `video_generate` tool-result helpers: pull VideoBlocks off the settled
-		* call and turn attachment bytes into a browser object URL.
-		*/
+		//#region src/client/video-generate-content.ts
 		/**
 		* Collect video attachments from a settled tool result, including a nested
 		* `tool-result` wrapper when the Host still has that envelope.
@@ -212,6 +208,34 @@ window.__ModuleLoader__.load({
 			copy.set(data);
 			return URL.createObjectURL(new Blob([copy], { type: mediaType }));
 		}
+		/**
+		* Read a clip from a settled tool result's presentation meta.
+		* @param meta - `tool/result` meta, or undefined while the call is running.
+		* @returns the clip, or undefined when meta is absent or malformed.
+		*/
+		function clipFromMeta(meta) {
+			if (typeof meta !== "object" || meta === null) return void 0;
+			const clip = meta.clip;
+			if (typeof clip !== "object" || clip === null) return void 0;
+			const record = clip;
+			if (typeof record.data !== "string" || record.data.length === 0) return void 0;
+			if (typeof record.mediaType !== "string" || record.mediaType.length === 0) return void 0;
+			return {
+				name: typeof record.name === "string" && record.name.length > 0 ? record.name : "video.mp4",
+				mediaType: record.mediaType,
+				data: record.data
+			};
+		}
+		/**
+		* Build a browser object URL for one clip.
+		* @param clip - persisted MP4.
+		* @returns a `blob:` URL the caller must revoke.
+		*/
+		function blobUrlFromClip(clip) {
+			const binary = atob(clip.data);
+			const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+			return URL.createObjectURL(new Blob([bytes], { type: clip.mediaType }));
+		}
 		//#endregion
 		//#region \0dsh-css:/Users/dracohu/REPO/deepseek-harness/packages/draco/draco-seedance-gen-ui/src/client/VideoGenerateRow.module.css.mjs
 		const css$1 = ".yqdn-a_root{flex-direction:column;gap:8px;min-width:0;display:flex}.yqdn-a_head{align-items:baseline;gap:8px;min-width:0;display:flex}.yqdn-a_title{color:var(--dsw-alias-label-primary);flex:none;font-size:13px;font-weight:500;line-height:20px}.yqdn-a_summary{text-overflow:ellipsis;white-space:nowrap;min-width:0;color:var(--dsw-alias-label-secondary);font-size:13px;line-height:20px;overflow:hidden}.yqdn-a_player{flex-direction:column;align-items:flex-start;gap:6px;width:100%;max-width:360px;display:flex}.yqdn-a_video{background:var(--dsw-alias-bg-subtle);border-radius:8px;width:100%;max-height:240px;display:block}.yqdn-a_download{color:var(--dsw-alias-label-secondary);text-underline-offset:2px;font-size:12px;line-height:18px;text-decoration:underline}.yqdn-a_loading,.yqdn-a_error{background:var(--dsw-alias-bg-subtle);min-height:40px;color:var(--dsw-alias-label-secondary);font:inherit;border:none;border-radius:8px;align-items:center;padding:0 12px;display:inline-flex}.yqdn-a_error{cursor:pointer;color:var(--dsw-alias-state-danger)}";
@@ -224,18 +248,18 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var VideoGenerateRow_module_css_default = {
-			"loading": "yqdn-a_loading",
 			"summary": "yqdn-a_summary",
-			"video": "yqdn-a_video",
-			"player": "yqdn-a_player",
 			"head": "yqdn-a_head",
+			"title": "yqdn-a_title",
+			"root": "yqdn-a_root",
+			"player": "yqdn-a_player",
 			"download": "yqdn-a_download",
 			"error": "yqdn-a_error",
-			"root": "yqdn-a_root",
-			"title": "yqdn-a_title"
+			"video": "yqdn-a_video",
+			"loading": "yqdn-a_loading"
 		};
 		//#endregion
-		//#region lib/types/client/VideoGenerateRow.js
+		//#region src/client/VideoGenerateRow.tsx
 		/**
 		* `video_generate` toolview: plays the durable VideoBlock on official Web,
 		* which otherwise dumps video blocks as JSON.
@@ -267,7 +291,7 @@ window.__ModuleLoader__.load({
 					if (revoked !== void 0) URL.revokeObjectURL(revoked);
 				};
 			}, [attachmentId, attempt]);
-			if (error) return (0, react_jsx_runtime.jsx)("button", {
+			if (error) return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
 				type: "button",
 				className: VideoGenerateRow_module_css_default.error,
 				onClick: () => {
@@ -275,24 +299,80 @@ window.__ModuleLoader__.load({
 				},
 				children: t("row.videoFailed")
 			});
-			if (src === null) return (0, react_jsx_runtime.jsx)("span", {
+			if (src === null) return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 				className: VideoGenerateRow_module_css_default.loading,
 				children: t("row.videoLoading")
 			});
-			return (0, react_jsx_runtime.jsxs)("div", {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 				className: VideoGenerateRow_module_css_default.player,
-				children: [(0, react_jsx_runtime.jsx)("video", {
+				children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("video", {
 					className: VideoGenerateRow_module_css_default.video,
 					src,
 					controls: true,
 					playsInline: true,
 					preload: "metadata",
 					"aria-label": label
-				}), (0, react_jsx_runtime.jsx)("a", {
+				}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("a", {
 					className: VideoGenerateRow_module_css_default.download,
 					href: src,
 					download: name ?? "video.mp4",
 					children: label
+				})]
+			});
+		}
+		function ClipPlayer({ name, mediaType, data, t }) {
+			const [src, setSrc] = (0, react.useState)(null);
+			const [error, setError] = (0, react.useState)(false);
+			const [attempt, setAttempt] = (0, react.useState)(0);
+			(0, react.useEffect)(() => {
+				setError(false);
+				setSrc(null);
+				try {
+					const url = blobUrlFromClip({
+						name,
+						mediaType,
+						data
+					});
+					setSrc(url);
+					return () => {
+						URL.revokeObjectURL(url);
+					};
+				} catch {
+					setError(true);
+					return () => {};
+				}
+			}, [
+				name,
+				mediaType,
+				data,
+				attempt
+			]);
+			if (error) return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+				type: "button",
+				className: VideoGenerateRow_module_css_default.error,
+				onClick: () => {
+					setAttempt((n) => n + 1);
+				},
+				children: t("row.videoFailed")
+			});
+			if (src === null) return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+				className: VideoGenerateRow_module_css_default.loading,
+				children: t("row.videoLoading")
+			});
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+				className: VideoGenerateRow_module_css_default.player,
+				children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("video", {
+					className: VideoGenerateRow_module_css_default.video,
+					src,
+					controls: true,
+					playsInline: true,
+					preload: "metadata",
+					"aria-label": name
+				}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("a", {
+					className: VideoGenerateRow_module_css_default.download,
+					href: src,
+					download: name,
+					children: name
 				})]
 			});
 		}
@@ -301,28 +381,38 @@ window.__ModuleLoader__.load({
 			const settled = "kind" in block;
 			const preview = promptFromArgs((settled ? block.call?.argsRaw : block.argsRaw) ?? "");
 			const videos = settled ? videosFromContent(block.content) : [];
-			return (0, react_jsx_runtime.jsxs)("div", {
+			const clip = settled && videos.length === 0 ? clipFromMeta(block.meta) : void 0;
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 				className: VideoGenerateRow_module_css_default.root,
 				"data-state": settled ? block.isError ? "error" : "ok" : "running",
-				children: [(0, react_jsx_runtime.jsxs)("div", {
-					className: VideoGenerateRow_module_css_default.head,
-					children: [(0, react_jsx_runtime.jsx)("span", {
-						className: VideoGenerateRow_module_css_default.title,
-						children: t("row.videoTitle")
-					}), preview.length > 0 && (0, react_jsx_runtime.jsx)("span", {
-						className: VideoGenerateRow_module_css_default.summary,
-						children: preview
-					})]
-				}), videos.map((video) => (0, react_jsx_runtime.jsx)(VideoPlayer, {
-					attachmentId: video.attachmentId,
-					...video.name === void 0 ? {} : { name: video.name },
-					loadVideo,
-					t
-				}, video.attachmentId))]
+				children: [
+					/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						className: VideoGenerateRow_module_css_default.head,
+						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+							className: VideoGenerateRow_module_css_default.title,
+							children: t("row.videoTitle")
+						}), preview.length > 0 && /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+							className: VideoGenerateRow_module_css_default.summary,
+							children: preview
+						})]
+					}),
+					videos.map((video) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)(VideoPlayer, {
+						attachmentId: video.attachmentId,
+						...video.name === void 0 ? {} : { name: video.name },
+						loadVideo,
+						t
+					}, video.attachmentId)),
+					clip !== void 0 ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)(ClipPlayer, {
+						name: clip.name,
+						mediaType: clip.mediaType,
+						data: clip.data,
+						t
+					}) : null
+				]
 			});
 		}
 		//#endregion
-		//#region lib/types/client/video-generate-toolview.js
+		//#region src/client/video-generate-toolview.tsx
 		const HUB$1 = Symbol.for("dsh.draco-video-gen.toolview");
 		function hub$1() {
 			const global = globalThis;
@@ -351,7 +441,7 @@ window.__ModuleLoader__.load({
 			const h = hub$1();
 			if (h.dispose !== void 0) return () => {};
 			function BoundRow(props) {
-				return (0, react_jsx_runtime.jsx)(VideoGenerateRow, {
+				return /* @__PURE__ */ (0, react_jsx_runtime.jsx)(VideoGenerateRow, {
 					block: props.block,
 					t: props.t,
 					loadVideo: (attachmentId) => loadVideoAttachment(ctx, String(props.sessionId), attachmentId)
@@ -370,11 +460,7 @@ window.__ModuleLoader__.load({
 			};
 		}
 		//#endregion
-		//#region lib/types/client/video-gen-value.js
-		/**
-		* Shared `draco-image-gen.videoProvider` picker values plus Seedance probe
-		* fields on `draco-seedance-gen`.
-		*/
+		//#region src/client/video-gen-value.ts
 		/** Slot id for the single video-generation card (duplicate ids throw). */
 		const VIDEO_GEN_SEAT_ID = "draco-video-gen";
 		/** Host settings section owned by `@deepseek-ai/dsh-draco-image-gen`. */
@@ -475,26 +561,26 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var VideoPicker_module_css_default = {
-			"fieldLabel": "gQucAW_fieldLabel",
-			"identity": "gQucAW_identity",
-			"selectReady": "gQucAW_selectReady",
-			"fields": "gQucAW_fields",
-			"dotReady": "gQucAW_dotReady",
 			"card": "gQucAW_card",
-			"select": "gQucAW_select",
-			"input": "gQucAW_input",
-			"selectRow": "gQucAW_selectRow",
-			"hint": "gQucAW_hint",
-			"iconBtn": "gQucAW_iconBtn",
-			"error": "gQucAW_error",
-			"head": "gQucAW_head",
-			"selectWrap": "gQucAW_selectWrap",
-			"primary": "gQucAW_primary",
+			"name": "gQucAW_name",
 			"muted": "gQucAW_muted",
-			"name": "gQucAW_name"
+			"identity": "gQucAW_identity",
+			"hint": "gQucAW_hint",
+			"primary": "gQucAW_primary",
+			"dotReady": "gQucAW_dotReady",
+			"input": "gQucAW_input",
+			"select": "gQucAW_select",
+			"selectWrap": "gQucAW_selectWrap",
+			"selectRow": "gQucAW_selectRow",
+			"selectReady": "gQucAW_selectReady",
+			"error": "gQucAW_error",
+			"fields": "gQucAW_fields",
+			"fieldLabel": "gQucAW_fieldLabel",
+			"iconBtn": "gQucAW_iconBtn",
+			"head": "gQucAW_head"
 		};
 		//#endregion
-		//#region lib/types/client/VideoGenPickerCard.js
+		//#region src/client/VideoGenPickerCard.tsx
 		const LABELS = {
 			none: "video.off",
 			imagine: "video.imagine",
@@ -533,28 +619,28 @@ window.__ModuleLoader__.load({
 					setBusy(false);
 				});
 			};
-			return (0, react_jsx_runtime.jsxs)("article", {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("article", {
 				className: VideoPicker_module_css_default.card,
 				children: [
-					(0, react_jsx_runtime.jsx)("div", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 						className: VideoPicker_module_css_default.head,
-						children: (0, react_jsx_runtime.jsx)("div", {
+						children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
 							className: VideoPicker_module_css_default.identity,
-							children: (0, react_jsx_runtime.jsx)("span", {
+							children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 								className: VideoPicker_module_css_default.name,
 								children: t("video.title")
 							})
 						})
 					}),
-					(0, react_jsx_runtime.jsx)("p", {
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 						className: VideoPicker_module_css_default.hint,
 						children: t("video.hint")
 					}),
-					ready ? (0, react_jsx_runtime.jsxs)("div", {
+					ready ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 						className: VideoPicker_module_css_default.selectRow,
-						children: [(0, react_jsx_runtime.jsxs)("div", {
+						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 							className: VideoPicker_module_css_default.selectWrap,
-							children: [(0, react_jsx_runtime.jsx)("select", {
+							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("select", {
 								className: verified ? `${VideoPicker_module_css_default.select} ${VideoPicker_module_css_default.selectReady}` : VideoPicker_module_css_default.select,
 								"aria-label": t("video.title"),
 								value,
@@ -562,17 +648,17 @@ window.__ModuleLoader__.load({
 								onChange: (event) => {
 									setValue(event.target.value);
 								},
-								children: videoOptionsFor(available, value).map((row) => (0, react_jsx_runtime.jsx)("option", {
+								children: videoOptionsFor(available, value).map((row) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
 									value: row,
 									children: t(LABELS[row])
 								}, row))
-							}), verified ? (0, react_jsx_runtime.jsx)("span", {
+							}), verified ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 								className: VideoPicker_module_css_default.dotReady,
 								role: "img",
 								"aria-label": t("video.ready"),
 								title: t("video.ready")
 							}) : null]
-						}), seedanceVerified && available.seedance && saveKeys !== void 0 && !editing ? (0, react_jsx_runtime.jsx)("button", {
+						}), seedanceVerified && available.seedance && saveKeys !== void 0 && !editing ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
 							className: VideoPicker_module_css_default.iconBtn,
 							type: "button",
 							"aria-label": t("video.replace"),
@@ -580,24 +666,24 @@ window.__ModuleLoader__.load({
 							onClick: () => {
 								setEditing(true);
 							},
-							children: (0, react_jsx_runtime.jsx)(KeyIcon, {})
+							children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(KeyIcon, {})
 						}) : null]
-					}) : (0, react_jsx_runtime.jsx)("p", {
+					}) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 						className: VideoPicker_module_css_default.muted,
 						children: t("video.unavailable")
 					}),
-					ready && showSeedance ? (0, react_jsx_runtime.jsx)(ProbeStatusLine, {
+					ready && showSeedance ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)(ProbeStatusLine, {
 						t,
 						probe: seedanceProbe,
 						error: seedanceProbeError,
 						configured: seedanceConfigured
 					}) : null,
-					showForm ? (0, react_jsx_runtime.jsxs)("form", {
+					showForm ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("form", {
 						className: VideoPicker_module_css_default.fields,
 						onSubmit: onSave(saveKeys),
-						children: [(0, react_jsx_runtime.jsxs)("label", {
+						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
 							className: VideoPicker_module_css_default.fieldLabel,
-							children: [t("video.arkKey"), (0, react_jsx_runtime.jsx)("input", {
+							children: [t("video.arkKey"), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
 								className: VideoPicker_module_css_default.input,
 								type: "password",
 								autoComplete: "off",
@@ -609,7 +695,7 @@ window.__ModuleLoader__.load({
 									setArk(event.target.value);
 								}
 							})]
-						}), (0, react_jsx_runtime.jsx)("button", {
+						}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
 							className: VideoPicker_module_css_default.primary,
 							type: "submit",
 							disabled: busy || checking,
@@ -621,33 +707,33 @@ window.__ModuleLoader__.load({
 		}
 		function ProbeStatusLine({ t, probe, error, configured }) {
 			if (probe === "ok") return null;
-			if (probe === "checking") return (0, react_jsx_runtime.jsx)("p", {
+			if (probe === "checking") return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 				className: VideoPicker_module_css_default.muted,
 				children: t("video.checking")
 			});
-			if (probe === "fail") return (0, react_jsx_runtime.jsxs)("p", {
+			if (probe === "fail") return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("p", {
 				className: VideoPicker_module_css_default.error,
 				children: [t("video.failPrefix"), error]
 			});
-			return (0, react_jsx_runtime.jsx)("p", {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
 				className: VideoPicker_module_css_default.muted,
 				children: configured ? t("video.checking") : t("video.seedanceMissing")
 			});
 		}
 		function KeyIcon() {
-			return (0, react_jsx_runtime.jsxs)("svg", {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("svg", {
 				width: "16",
 				height: "16",
 				viewBox: "0 0 16 16",
 				fill: "none",
 				"aria-hidden": "true",
-				children: [(0, react_jsx_runtime.jsx)("circle", {
+				children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("circle", {
 					cx: "5.5",
 					cy: "5.5",
 					r: "3.1",
 					stroke: "currentColor",
 					strokeWidth: "1.5"
-				}), (0, react_jsx_runtime.jsx)("path", {
+				}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", {
 					d: "M8.2 7.1 14 12.9v1.6h-2.2v-1.5h-1.6v-1.5H8.7L8.2 11",
 					stroke: "currentColor",
 					strokeWidth: "1.5",
@@ -656,7 +742,7 @@ window.__ModuleLoader__.load({
 			});
 		}
 		//#endregion
-		//#region lib/types/client/video-gen-store.js
+		//#region src/client/video-gen-store.ts
 		/**
 		* Video-generation dropdown store: a mirror of `draco-image-gen.videoProvider`
 		* plus which UI plugins have advertised a video backend.
@@ -689,7 +775,7 @@ window.__ModuleLoader__.load({
 			});
 		}
 		//#endregion
-		//#region lib/types/client/video-gen-picker.js
+		//#region src/client/video-gen-picker.ts
 		const HUB = Symbol.for("dsh.draco-video-gen.picker");
 		function hub() {
 			const global = globalThis;
@@ -849,7 +935,7 @@ window.__ModuleLoader__.load({
 			};
 		}
 		//#endregion
-		//#region lib/types/client/index.js
+		//#region src/client/index.ts
 		/** Services required by the browser half. */
 		const inject = [
 			"slots",
