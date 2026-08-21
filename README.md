@@ -12,6 +12,7 @@ Each plugin is independent. Install only the ones you want.
 | Codex / ChatGPT | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:codex` | Codex OAuth + **GPT-5.6 Sol / Terra / Luna** only (1.05M window, `store: false`) + `gpt-image-2` after first login (durable `ImageBlock` + `$DSH_HOME/draco/images/` copy) |
 | Speech / TTS | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:speech` | `speech_generate` via Volcengine `doubao-tts` / `seed-audio-1.0`; the chat tool row plays the MP3 (copy under `$DSH_HOME/draco/audio/`) |
 | Seedance 2.0 | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:seedance` | `video_generate` via Volcengine Seedance 2.0 / mini / fast (`ARK_API_KEY`); MP4 under `$DSH_HOME/draco/videos/` |
+| X Search | `dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:x-search` | `x_search` on X (Twitter) via SuperGrok OAuth or `XAI_API_KEY`; citeable `x.com` URLs. Not a `web_search` engine |
 
 Then start the official Web profile:
 
@@ -25,6 +26,7 @@ Open **Settings → Draco-suite**. Each installed plugin contributes its own car
 - Codex: [codex/README.md](./codex/README.md)
 - Speech: [speech/README.md](./speech/README.md)
 - Seedance: [seedance/README.md](./seedance/README.md)
+- X Search: [x-search/README.md](./x-search/README.md)
 
 ## SuperGrok / xAI
 
@@ -44,7 +46,7 @@ CLI fallbacks: `/grok-login`, `/grok-status`. Tokens live at `$DSH_HOME/draco/xa
 
 An HTTP 400 that names a maximum prompt length is classified as context overflow, so harness automatic compaction can recover instead of failing the turn. JPEG/PNG images attach as Responses `input_image` data URLs. Idle streams time out after 300s by default (`streamIdleTimeoutMs`); mid-stream transport errors retry.
 
-After SuperGrok login, Settings → Draco-suite shows an **Image generation** dropdown (`Off`, `grok-imagine-image-2.0 (1K/2K)`, and `gpt-image-2-low/medium/high` when the Codex plugin is also installed; a selected Imagine or Codex row shows a green ready dot) and a **Video generation** dropdown (`Off`, `grok-imagine-video-1.5` with a green ready dot, plus `doubao-seedance-2.0 (1080p)` / `mini` / `fast` when the Seedance plugin is also installed and verified). Closed controls show the full model id. A SuperGrok-only login defaults an unset image backend to Imagine Image 2.0 at 1K and an unset video backend to `grok-imagine-video-1.5`. If Codex is also signed in, the image backend stays unset until you pick a row; video still defaults to Imagine Video 1.5. `image_generate` then calls `POST /v1/images/generations` (`grok-imagine-image-2.0`) and commits a durable `ImageBlock`. `video_generate` uses the selected video backend (`grok-imagine-video-1.5`, 1–15s, or a Seedance 2.0 row), writes an MP4 under `$DSH_HOME/draco/videos/`, and commits a durable `VideoBlock` so the Web tool row can play it. Pass optional `references` (up to 7) for Imagine reference-to-video or Seedance first-frame / style stills: a prior `image_generate` path, a `sha256:` attachment id, an https URL, a data URI, or `latest` for the most recent session image. Imagine tools reuse the SuperGrok OAuth bearer, or `XAI_API_KEY`. Speech and Seedance are separate plugins: [speech/README.md](./speech/README.md), [seedance/README.md](./seedance/README.md).
+After SuperGrok login, Settings → Draco-suite shows an **Image generation** dropdown (`Off`, `grok-imagine-image-2.0 (1K/2K)`, and `gpt-image-2-low/medium/high` when the Codex plugin is also installed; a selected Imagine or Codex row shows a green ready dot) and a **Video generation** dropdown (`Off`, `grok-imagine-video-1.5` with a green ready dot, plus `doubao-seedance-2.0 (1080p)` / `mini` / `fast` when the Seedance plugin is also installed and verified). Closed controls show the full model id. A SuperGrok-only login defaults an unset image backend to Imagine Image 2.0 at 1K and an unset video backend to `grok-imagine-video-1.5`. If Codex is also signed in, the image backend stays unset until you pick a row; video still defaults to Imagine Video 1.5. `image_generate` then calls `POST /v1/images/generations` (`grok-imagine-image-2.0`) and commits a durable `ImageBlock`. `video_generate` uses the selected video backend (`grok-imagine-video-1.5`, 1–15s, or a Seedance 2.0 row), writes an MP4 under `$DSH_HOME/draco/videos/`, and commits a durable `VideoBlock` so the Web tool row can play it. Pass optional `references` (up to 7) for Imagine reference-to-video or Seedance first-frame / style stills: a prior `image_generate` path, a `sha256:` attachment id, an https URL, a data URI, or `latest` for the most recent session image. Imagine tools reuse the SuperGrok OAuth bearer, or `XAI_API_KEY`. Speech, Seedance, and X Search are separate plugins: [speech/README.md](./speech/README.md), [seedance/README.md](./seedance/README.md), [x-search/README.md](./x-search/README.md). X Search reuses this SuperGrok OAuth bearer (or `XAI_API_KEY`) and is not a `web_search` engine.
 
 | Row | Package export | Role |
 |---|---|---|
@@ -79,6 +81,16 @@ dsh plugin --profile web update draco-seedance-gen
 dsh plugin --profile web remove draco-seedance-gen
 ```
 
+## X Search
+
+The subdirectory package is `draco-x-search`. See [x-search/README.md](./x-search/README.md). Pick `grok-x-search`, then **Save and verify** (empty save uses SuperGrok login; otherwise paste `XAI_API_KEY`). The check lists xAI models; it does not search X. A successful `x_search` returns a short Grok summary plus citeable `x.com` URLs. This is not a `web_search` engine.
+
+```sh
+dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:x-search
+dsh plugin --profile web update draco-x-search
+dsh plugin --profile web remove draco-x-search
+```
+
 ## MiniMax Music 3 (withdrawn)
 
 MiniMax no longer serves hosted Music 3 (`POST /v1/music_generation`). Token Plan does not include it. This repository has no `#path:music` bundle.
@@ -103,11 +115,11 @@ dsh plugin --profile web remove draco-codex-oauth
 
 ## Develop
 
-Source lives in the Draco fork of DeepSeek Harness (`packages/draco/…`). This repository is the **publish face**: built artifacts plus bundle patches. After a user-visible plugin change: rebuild in the fork, run `node scripts/sync-from-fork.mjs` (it copies `lib/` and then runs `scripts/verify-plugin-ids.mjs` so SuperGrok, Codex, speech, and Seedance do not share Loader row ids, exclusive tool names, or Settings seat ids; `video_generate` is shared on purpose), update this README (and `codex/README.md`, `speech/README.md`, or `seedance/README.md` when those layers change), then commit and push `main`. A new modality gets its own `#path:` bundle and new ids on first landing; do not park it inside SuperGrok or Codex.
+Source lives in the Draco fork of DeepSeek Harness (`packages/draco/…`). This repository is the **publish face**: built artifacts plus bundle patches. After a user-visible plugin change: rebuild in the fork, run `node scripts/sync-from-fork.mjs` (it copies `lib/` and then runs `scripts/verify-plugin-ids.mjs` so SuperGrok, Codex, speech, Seedance, and X Search do not share Loader row ids, exclusive tool names, or Settings seat ids; `video_generate` is shared on purpose; `x_search` is exclusive to this layer), update this README (and `codex/README.md`, `speech/README.md`, `seedance/README.md`, or `x-search/README.md` when those layers change), then commit and push `main`. A new modality gets its own `#path:` bundle and new ids on first landing; do not park it inside SuperGrok or Codex.
 
 Prefer whatever makes an official `dsh --profile web` install easier for people who did not clone this repo: floating `#path:` specs, `dsh plugin update <package>`, no `remove` then `add` for ordinary upgrades, and pin a commit only when someone needs a freeze.
 
-When rewriting a client bundle, `__ModuleLoader__.load({ id })` must be the **npm package name** (`draco-grok-oauth`, `draco-codex-oauth`, `draco-speech-gen`, `draco-seedance-gen`), not the workspace package or the cordis row id. The web host looks up the bundle by `cordis.patch.yml` `name`. A mismatch boots the host and then fails in the browser as `plugin "…" is not registered`.
+When rewriting a client bundle, `__ModuleLoader__.load({ id })` must be the **npm package name** (`draco-grok-oauth`, `draco-codex-oauth`, `draco-speech-gen`, `draco-seedance-gen`, `draco-x-search`), not the workspace package or the cordis row id. The web host looks up the bundle by `cordis.patch.yml` `name`. A mismatch boots the host and then fails in the browser as `plugin "…" is not registered`.
 
 Install problems (GitHub 429, `link:` local install, pnpm store mismatch): see [TROUBLESHOOTING.md](./TROUBLESHOOTING.md).
 

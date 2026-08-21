@@ -14,6 +14,7 @@ const LAYERS = [
   { name: 'codex', dir: 'codex', packageName: 'draco-codex-oauth' },
   { name: 'speech', dir: 'speech', packageName: 'draco-speech-gen' },
   { name: 'seedance', dir: 'seedance', packageName: 'draco-seedance-gen' },
+  { name: 'x-search', dir: 'x-search', packageName: 'draco-x-search' },
 ]
 
 const SHARED_TOOLS = new Set(['image_generate', 'video_generate'])
@@ -25,6 +26,7 @@ const EXCLUSIVE_SEATS = {
   codex: new Set(['codex-oauth']),
   speech: new Set(['draco-speech-card']),
   seedance: new Set(),
+  'x-search': new Set(['draco-x-search-card']),
 }
 
 function listFiles(dir, out = []) {
@@ -41,7 +43,7 @@ function patchIds(text) {
 }
 
 function toolNames(text) {
-  return new Set([...text.matchAll(/\bname:\s*"(image_generate|video_generate|speech_generate|music_generate)"/g)].map(match => match[1]))
+  return new Set([...text.matchAll(/\bname:\s*"(image_generate|video_generate|speech_generate|music_generate|x_search)"/g)].map(match => match[1]))
 }
 
 function seatIds(text, packageName) {
@@ -94,6 +96,12 @@ for (const [layer, tools] of toolsByLayer) {
   }
   if (layer === 'seedance' && !tools.has('video_generate')) {
     failures.push(`${layer} host artifacts do not register video_generate`)
+  }
+  if (layer === 'x-search' && !tools.has('x_search')) {
+    failures.push(`${layer} host artifacts do not register x_search`)
+  }
+  if (layer !== 'x-search' && tools.has('x_search')) {
+    failures.push(`${layer} host artifacts still register x_search`)
   }
   if (tools.has('music_generate')) {
     failures.push(`${layer} host artifacts still register withdrawn music_generate`)

@@ -50,6 +50,11 @@ const LAYERS = [
     packageName: 'draco-seedance-gen',
     scopedIds: ['@deepseek-ai/dsh-draco-seedance-gen-ui', '@deepseek-ai/dsh-draco-seedance-gen'],
   },
+  {
+    dir: 'x-search',
+    packageName: 'draco-x-search',
+    scopedIds: ['@deepseek-ai/dsh-draco-x-search-ui', '@deepseek-ai/dsh-draco-x-search'],
+  },
 ]
 
 /** [forkPackage, forkFile, layerDir, publishFile] — plain copies. */
@@ -83,6 +88,10 @@ const COPIES = [
   ['draco-seedance-gen-ui', 'lib/invariant.js', 'seedance', 'lib/invariant.js'],
   ['draco-seedance-gen', 'lib/index.js', 'seedance', 'lib/seedance/index.js'],
   ['draco-seedance-gen', 'lib/invariant.js', 'seedance', 'lib/seedance/invariant.js'],
+  ['draco-x-search-ui', 'lib/index.js', 'x-search', 'lib/index.js'],
+  ['draco-x-search-ui', 'lib/invariant.js', 'x-search', 'lib/invariant.js'],
+  ['draco-x-search', 'lib/index.js', 'x-search', 'lib/x-search/index.js'],
+  ['draco-x-search', 'lib/invariant.js', 'x-search', 'lib/x-search/invariant.js'],
 ]
 
 /** [forkPackage, forkFile, publishFile] — copied with id rewrite per layer. */
@@ -95,6 +104,7 @@ const REWRITTEN = [
   ['draco-oauth-xai', 'lib/typert.remote-client.js', 'lib/typert.remote-client.js'],
   ['draco-speech-gen-ui', 'lib/client.js', 'lib/client.js'],
   ['draco-seedance-gen-ui', 'lib/client.js', 'lib/client.js'],
+  ['draco-x-search-ui', 'lib/client.js', 'lib/client.js'],
 ]
 
 function layerFor(dir) {
@@ -119,7 +129,9 @@ function copyRewritten(forkPackage, forkFile, publishFile) {
       ? 'speech'
       : forkPackage.includes('seedance')
         ? 'seedance'
-        : ''
+        : forkPackage.includes('x-search')
+          ? 'x-search'
+          : ''
   const layer = layerFor(layerDir)
   const source = join(dracoRoot, forkPackage, forkFile)
   const target = join(publishRoot, layerDir, publishFile)

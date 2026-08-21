@@ -1,0 +1,14 @@
+# X Search layer for an official DeepSeek Harness profile.
+# Install with:
+#   dsh plugin --profile web add github:dracohu2025-cloud/draco-deepseek-harness-plugin#path:x-search
+# Then boot:
+#   dsh --profile web
+
+- insert:
+    - id: draco-x-search
+      name: draco-x-search/x-search
+      config:
+        provider: none
+
+    - id: draco-x-search-ui
+      name: draco-x-search
